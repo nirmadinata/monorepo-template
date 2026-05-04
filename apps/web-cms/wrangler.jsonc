@@ -1,0 +1,52 @@
+{
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "web-cms",
+    "compatibility_date": "2025-09-02",
+    "compatibility_flags": ["nodejs_compat"],
+    "main": "@tanstack/react-start/server-entry",
+    "build": {
+        "watch_dir": "./src",
+    },
+    "d1_databases": [
+        {
+            "binding": "MAIN_DB",
+            // change this to your database name, which you can find in the dashboard under "D1 Databases"
+            "database_name": "cms-db",
+        },
+    ],
+    "kv_namespaces": [
+        {
+            "binding": "MAIN_KV",
+        },
+    ],
+    "r2_buckets": [
+        {
+            "binding": "MAIN_R2",
+            // change this to your bucket name, which you can find in the dashboard under "R2 Buckets"
+            "bucket_name": "cms-storage",
+        },
+    ],
+    "env": {
+        "development": {
+            "d1_databases": [
+                {
+                    "binding": "MAIN_DB",
+                    // change this to your database name, which you can find in the dashboard under "D1 Databases"
+                    "database_name": "cms-db",
+                },
+            ],
+            "kv_namespaces": [
+                {
+                    "binding": "MAIN_KV",
+                },
+            ],
+            "r2_buckets": [
+                {
+                    "binding": "MAIN_R2",
+                    // change this to your bucket name, which you can find in the dashboard under "R2 Buckets"
+                    "bucket_name": "cms-storage",
+                },
+            ],
+        },
+    },
+}

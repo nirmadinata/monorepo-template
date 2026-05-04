@@ -1,0 +1,25 @@
+{
+  "projectName": "web-cms",
+  "mode": "file-router",
+  "typescript": true,
+  "packageManager": "bun",
+  "includeExamples": false,
+  "tailwind": true,
+  "addOnOptions": {},
+  "envVarValues": {},
+  "git": false,
+  "install": true,
+  "routerOnly": false,
+  "version": 1,
+  "framework": "react",
+  "chosenAddOns": [
+    "cloudflare",
+    "compiler",
+    "form",
+    "shadcn",
+    "t3env",
+    "table",
+    "better-auth",
+    "tanstack-query"
+  ]
+}

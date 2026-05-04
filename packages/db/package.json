@@ -1,0 +1,20 @@
+{
+    "name": "@repo/db",
+    "type": "module",
+    "exports": {
+        "./d1": "./src/d1/index.ts"
+    },
+    "dependencies": {
+        "drizzle-orm": "^0.45.2"
+    },
+    "devDependencies": {
+        "@t3-oss/env-core": "^0.13.11",
+        "@types/bun": "latest",
+        "dotenv": "^17.4.2",
+        "drizzle-kit": "^0.31.10",
+        "zod": "^4.4.3"
+    },
+    "peerDependencies": {
+        "typescript": "^6.0.3"
+    }
+}
