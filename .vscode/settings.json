@@ -58,5 +58,15 @@
     "source.fixAll.ts": "never",
     "source.fixAll.oxc": "explicit",
     "source.fixAll.prettier": "never"
+  },
+  "files.watcherExclude": {},
+  "search.exclude": {
+    "**/.*": true,
+    "openspec/**": true,
+    "**/AGENTS.md": true,
+    "**/bun.lock": true
+  },
+  "files.readonlyInclude": {
+    "**/.*": true
   }
 }

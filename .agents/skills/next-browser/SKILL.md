@@ -1,9 +1,9 @@
 ---
 name: next-browser
 description: >-
-    CLI that gives agents what humans get from React DevTools and the Next.js
-    dev overlay — component trees, props, hooks, PPR shells, errors, network —
-    as shell commands that return structured text.
+  CLI that gives agents what humans get from React DevTools and the Next.js
+  dev overlay — component trees, props, hooks, PPR shells, errors, network —
+  as shell commands that return structured text.
 ---
 
 # next-browser
@@ -189,6 +189,7 @@ $ next-browser ssr unlock
 ssr unlocked — external scripts re-enabled
 ```
 
+
 ### `perf [url]`
 
 Profile a full page load — reloads the current page (or navigates to a
@@ -271,7 +272,6 @@ reference — memo defeated) without needing to inspect the component.
 per component (type, name, prev, next for each render event).
 
 **Columns:**
-
 - `Insts` — number of unique component instances observed during recording
 - `Mounts` — how many times an instance mounted (first render, no alternate fiber)
 - `Re-renders` — update-phase renders (total renders minus mounts)
@@ -285,7 +285,6 @@ per component (type, name, prev, next for each render event).
 counts, DOM mutations, and change reasons are still reported.
 
 **Change reasons** — what triggered each re-render:
-
 - `props.<name>` — a prop changed by reference, with prev→next values
 - `state (hook #N)` — a useState/useReducer hook changed, with prev→next values
 - `context (<name>)` — a specific context changed, with prev→next values
@@ -321,7 +320,6 @@ server is back. Don't treat this error as a failure.
 
 Freeze dynamic content so you can inspect the static shell. After
 locking:
-
 - `goto` — shows the **PPR shell as HTML**: the server-rendered static
   shell with `<template>` holes where dynamic content would stream in.
   This is what a direct page load delivers.
@@ -529,11 +527,11 @@ synthetic `.click()` (Radix UI, Headless UI, etc.).
 
 Three ways to target:
 
-| Input               | Example               | How it resolves                       |
-| ------------------- | --------------------- | ------------------------------------- |
-| Ref from tree       | `click e3`            | Looks up role+name from last snapshot |
-| Plain text          | `click "Security"`    | Playwright `text=Security` selector   |
-| Playwright selector | `click "#submit-btn"` | Used as-is (CSS, `role=`, etc.)       |
+| Input            | Example                | How it resolves                       |
+| ---              | ---                    | ---                                   |
+| Ref from tree    | `click e3`             | Looks up role+name from last snapshot |
+| Plain text       | `click "Security"`     | Playwright `text=Security` selector   |
+| Playwright selector | `click "#submit-btn"` | Used as-is (CSS, `role=`, etc.)    |
 
 **Recommended workflow:** run `snapshot` first, then `click eN`.
 Refs are the most reliable — they resolve via ARIA role+name, so they
@@ -684,11 +682,11 @@ is printed instead.
 
 **When to use which:**
 
-| Command        | Source                         | Requires dev server |
-| -------------- | ------------------------------ | ------------------- |
-| `logs`         | Next.js dev server stdout      | Yes                 |
-| `errors`       | Build errors + `console.error` | Yes                 |
-| `browser-logs` | All browser console output     | No                  |
+| Command        | Source                           | Requires dev server |
+|----------------|----------------------------------|---------------------|
+| `logs`         | Next.js dev server stdout        | Yes                 |
+| `errors`       | Build errors + `console.error`   | Yes                 |
+| `browser-logs` | All browser console output       | No                  |
 
 For dev server diagnostics, prefer `logs` and `errors`. Use `browser-logs`
 when you need general console output or are running a production build.
@@ -848,22 +846,22 @@ initial load. Use `renders` to profile it. (For initial load, use `perf`.)
    navigate via `push`, or just wait if the issue is polling/timers.
 4. `renders stop` — read the raw data.
 5. Use the data to form hypotheses. The columns give you:
-    - `Mounts` vs `Re-renders` — is this component re-rendering after
-      load, or is the count just from mount-time cascading?
-    - `Insts` — is a high render count from many instances or one
-      instance rendering excessively?
-    - `Self` — is this component expensive per-render, or just called
-      too often?
-    - `DOM` — did the renders actually produce visible changes?
-      A component with 100 renders and 0 DOM mutations is doing
-      purely wasted work.
-    - `Total` vs `Self` — is the cost in this component or its children?
-    - Change reasons — what's driving the re-renders?
-      `parent (X (mount))` is load-time cascading, not a leak.
-    - FPS — are the re-renders actually causing user-visible jank?
+   - `Mounts` vs `Re-renders` — is this component re-rendering after
+     load, or is the count just from mount-time cascading?
+   - `Insts` — is a high render count from many instances or one
+     instance rendering excessively?
+   - `Self` — is this component expensive per-render, or just called
+     too often?
+   - `DOM` — did the renders actually produce visible changes?
+     A component with 100 renders and 0 DOM mutations is doing
+     purely wasted work.
+   - `Total` vs `Self` — is the cost in this component or its children?
+   - Change reasons — what's driving the re-renders?
+     `parent (X (mount))` is load-time cascading, not a leak.
+   - FPS — are the re-renders actually causing user-visible jank?
 6. `tree` to find the component's ID, then `tree <id>` for its source
    file, props, and hooks.
-7. Read the source to understand _why_ it re-renders.
+7. Read the source to understand *why* it re-renders.
 
 **Verify the fix.** After editing the code, HMR picks it up. Re-run
 `renders start` / `renders stop` and compare the raw numbers to the
@@ -883,7 +881,7 @@ dynamic data will stream in.
 
 The measure is the screenshot while locked: does it read as the page
 itself? A shell can be non-empty and still bad — one Suspense fallback
-wrapping the whole content area renders _something_, but it's a
+wrapping the whole content area renders *something*, but it's a
 monolithic loading state, not the page.
 
 A meaningful shell is the real component tree with small, local fallbacks
@@ -966,11 +964,11 @@ navigations.
 
 Three features compose to make this work:
 
-| Feature                         | Role                                                                                                                                     |
-| ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `unstable_instant`              | Declares the route must support instant navigation; validates a static shell exists                                                      |
-| `unstable_prefetch = 'runtime'` | Tells the server to produce a runtime prefetch stream with request context                                                               |
-| `"use cache: private"`          | Caches per-request data (cookies) in the request-scoped Resume Data Cache so the runtime prefetch rerender reuses it without re-fetching |
+| Feature                          | Role                                                                                  |
+| -------------------------------- | ------------------------------------------------------------------------------------- |
+| `unstable_instant`               | Declares the route must support instant navigation; validates a static shell exists    |
+| `unstable_prefetch = 'runtime'`  | Tells the server to produce a runtime prefetch stream with request context             |
+| `"use cache: private"`           | Caches per-request data (cookies) in the request-scoped Resume Data Cache so the runtime prefetch rerender reuses it without re-fetching |
 
 Without `unstable_prefetch = 'runtime'`, the prefetch only includes the
 static shell. Without `"use cache: private"`, the runtime prefetch
@@ -983,16 +981,14 @@ before starting — your training data may be outdated on these APIs.
 **Diagnosis:**
 
 1. Audit instant shells across the target routes:
-
-    ```
-    ppr lock
-    push /route-a → screenshot "route-a instant shell"
-    push /route-b → screenshot "route-b instant shell"
-    ...
-    ppr unlock
-    ```
-
-    Identify which routes show empty/skeleton shells.
+   ```
+   ppr lock
+   push /route-a → screenshot "route-a instant shell"
+   push /route-b → screenshot "route-b instant shell"
+   ...
+   ppr unlock
+   ```
+   Identify which routes show empty/skeleton shells.
 
 2. For each empty route, add `unstable_instant` temporarily and navigate
    to it — `errors` will surface validation failures that name the
@@ -1007,11 +1003,10 @@ before starting — your training data may be outdated on these APIs.
 **The fix pattern (per route):**
 
 1. In the page's route segment config, export both:
-
-    ```ts
-    export const unstable_instant = true;
-    export const unstable_prefetch = "runtime";
-    ```
+   ```ts
+   export const unstable_instant = true
+   export const unstable_prefetch = 'runtime'
+   ```
 
 2. In the data-fetching functions that read `cookies()`, add
    `"use cache: private"` so the result is cached per-request and reused
@@ -1034,8 +1029,7 @@ streamed to the client alongside the page content. The client's segment
 cache fills asynchronously — it is not instant.
 
 To verify:
-
-1. `goto` the origin page (the page the user navigates _from_).
+1. `goto` the origin page (the page the user navigates *from*).
 2. Wait 10–15 seconds for the runtime prefetch stream to complete.
    The prefetch runs as a side-channel during the initial render — it
    needs time to execute all `"use cache: private"` functions and stream
@@ -1047,7 +1041,6 @@ To verify:
 6. `ppr unlock` to see the shell analysis.
 
 If the shell is still empty after waiting, check:
-
 - Did the page actually load with runtime prefetch? `network` should
   show the initial document response — runtime prefetch data is embedded
   in the RSC payload, not a separate request.

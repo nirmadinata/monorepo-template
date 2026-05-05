@@ -1,8 +1,8 @@
 export const TABLE_ALIASES = {
-    ACCOUNTS: "internal_accounts",
-    SESSIONS: "internal_sessions",
-    USERS: "internal_users",
-    VERIFICATIONS: "internal_verifications",
+    ACCOUNTS: "accounts",
+    SESSIONS: "sessions",
+    USERS: "users",
+    VERIFICATIONS: "verifications",
 } as const;
 
 export const COLUMN_ALIASES = {

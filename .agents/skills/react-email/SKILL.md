@@ -3,18 +3,18 @@ name: react-email
 description: Use when building HTML email templates with React components, adding a visual email editor to an application using the React Email visual editor, rendering emails to HTML, or sending emails with Resend. Covers welcome emails, password resets, notifications, order confirmations, newsletters, transactional emails, and the embeddable email editor component.
 license: MIT
 metadata:
-    author: Resend
-    version: "2.1.0"
-    homepage: https://react.email
-    source: https://github.com/resend/react-email
-    openclaw:
-        install:
-            - kind: node
-              package: react-email
-              label: React Email
-        links:
-            repository: https://github.com/resend/react-email
-            documentation: https://resend.com/docs/react-email-skill
+  author: Resend
+  version: "2.1.0"
+  homepage: https://react.email
+  source: https://github.com/resend/react-email
+  openclaw:
+    install:
+      - kind: node
+        package: react-email
+        label: React Email
+    links:
+      repository: https://github.com/resend/react-email
+      documentation: https://resend.com/docs/react-email-skill
 ---
 
 # React Email
@@ -46,9 +46,9 @@ Install the packages and add a script to your `package.json`:
 
 ```json
 {
-    "scripts": {
-        "email": "email dev --dir emails --port 3000"
-    }
+  "scripts": {
+    "email": "email dev --dir emails --port 3000"
+  }
 }
 ```
 
@@ -60,68 +60,65 @@ Create an email component with proper structure using the Tailwind component for
 
 ```tsx
 import {
-    Html,
-    Head,
-    Preview,
-    Body,
-    Container,
-    Heading,
-    Text,
-    Button,
-    Tailwind,
-    pixelBasedPreset,
-} from "react-email";
+  Html,
+  Head,
+  Preview,
+  Body,
+  Container,
+  Heading,
+  Text,
+  Button,
+  Tailwind,
+  pixelBasedPreset
+} from 'react-email';
 
 interface WelcomeEmailProps {
-    name: string;
-    verificationUrl: string;
+  name: string;
+  verificationUrl: string;
 }
 
-export default function WelcomeEmail({
-    name,
-    verificationUrl,
-}: WelcomeEmailProps) {
-    return (
-        <Html lang="en">
-            <Tailwind
-                config={{
-                    presets: [pixelBasedPreset],
-                    theme: {
-                        extend: {
-                            colors: {
-                                brand: "#007bff",
-                            },
-                        },
-                    },
-                }}
+export default function WelcomeEmail({ name, verificationUrl }: WelcomeEmailProps) {
+  return (
+    <Html lang="en">
+      <Tailwind
+        config={{
+          presets: [pixelBasedPreset],
+          theme: {
+            extend: {
+              colors: {
+                brand: '#007bff',
+              },
+            },
+          },
+        }}
+      >
+        <Head />
+        <Body className="bg-gray-100 font-sans">
+          <Preview>Welcome - Verify your email</Preview>
+          <Container className="max-w-xl mx-auto p-5">
+            <Heading className="text-2xl text-gray-800">
+              Welcome!
+            </Heading>
+            <Text className="text-base text-gray-800">
+              Hi {name}, thanks for signing up!
+            </Text>
+            <Button
+              href={verificationUrl}
+              className="bg-brand text-white px-5 py-3 rounded block text-center no-underline box-border"
             >
-                <Head />
-                <Body className="bg-gray-100 font-sans">
-                    <Preview>Welcome - Verify your email</Preview>
-                    <Container className="max-w-xl mx-auto p-5">
-                        <Heading className="text-2xl text-gray-800">
-                            Welcome!
-                        </Heading>
-                        <Text className="text-base text-gray-800">
-                            Hi {name}, thanks for signing up!
-                        </Text>
-                        <Button
-                            href={verificationUrl}
-                            className="bg-brand text-white px-5 py-3 rounded block text-center no-underline box-border"
-                        >
-                            Verify Email
-                        </Button>
-                    </Container>
-                </Body>
-            </Tailwind>
-        </Html>
-    );
+              Verify Email
+            </Button>
+          </Container>
+        </Body>
+      </Tailwind>
+    </Html>
+  );
 }
 
 // Preview props for testing
 WelcomeEmail.PreviewProps = {
-    name: "John Doe",
-    verificationUrl: "https://example.com/verify/abc123",
+  name: 'John Doe',
+  verificationUrl: 'https://example.com/verify/abc123'
 } satisfies WelcomeEmailProps;
 
 export { WelcomeEmail };
@@ -154,7 +151,6 @@ export default EmailTemplate;
 See [references/COMPONENTS.md](references/COMPONENTS.md) for complete component documentation.
 
 **Core Structure:**
-
 - `Html` - Root wrapper with `lang` attribute
 - `Head` - Meta elements, styles, fonts
 - `Body` - Main content wrapper
@@ -164,7 +160,6 @@ See [references/COMPONENTS.md](references/COMPONENTS.md) for complete component 
 - `Tailwind` - Enables Tailwind CSS utility classes
 
 **Content:**
-
 - `Preview` - Inbox preview text, always first inside `<Body>`
 - `Heading` - h1-h6 headings
 - `Text` - Paragraphs
@@ -174,7 +169,6 @@ See [references/COMPONENTS.md](references/COMPONENTS.md) for complete component 
 - `Hr` - Horizontal dividers
 
 **Specialized:**
-
 - `CodeBlock` - Syntax-highlighted code
 - `CodeInline` - Inline code
 - `Markdown` - Render markdown
@@ -208,25 +202,23 @@ project/
 Use this pattern for images that work in both dev preview and production:
 
 ```tsx
-const baseURL =
-    process.env.NODE_ENV === "production"
-        ? "https://cdn.example.com" // User's production CDN
-        : "";
+const baseURL = process.env.NODE_ENV === "production"
+  ? "https://cdn.example.com"  // User's production CDN
+  : "";
 
 export default function Email() {
-    return (
-        <Img
-            src={`${baseURL}/static/logo.png`}
-            alt="Logo"
-            width="150"
-            height="50"
-        />
-    );
+  return (
+    <Img
+      src={`${baseURL}/static/logo.png`}
+      alt="Logo"
+      width="150"
+      height="50"
+    />
+  );
 }
 ```
 
 **How it works:**
-
 - **Development:** `baseURL` is empty, so URL is `/static/logo.png` - served by React Email's dev server
 - **Production:** `baseURL` is the CDN domain, so URL is `https://cdn.example.com/static/logo.png`
 
@@ -248,14 +240,13 @@ See [references/STYLING.md](references/STYLING.md) for comprehensive styling doc
 
 ### Required Classes
 
-| Component           | Required Class                            | Why                                                |
-| ------------------- | ----------------------------------------- | -------------------------------------------------- |
-| `Button`            | `box-border`                              | Prevents padding from overflowing the button width |
-| `Hr` / any border   | `border-solid` (or `border-dashed`, etc.) | Email clients don't inherit border type            |
-| Single-side borders | `border-none` + the side                  | Resets default borders on other sides              |
+| Component | Required Class | Why |
+|-----------|---------------|-----|
+| `Button` | `box-border` | Prevents padding from overflowing the button width |
+| `Hr` / any border | `border-solid` (or `border-dashed`, etc.) | Email clients don't inherit border type |
+| Single-side borders | `border-none` + the side | Resets default borders on other sides |
 
 ### Structure Notes
-
 - Always define `<Head />` inside `<Tailwind>` when using Tailwind CSS
 - `<Preview>` should always be the first element inside `<Body>`
 - Only include props in `PreviewProps` that the component actually uses
@@ -266,21 +257,18 @@ See [references/STYLING.md](references/STYLING.md) for comprehensive styling doc
 ### Convert to HTML
 
 ```tsx
-import { render } from "react-email";
-import { WelcomeEmail } from "./emails/welcome";
+import { render } from 'react-email';
+import { WelcomeEmail } from './emails/welcome';
 
 const html = await render(
-    <WelcomeEmail name="John" verificationUrl="https://example.com/verify" />
+  <WelcomeEmail name="John" verificationUrl="https://example.com/verify" />
 );
 ```
 
 ### Convert to Plain Text
 
 ```tsx
-const text = await render(
-    <WelcomeEmail name="John" verificationUrl="https://example.com/verify" />,
-    { plainText: true }
-);
+const text = await render(<WelcomeEmail name="John" verificationUrl="https://example.com/verify" />, { plainText: true });
 ```
 
 ## Sending
@@ -290,21 +278,16 @@ React Email supports sending with any email service provider. See [references/SE
 Quick example using the Resend SDK:
 
 ```tsx
-import { Resend } from "resend";
-import { WelcomeEmail } from "./emails/welcome";
+import { Resend } from 'resend';
+import { WelcomeEmail } from './emails/welcome';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const { data, error } = await resend.emails.send({
-    from: "Acme <onboarding@resend.dev>",
-    to: ["user@example.com"],
-    subject: "Welcome to Acme",
-    react: (
-        <WelcomeEmail
-            name="John"
-            verificationUrl="https://example.com/verify"
-        />
-    ),
+  from: 'Acme <onboarding@resend.dev>',
+  to: ['user@example.com'],
+  subject: 'Welcome to Acme',
+  react: <WelcomeEmail name="John" verificationUrl="https://example.com/verify" />
 });
 ```
 
@@ -314,14 +297,14 @@ The Resend Node SDK automatically handles both HTML and plain-text rendering.
 
 The `react-email` package provides a CLI accessible via the `email` command:
 
-| Command                                                          | Description                                                           |
-| ---------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `email dev --dir <path> --port <port>`                           | Start the preview development server (default: `./emails`, port 3000) |
-| `email build --dir <path>`                                       | Build the preview app for production deployment                       |
-| `email start`                                                    | Run the built preview app                                             |
-| `email export --outDir <path> --pretty --plainText --dir <path>` | Export templates to static HTML files                                 |
-| `email resend setup`                                             | Connect the CLI to your Resend account via API key                    |
-| `email resend reset`                                             | Remove the stored Resend API key                                      |
+| Command | Description |
+|---------|-------------|
+| `email dev --dir <path> --port <port>` | Start the preview development server (default: `./emails`, port 3000) |
+| `email build --dir <path>` | Build the preview app for production deployment |
+| `email start` | Run the built preview app |
+| `email export --outDir <path> --pretty --plainText --dir <path>` | Export templates to static HTML files |
+| `email resend setup` | Connect the CLI to your Resend account via API key |
+| `email resend reset` | Remove the stored Resend API key |
 
 ## Internationalization
 
@@ -332,7 +315,6 @@ See [references/I18N.md](references/I18N.md) for complete i18n documentation. Re
 React Email includes a visual editor (`@react-email/editor`) that can be embedded in your app. It's built on TipTap/ProseMirror and produces email-ready HTML.
 
 See [references/EDITOR.md](references/EDITOR.md) for complete documentation including:
-
 - `EmailEditor` — batteries-included component with bubble menus, slash commands, and theming
 - `StarterKit` — 35+ email-aware extensions (headings, lists, tables, columns, buttons, etc.)
 - `Inspector` — contextual sidebar for editing styles
@@ -343,23 +325,26 @@ See [references/EDITOR.md](references/EDITOR.md) for complete documentation incl
 Quick example:
 
 ```tsx
-import { EmailEditor, type EmailEditorRef } from "@react-email/editor";
-import "@react-email/editor/themes/default.css";
-import { useRef } from "react";
+import { EmailEditor, type EmailEditorRef } from '@react-email/editor';
+import '@react-email/editor/themes/default.css';
+import { useRef } from 'react';
 
 export function MyEditor() {
-    const ref = useRef<EmailEditorRef>(null);
+  const ref = useRef<EmailEditorRef>(null);
 
-    return (
-        <EmailEditor ref={ref} content="<p>Start typing...</p>" theme="basic" />
-    );
+  return (
+    <EmailEditor
+      ref={ref}
+      content="<p>Start typing...</p>"
+      theme="basic"
+    />
+  );
 }
 ```
 
 ## Common Patterns
 
 See [references/PATTERNS.md](references/PATTERNS.md) for complete examples including:
-
 - Password reset emails
 - Order confirmations with product lists
 - Notification emails with code blocks

@@ -5,8 +5,11 @@ This repository is a Bun-based template monorepo for future projects. Document w
 ## Required Workflow For AI Agents
 
 1. Read this file before planning, proposing, or editing anything in the repository.
-2. If your work touches a package, read the nearest package-level `AGENTS.md` before planning or editing in that area.
-3. When you finish work, update every relevant `AGENTS.md` whose documented facts changed. Do not consider the task complete until those files match reality.
+2. After reading this file and before planning or executing a task, check for relevant installed skills in repository-local agent tooling directories.
+3. Treat `.agents/skills/` and `.github/skills/` as installed skill locations in this repository today. Also check `.agent/` or similar repository-local agent tooling folders when they are present.
+4. If a relevant installed skill matches the task, read it and use its instructions as part of your working context before continuing. If no relevant skill exists, continue with the repository guidance in this file.
+5. If your work touches a package, read the nearest package-level `AGENTS.md` before planning or editing in that area.
+6. When you finish work, update every relevant `AGENTS.md` whose documented facts changed. Do not consider the task complete until those files match reality.
 
 ## Repository Snapshot
 
@@ -35,6 +38,8 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - `package.json`: root scripts, Bun workspace config, shared dev tooling
 - `turbo.json`: shared task graph for `dev`, `build`, and `test`
 - `openspec/`: change proposals, designs, specs, and task plans
+- `.agents/skills/`: repository-local installed skills maintained alongside the workspace
+- `.github/skills/`: additional repository-local skills available to compatible agent workflows
 
 ### packages/db
 
