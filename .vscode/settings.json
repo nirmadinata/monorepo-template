@@ -67,6 +67,6 @@
     "**/bun.lock": true
   },
   "files.readonlyInclude": {
-    "**/.*": true
+    "**/.(agents|agent|codex|claude|opencode|)": true
   }
 }
