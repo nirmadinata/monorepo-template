@@ -4,6 +4,10 @@
     "exports": {
         "./d1": "./src/d1/index.ts"
     },
+    "scripts": {
+        "d1:generate": "drizzle-kit generate --config src/d1/drizzle.config.ts",
+        "d1:migrate:local": "wrangler d1 migrations apply MAIN_DB --local --persist-to=./../../.wrangler/state"
+    },
     "dependencies": {
         "drizzle-orm": "^0.45.2"
     },
@@ -12,6 +16,7 @@
         "@types/bun": "latest",
         "dotenv": "^17.4.2",
         "drizzle-kit": "^0.31.10",
+        "wrangler": "^4.88.0",
         "zod": "^4.4.3"
     },
     "peerDependencies": {
