@@ -6,16 +6,22 @@ import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import viteReact, { reactCompilerPreset } from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
 
-const config = defineConfig({
-    plugins: [
-        devtools(),
-        cloudflare({ viteEnvironment: { name: "ssr" } }),
-        tailwindcss(),
-        tanstackStart(),
-        viteReact(),
-        babel({ presets: [reactCompilerPreset()] }),
-    ],
-    resolve: { tsconfigPaths: true },
+const config = defineConfig(() => {
+    const isVitest = process.env.VITEST === "true";
+
+    return {
+        plugins: [
+            devtools(),
+            ...(isVitest
+                ? []
+                : [cloudflare({ viteEnvironment: { name: "ssr" } })]),
+            tailwindcss(),
+            tanstackStart(),
+            viteReact(),
+            babel({ presets: [reactCompilerPreset()] }),
+        ],
+        resolve: { tsconfigPaths: true },
+    };
 });
 
 export default config;
