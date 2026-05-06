@@ -5,7 +5,9 @@ import { getContext } from "./integrations/tanstack-query/root-provider";
 import { routeTree } from "./routeTree.gen";
 
 export function getRouter() {
-    const context = getContext();
+    const context = {
+        ...getContext(),
+    };
 
     const router = createTanStackRouter({
         context,

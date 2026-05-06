@@ -29,8 +29,8 @@ function parseTrustedOrigins(value?: string) {
     return origins.length > 0 ? origins : undefined;
 }
 
-async function hasExistingUsers() {
-    const existingUsers = await getAppDB()
+async function hasExistingUsers(db: D1Database) {
+    const existingUsers = await getAppDB(db)
         .select({ id: dbSchema.users.id })
         .from(dbSchema.users)
         .limit(1);
@@ -71,7 +71,12 @@ function createAuth(params: AuthParam) {
             user: {
                 create: {
                     async before(user) {
-                        await assertFirstUserSignupAllowed(hasExistingUsers);
+                        if (params.db) {
+                            const { db } = params;
+                            await assertFirstUserSignupAllowed(() =>
+                                hasExistingUsers(db)
+                            );
+                        }
 
                         return { data: user };
                     },
@@ -116,7 +121,7 @@ function createAuth(params: AuthParam) {
 
 let authSingleton: ReturnType<typeof createAuth> | undefined;
 
-function getAuth(params: AuthParam) {
+export function getAuth(params: AuthParam) {
     authSingleton ??= createAuth(params);
     return authSingleton;
 }
