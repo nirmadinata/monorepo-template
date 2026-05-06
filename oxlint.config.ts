@@ -24,5 +24,7 @@ export default defineConfig({
         "no-barrel-file": "off",
         "no-use-before-define": "off",
         "sort-keys": "off",
+        "require-await": "off",
+        "no-abusive-eslint-disable": "off",
     },
 });

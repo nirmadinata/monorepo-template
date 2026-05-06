@@ -7,7 +7,7 @@ import {
     uniqueIndex,
 } from "drizzle-orm/sqlite-core";
 
-import { COLUMN_ALIASES, TABLE_ALIASES } from "@/d1/constants";
+import { COLUMN_ALIASES, TABLE_ALIASES } from "./constants";
 
 const BETTER_AUTH_COMMON_FIELDS = {
     createdAt: integer(COLUMN_ALIASES.COMMON_COLUMNS.CREATED_AT, {

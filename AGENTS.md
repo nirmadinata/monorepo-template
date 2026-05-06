@@ -20,7 +20,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Change workflow: OpenSpec under `openspec/`
 - Current maintained package surface: `packages/db`
-- Current app surface: `apps/` is present but empty in this template
+- Current app surface: `apps/web-cms`
 
 ## Commands
 
@@ -50,8 +50,12 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 ### apps
 
-- Treat `apps/` as empty template space until real app code exists
-- Do not invent app-specific documentation or constraints unless the repo actually gains app files
+### apps/web-cms
+
+- TanStack Start app targeting Cloudflare Workers via `@cloudflare/vite-plugin`
+- Current server integrations live under `src/integrations/`
+- Auth is backed by Better Auth plus D1/Drizzle using the shared `@repo/db/d1` package exports
+- Public API foundation is mounted under `/api/public/*` using Hono, `@hono/zod-openapi`, and Scalar
 
 ## OpenSpec Expectations
 
@@ -71,6 +75,6 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 ## Current Constraints To Remember
 
-- The repository currently has one real package and no app implementation
+- The repository currently has one maintained package and one maintained app implementation (`apps/web-cms`)
 - The database package is still scaffold-level in places; some files are placeholders by design
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
