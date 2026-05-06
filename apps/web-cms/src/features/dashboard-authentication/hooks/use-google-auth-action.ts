@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "sonner";
 
 import { authClient } from "#/integrations/auth/client";
 
@@ -8,11 +9,9 @@ import type { DashboardAuthenticationIntent } from "../lib/util";
 const DEFAULT_ERROR_MESSAGE = "Unable to start Google authentication.";
 
 export function useGoogleAuthAction(intent: DashboardAuthenticationIntent) {
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [isPending, setIsPending] = useState(false);
 
     async function run() {
-        setErrorMessage(null);
         setIsPending(true);
 
         try {
@@ -22,10 +21,10 @@ export function useGoogleAuthAction(intent: DashboardAuthenticationIntent) {
             });
 
             if (result?.error) {
-                setErrorMessage(result.error.message ?? DEFAULT_ERROR_MESSAGE);
+                toast.error(result.error.message || DEFAULT_ERROR_MESSAGE);
             }
         } catch (error) {
-            setErrorMessage(
+            toast.error(
                 error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
             );
         } finally {
@@ -34,7 +33,6 @@ export function useGoogleAuthAction(intent: DashboardAuthenticationIntent) {
     }
 
     return {
-        errorMessage,
         isPending,
         run,
     };

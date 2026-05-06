@@ -1,4 +1,3 @@
-import { Alert, AlertDescription, AlertTitle } from "#/components/ui/alert";
 import { Button } from "#/components/ui/button";
 import { Spinner } from "#/components/ui/spinner";
 
@@ -12,7 +11,7 @@ interface GoogleAuthButtonProps {
 }
 
 export function GoogleAuthButton({ children, intent }: GoogleAuthButtonProps) {
-    const { errorMessage, isPending, run } = useGoogleAuthAction(intent);
+    const { isPending, run } = useGoogleAuthAction(intent);
 
     return (
         <div className="flex flex-col gap-3">
@@ -29,13 +28,6 @@ export function GoogleAuthButton({ children, intent }: GoogleAuthButtonProps) {
                 )}
                 {children}
             </Button>
-
-            {errorMessage ? (
-                <Alert variant="destructive">
-                    <AlertTitle>Google auth did not start</AlertTitle>
-                    <AlertDescription>{errorMessage}</AlertDescription>
-                </Alert>
-            ) : null}
         </div>
     );
 }
