@@ -9,20 +9,31 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as LoginRouteImport } from './routes/login'
-import { Route as IndexRouteImport } from './routes/index'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as PublicAuthRouteImport } from './routes/_public-auth'
+import { Route as PublicAuthIndexRouteImport } from './routes/_public-auth.index'
+import { Route as PublicAuthLoginRouteImport } from './routes/_public-auth.login'
 import { Route as ApiPublicSplatRouteImport } from './routes/api/public/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
-const LoginRoute = LoginRouteImport.update({
-  id: '/login',
-  path: '/login',
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
+const PublicAuthRoute = PublicAuthRouteImport.update({
+  id: '/_public-auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PublicAuthIndexRoute = PublicAuthIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => PublicAuthRoute,
+} as any)
+const PublicAuthLoginRoute = PublicAuthLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => PublicAuthRoute,
 } as any)
 const ApiPublicSplatRoute = ApiPublicSplatRouteImport.update({
   id: '/api/public/$',
@@ -36,54 +47,79 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
+  '/': typeof PublicAuthIndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof PublicAuthLoginRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
+  '/dashboard': typeof DashboardRoute
+  '/login': typeof PublicAuthLoginRoute
+  '/': typeof PublicAuthIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/login': typeof LoginRoute
+  '/_public-auth': typeof PublicAuthRouteWithChildren
+  '/dashboard': typeof DashboardRoute
+  '/_public-auth/login': typeof PublicAuthLoginRoute
+  '/_public-auth/': typeof PublicAuthIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/api/auth/$' | '/api/public/$'
+  fullPaths: '/' | '/dashboard' | '/login' | '/api/auth/$' | '/api/public/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/api/auth/$' | '/api/public/$'
-  id: '__root__' | '/' | '/login' | '/api/auth/$' | '/api/public/$'
+  to: '/dashboard' | '/login' | '/' | '/api/auth/$' | '/api/public/$'
+  id:
+    | '__root__'
+    | '/_public-auth'
+    | '/dashboard'
+    | '/_public-auth/login'
+    | '/_public-auth/'
+    | '/api/auth/$'
+    | '/api/public/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  LoginRoute: typeof LoginRoute
+  PublicAuthRoute: typeof PublicAuthRouteWithChildren
+  DashboardRoute: typeof DashboardRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiPublicSplatRoute: typeof ApiPublicSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginRouteImport
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/_public-auth': {
+      id: '/_public-auth'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof PublicAuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_public-auth/': {
+      id: '/_public-auth/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof PublicAuthIndexRouteImport
+      parentRoute: typeof PublicAuthRoute
+    }
+    '/_public-auth/login': {
+      id: '/_public-auth/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof PublicAuthLoginRouteImport
+      parentRoute: typeof PublicAuthRoute
     }
     '/api/public/$': {
       id: '/api/public/$'
@@ -102,9 +138,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface PublicAuthRouteChildren {
+  PublicAuthLoginRoute: typeof PublicAuthLoginRoute
+  PublicAuthIndexRoute: typeof PublicAuthIndexRoute
+}
+
+const PublicAuthRouteChildren: PublicAuthRouteChildren = {
+  PublicAuthLoginRoute: PublicAuthLoginRoute,
+  PublicAuthIndexRoute: PublicAuthIndexRoute,
+}
+
+const PublicAuthRouteWithChildren = PublicAuthRoute._addFileChildren(
+  PublicAuthRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  LoginRoute: LoginRoute,
+  PublicAuthRoute: PublicAuthRouteWithChildren,
+  DashboardRoute: DashboardRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiPublicSplatRoute: ApiPublicSplatRoute,
 }

@@ -1,13 +1,13 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "placeholder",
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "placeholder",
 
-  "d1_databases": [
-    {
-      "binding": "MAIN_DB",
-      // change this to your database name, which you can find in the dashboard under "D1 Databases"
-      "database_name": "cms-db",
-      "migrations_dir": "./migrations/d1",
-    },
-  ],
+    "d1_databases": [
+        {
+            "binding": "MAIN_DB",
+            // change this to your database name, which you can find in the dashboard under "D1 Databases"
+            "database_name": "cms-db",
+            "migrations_dir": "./migrations/d1",
+        },
+    ],
 }

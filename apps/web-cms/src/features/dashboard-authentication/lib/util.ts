@@ -1,4 +1,5 @@
 export const dashboardAuthenticationPaths = {
+    dashboard: "/dashboard",
     login: "/login",
     welcome: "/",
 } as const;
@@ -6,14 +7,14 @@ export const dashboardAuthenticationPaths = {
 export type DashboardAuthenticationIntent = "sign-in" | "sign-up";
 
 export function getGoogleAuthRequest(intent: DashboardAuthenticationIntent) {
-    const routePath =
+    const errorRoutePath =
         intent === "sign-up"
             ? dashboardAuthenticationPaths.welcome
             : dashboardAuthenticationPaths.login;
 
     return {
-        callbackURL: routePath,
-        errorCallbackURL: routePath,
-        newUserCallbackURL: dashboardAuthenticationPaths.welcome,
+        callbackURL: dashboardAuthenticationPaths.dashboard,
+        errorCallbackURL: errorRoutePath,
+        newUserCallbackURL: dashboardAuthenticationPaths.dashboard,
     };
 }

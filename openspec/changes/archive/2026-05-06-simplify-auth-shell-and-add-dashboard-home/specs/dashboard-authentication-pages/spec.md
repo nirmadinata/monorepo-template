@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: First-user welcome page is available for bootstrap onboarding
 
@@ -36,6 +36,8 @@ The `web-cms` authentication page implementation SHALL keep feature-specific UI,
 
 - **WHEN** the authentication page feature is implemented
 - **THEN** the feature includes `components`, `hooks`, `lib`, and `server` subfolders for page composition, React hooks, feature utilities, and server functions respectively
+
+## ADDED Requirements
 
 ### Requirement: Public authentication routes share a common layout
 

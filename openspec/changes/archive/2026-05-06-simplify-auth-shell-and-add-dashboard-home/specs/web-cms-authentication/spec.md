@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Web CMS auth uses Better Auth with Google-only sign-in
 
@@ -46,6 +46,8 @@ The `web-cms` application SHALL expose a server-side bootstrap-state contract th
 
 - **WHEN** the welcome or login experience needs to know whether bootstrap onboarding is open
 - **THEN** the application provides a typed server response that indicates whether any auth user already exists
+
+## ADDED Requirements
 
 ### Requirement: Successful Google authentication enters the dashboard
 
