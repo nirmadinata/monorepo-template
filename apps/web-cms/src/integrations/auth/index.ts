@@ -75,7 +75,12 @@ function createAuth(params: AuthParam) {
           async before(user) {
             if (params.db) {
               const { db } = params;
-              const bootstrapUser = await prepareBootstrapUser(user, () => hasExistingUsers(db));
+              const bootstrapUser = await prepareBootstrapUser(
+                {
+                  role: user.role as string,
+                },
+                () => hasExistingUsers(db),
+              );
 
               return { data: bootstrapUser };
             }
