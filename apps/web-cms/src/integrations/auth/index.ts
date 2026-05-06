@@ -7,7 +7,7 @@ import { tanstackStartCookies } from "better-auth/tanstack-start";
 import { appenv } from "#/integrations/appenv";
 import { dbSchema, getAppDB } from "#/integrations/db";
 
-import { assertFirstUserSignupAllowed } from "./utils";
+import { prepareBootstrapUser } from "./utils";
 
 const authSchema = {
     account: dbSchema.accounts,
@@ -29,7 +29,7 @@ function parseTrustedOrigins(value?: string) {
     return origins.length > 0 ? origins : undefined;
 }
 
-async function hasExistingUsers(db: D1Database) {
+export async function hasExistingUsers(db: D1Database) {
     const existingUsers = await getAppDB(db)
         .select({ id: dbSchema.users.id })
         .from(dbSchema.users)
@@ -73,9 +73,12 @@ function createAuth(params: AuthParam) {
                     async before(user) {
                         if (params.db) {
                             const { db } = params;
-                            await assertFirstUserSignupAllowed(() =>
-                                hasExistingUsers(db)
+                            const bootstrapUser = await prepareBootstrapUser(
+                                user,
+                                () => hasExistingUsers(db)
                             );
+
+                            return { data: bootstrapUser };
                         }
 
                         return { data: user };
