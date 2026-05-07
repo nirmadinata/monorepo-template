@@ -53,6 +53,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 ### apps/web-cms
 
 - TanStack Start app targeting Cloudflare Workers via `@cloudflare/vite-plugin`
+- Authenticated dashboard shell code now lives under `src/features/dashboard-home/`
 - Current server integrations live under `src/integrations/`
 - Auth is backed by Better Auth plus D1/Drizzle using the shared `@repo/db/d1` package exports
 - Public API foundation is mounted under `/api/public/*` using Hono, `@hono/zod-openapi`, and Scalar
