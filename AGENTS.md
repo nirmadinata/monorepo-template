@@ -13,14 +13,14 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 ## Repository Snapshot
 
-- Package manager: Bun (`>=1.3.13`)
-- Workspace layout: `packages/*` and `apps`
+- Package manager: Bun (`1.3.13` via `packageManager`)
+- Workspace layout: `packages/*` and `apps/*`
 - Task runner: Turbo (`turbo.json`)
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Change workflow: OpenSpec under `openspec/`
 - Current maintained package surface: `packages/db`
-- Current app surface: `apps/web-cms`
+- Current maintained app surface: `apps/web-cms`
 
 ## Commands
 
@@ -46,7 +46,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 - Package name: `@repo/db`
 - Current public export: `@repo/db/d1`
-- Purpose today: shared database scaffolding for Drizzle ORM with Cloudflare D1
+- Purpose today: shared Cloudflare D1 Drizzle schema, utilities, and migration config for auth-backed apps
 - See `packages/db/AGENTS.md` before editing anything in this package
 
 ### apps
@@ -54,10 +54,13 @@ This repository is a Bun-based template monorepo for future projects. Document w
 ### apps/web-cms
 
 - TanStack Start app targeting Cloudflare Workers via `@cloudflare/vite-plugin`
-- Authenticated dashboard shell code now lives under `src/features/dashboard-home/`
+- Dashboard authentication feature code lives under `src/features/dashboard-authentication/`
+- Authenticated dashboard shell code lives under `src/features/dashboard-home/`
 - Current server integrations live under `src/integrations/`
 - Auth is backed by Better Auth plus D1/Drizzle using the shared `@repo/db/d1` package exports
 - Public API foundation is mounted under `/api/public/*` using Hono, `@hono/zod-openapi`, and Scalar
+- Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
+- See `apps/web-cms/AGENTS.md` before editing app-specific code
 
 ## OpenSpec Expectations
 
@@ -78,5 +81,6 @@ This repository is a Bun-based template monorepo for future projects. Document w
 ## Current Constraints To Remember
 
 - The repository currently has one maintained package and one maintained app implementation (`apps/web-cms`)
-- The database package is still scaffold-level in places; some files are placeholders by design
+- The database package is still narrow in scope; only the D1 entrypoint is exported today
+- The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
