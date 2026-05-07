@@ -40,6 +40,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - `openspec/`: change proposals, designs, specs, and task plans
 - `.agents/skills/`: repository-local installed skills maintained alongside the workspace
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
+- `.opencode/`: repository-local Opencode commands and experimental workflow skills
 
 ### packages/db
 
