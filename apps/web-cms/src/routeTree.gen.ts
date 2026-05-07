@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as PublicAuthRouteImport } from './routes/_public-auth'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as PublicAuthIndexRouteImport } from './routes/_public-auth.index'
 import { Route as PublicAuthLoginRouteImport } from './routes/_public-auth.login'
 import { Route as ApiPublicSplatRouteImport } from './routes/api/public/$'
@@ -24,6 +25,11 @@ const DashboardRoute = DashboardRouteImport.update({
 const PublicAuthRoute = PublicAuthRouteImport.update({
   id: '/_public-auth',
   getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
 } as any)
 const PublicAuthIndexRoute = PublicAuthIndexRouteImport.update({
   id: '/',
@@ -48,45 +54,54 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof PublicAuthIndexRoute
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/login': typeof PublicAuthLoginRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRoutesByTo {
-  '/dashboard': typeof DashboardRoute
   '/login': typeof PublicAuthLoginRoute
   '/': typeof PublicAuthIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_public-auth': typeof PublicAuthRouteWithChildren
-  '/dashboard': typeof DashboardRoute
+  '/dashboard': typeof DashboardRouteWithChildren
   '/_public-auth/login': typeof PublicAuthLoginRoute
   '/_public-auth/': typeof PublicAuthIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/dashboard' | '/login' | '/api/auth/$' | '/api/public/$'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/login'
+    | '/dashboard/'
+    | '/api/auth/$'
+    | '/api/public/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/dashboard' | '/login' | '/' | '/api/auth/$' | '/api/public/$'
+  to: '/login' | '/' | '/dashboard' | '/api/auth/$' | '/api/public/$'
   id:
     | '__root__'
     | '/_public-auth'
     | '/dashboard'
     | '/_public-auth/login'
     | '/_public-auth/'
+    | '/dashboard/'
     | '/api/auth/$'
     | '/api/public/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   PublicAuthRoute: typeof PublicAuthRouteWithChildren
-  DashboardRoute: typeof DashboardRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
   ApiPublicSplatRoute: typeof ApiPublicSplatRoute
 }
@@ -106,6 +121,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PublicAuthRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
     }
     '/_public-auth/': {
       id: '/_public-auth/'
@@ -152,9 +174,21 @@ const PublicAuthRouteWithChildren = PublicAuthRoute._addFileChildren(
   PublicAuthRouteChildren,
 )
 
+interface DashboardRouteChildren {
+  DashboardIndexRoute: typeof DashboardIndexRoute
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardIndexRoute: DashboardIndexRoute,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   PublicAuthRoute: PublicAuthRouteWithChildren,
-  DashboardRoute: DashboardRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
   ApiPublicSplatRoute: ApiPublicSplatRoute,
 }

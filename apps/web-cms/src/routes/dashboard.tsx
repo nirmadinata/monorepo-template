@@ -1,15 +1,17 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Outlet } from "@tanstack/react-router";
 
-import { DashboardRouteContent } from "#/features/dashboard-home/components/dashboard-route-content";
+import { DashboardShell } from "#/features/dashboard-home/components/dashboard-shell";
 import { getDashboardSession } from "#/features/dashboard-home/server/get-dashboard-session";
 
 export const Route = createFileRoute("/dashboard")({
+    component: RouteComponent,
     loader: async () => getDashboardSession(),
-    component: DashboardRoute,
 });
 
-function DashboardRoute() {
-    const session = Route.useLoaderData();
-
-    return <DashboardRouteContent session={session} />;
+function RouteComponent() {
+    return (
+        <DashboardShell>
+            <Outlet />
+        </DashboardShell>
+    );
 }

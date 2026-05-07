@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, Outlet } from "@tanstack/react-router";
 import { ChevronRightIcon, ChevronsLeftRightEllipsisIcon } from "lucide-react";
 
 import { ThemeToggle } from "#/components/theme-toggle";
@@ -179,7 +179,7 @@ interface DashboardShellProps {
     children: React.ReactNode;
 }
 
-export function DashboardShell({ children }: DashboardShellProps) {
+export function DashboardShell(_: DashboardShellProps) {
     return (
         <SidebarProvider>
             <Sidebar collapsible="icon" variant="inset">
@@ -212,7 +212,7 @@ export function DashboardShell({ children }: DashboardShellProps) {
                     </div>
                 </header>
 
-                {children}
+                <Outlet />
             </SidebarInset>
         </SidebarProvider>
     );
