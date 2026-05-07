@@ -11,11 +11,11 @@ const mocks = vi.hoisted(() => ({
     } as unknown as typeof DBModule.schema,
 }));
 
-vi.mock(import('#/integrations/appenv/worker'), () => ({
+vi.mock(import("#/integrations/appenv/worker"), () => ({
     getMainDBBinding: () => mocks.binding,
 }));
 
-vi.mock(import('@repo/db/d1'), () => ({
+vi.mock(import("@repo/db/d1"), () => ({
     getDB: mocks.getDBSpy as unknown as typeof DBModule.getDB,
     schema: mocks.schema,
 }));

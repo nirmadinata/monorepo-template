@@ -9,11 +9,11 @@ const mocks = vi.hoisted(() => ({
     hasExistingUsers: vi.fn<typeof hasExistingUsers>(),
 }));
 
-vi.mock(import('#/integrations/appenv/worker'), () => ({
+vi.mock(import("#/integrations/appenv/worker"), () => ({
     getMainDBBinding: () => mocks.binding,
 }));
 
-vi.mock(import('#/integrations/auth/index'), () => ({
+vi.mock(import("#/integrations/auth/index"), () => ({
     hasExistingUsers: mocks.hasExistingUsers,
 }));
 

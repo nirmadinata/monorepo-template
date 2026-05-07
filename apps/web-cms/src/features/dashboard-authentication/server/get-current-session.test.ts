@@ -2,14 +2,25 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
+import type { readCurrentSession } from "./get-current-session";
+
+type SessionResult = Awaited<ReturnType<typeof readCurrentSession>>;
+
 const mocks = vi.hoisted(() => ({
-    apiGetSession: vi.fn(),
+    apiGetSession:
+        vi.fn<(context: { headers: Headers }) => Promise<SessionResult>>(),
     env: {
         MAIN_DB: { name: "MAIN_DB" } as unknown as D1Database,
         MAIN_KV: {
-            delete: vi.fn(),
-            get: vi.fn(),
-            put: vi.fn(),
+            delete: vi.fn<(key: string) => Promise<void>>(),
+            get: vi.fn<(key: string) => Promise<string | null>>(),
+            put: vi.fn<
+                (
+                    key: string,
+                    value: string,
+                    options?: { expirationTtl: number }
+                ) => Promise<void>
+            >(),
         },
     },
     headers: new Headers({ cookie: "session=abc" }),
@@ -24,7 +35,7 @@ describe("getCurrentSession", () => {
         const expectedSession = {
             session: { id: "session-1" },
             user: { email: "user@example.com" },
-        };
+        } as SessionResult;
 
         mocks.apiGetSession.mockResolvedValue(expectedSession);
 
