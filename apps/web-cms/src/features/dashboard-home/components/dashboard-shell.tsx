@@ -30,9 +30,11 @@ import {
 import {
     DASHBOARD_BRAND_NAME,
     DASHBOARD_BRAND_TAGLINE,
-    type DashboardNavigationGroup,
-    type DashboardNavigationItem,
     dashboardNavigationGroups,
+} from "../lib/navigation";
+import type {
+    DashboardNavigationGroup,
+    DashboardNavigationItem,
 } from "../lib/navigation";
 
 type DashboardNavigationLinkItem = Extract<
@@ -78,7 +80,11 @@ function DashboardHeaderBrand() {
     );
 }
 
-function DashboardLinkMenuItem({ item }: { item: DashboardNavigationLinkItem }) {
+function DashboardLinkMenuItem({
+    item,
+}: {
+    item: DashboardNavigationLinkItem;
+}) {
     const Icon = item.icon;
 
     return (
@@ -135,7 +141,11 @@ function DashboardParentMenuItem({
     );
 }
 
-function DashboardNavigationMenuItem({ item }: { item: DashboardNavigationItem }) {
+function DashboardNavigationMenuItem({
+    item,
+}: {
+    item: DashboardNavigationItem;
+}) {
     if (item.kind === "link") {
         return <DashboardLinkMenuItem item={item} />;
     }

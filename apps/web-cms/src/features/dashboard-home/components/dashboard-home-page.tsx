@@ -12,20 +12,17 @@ import type { DashboardSession } from "../server/get-dashboard-session";
 const dashboardSummaryCards = [
     {
         description: "Example shell content for future CMS screens.",
-        detail:
-            "Navigation examples stay presentational for now, so the shell can evolve without requiring new backend routes.",
+        detail: "Navigation examples stay presentational for now, so the shell can evolve without requiring new backend routes.",
         title: "Current status",
     },
     {
         description: "Grouped navigation supports direct and nested states.",
-        detail:
-            "Use the sidebar to preview a direct link row, open nested menu sections, and the collapsed desktop shell layout.",
+        detail: "Use the sidebar to preview a direct link row, open nested menu sections, and the collapsed desktop shell layout.",
         title: "Editorial workflow",
     },
     {
         description: "The dashboard home feature now owns this route shell.",
-        detail:
-            "Additional authenticated views can land inside this feature boundary instead of growing the route file.",
+        detail: "Additional authenticated views can land inside this feature boundary instead of growing the route file.",
         title: "Next step",
     },
 ] as const;

@@ -7,7 +7,10 @@ type GetSession = ReturnType<typeof getAuth>["api"]["getSession"];
 
 type SessionGetter = (context: { headers: Headers }) => ReturnType<GetSession>;
 
-export function readCurrentSession(headers: Headers, getSession: SessionGetter) {
+export function readCurrentSession(
+    headers: Headers,
+    getSession: SessionGetter
+) {
     return getSession({ headers });
 }
 
