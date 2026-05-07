@@ -11,7 +11,7 @@ const mocks = vi.hoisted(() => ({
     tanstackStartCookiesSpy: vi.fn(() => ({ id: "tanstack-start-cookies" })),
 }));
 
-vi.mock(import("#/integrations/appenv"), () => ({
+vi.mock(import('#/integrations/appenv'), () => ({
     appenv: {
         BETTER_AUTH_SECRET: "test-secret",
         BETTER_AUTH_TRUSTED_ORIGINS: undefined,
@@ -22,7 +22,7 @@ vi.mock(import("#/integrations/appenv"), () => ({
     },
 }));
 
-vi.mock(import("#/integrations/db"), () => ({
+vi.mock(import('#/integrations/db'), () => ({
     dbSchema: {
         accounts: { name: "accounts" },
         sessions: { name: "sessions" },
@@ -32,23 +32,23 @@ vi.mock(import("#/integrations/db"), () => ({
     getAppDB: mocks.getAppDBSpy,
 }));
 
-vi.mock(import("./utils"), () => ({
+vi.mock(import('./utils'), () => ({
     prepareBootstrapUser: vi.fn(async (user) => user),
 }));
 
-vi.mock(import("@better-auth/drizzle-adapter"), () => ({
+vi.mock(import('@better-auth/drizzle-adapter'), () => ({
     drizzleAdapter: mocks.drizzleAdapterSpy,
 }));
 
-vi.mock(import("better-auth/minimal"), () => ({
+vi.mock(import('better-auth/minimal'), () => ({
     betterAuth: mocks.betterAuthSpy,
 }));
 
-vi.mock(import("better-auth/plugins"), () => ({
+vi.mock(import('better-auth/plugins'), () => ({
     openAPI: mocks.openAPISpy,
 }));
 
-vi.mock(import("better-auth/tanstack-start"), () => ({
+vi.mock(import('better-auth/tanstack-start'), () => ({
     tanstackStartCookies: mocks.tanstackStartCookiesSpy,
 }));
 

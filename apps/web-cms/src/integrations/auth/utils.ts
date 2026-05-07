@@ -12,9 +12,10 @@ export async function assertFirstUserSignupAllowed(
     }
 }
 
-export async function prepareBootstrapUser<
-    TUser extends { role?: string | null },
->(user: TUser, checkForExistingUsers: () => Promise<boolean>) {
+export async function prepareBootstrapUser<TUser extends object>(
+    user: TUser & { role?: string | null },
+    checkForExistingUsers: () => Promise<boolean>
+) {
     await assertFirstUserSignupAllowed(checkForExistingUsers);
 
     return {

@@ -41,7 +41,7 @@ function DashboardRoute() {
                     </p>
                 </div>
 
-                <Card className="w-full border border-border/80 bg-card/92 shadow-[var(--shadow-lg)] backdrop-blur-xl">
+                <Card className="w-full border border-border/80 bg-card/92 shadow-(--shadow-lg) backdrop-blur-xl">
                     <CardHeader className="border-b border-border/70 pb-5">
                         <CardTitle className="text-lg font-semibold tracking-tight">
                             Dashboard
