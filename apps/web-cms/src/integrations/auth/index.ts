@@ -17,6 +17,16 @@ const authSchema = {
     verification: dbSchema.verification,
 };
 
+interface AuthKVStorage {
+    delete: (key: string) => Promise<void>;
+    get: (key: string) => Promise<string | null>;
+    put: (
+        key: string,
+        value: string,
+        options?: { expirationTtl: number }
+    ) => Promise<void>;
+}
+
 function parseTrustedOrigins(value?: string) {
     if (!value) {
         return;
@@ -28,6 +38,17 @@ function parseTrustedOrigins(value?: string) {
         .filter(Boolean);
 
     return origins.length > 0 ? origins : undefined;
+}
+
+export function createAuthSecondaryStorage(
+    storage: AuthKVStorage
+): SecondaryStorage {
+    return {
+        delete: (key: string) => storage.delete(key),
+        get: (key: string) => storage.get(key),
+        set: (key: string, value: string, ttl?: number) =>
+            storage.put(key, value, ttl ? { expirationTtl: ttl } : undefined),
+    };
 }
 
 export async function hasExistingUsers(db: D1Database) {
@@ -59,9 +80,8 @@ interface AuthParam {
     secondaryStorage?: SecondaryStorage;
 }
 
-function createAuth(params: AuthParam) {
-    const database = params.db ? getAuthAdapter(params.db) : undefined;
-    const { secondaryStorage } = params;
+function createAuth({ db, secondaryStorage }: AuthParam) {
+    const database = db ? getAuthAdapter(db) : undefined;
 
     return betterAuth({
         database,
@@ -72,8 +92,7 @@ function createAuth(params: AuthParam) {
             user: {
                 create: {
                     async before(user) {
-                        if (params.db) {
-                            const { db } = params;
+                        if (db) {
                             const bootstrapUser = await prepareBootstrapUser(
                                 {
                                     role: user.role as string,

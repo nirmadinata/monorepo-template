@@ -42,10 +42,7 @@ describe("getCurrentSession", () => {
         const { readCurrentSession } = await import("./get-current-session");
 
         await expect(
-            readCurrentSession(mocks.headers, {
-                env: mocks.env,
-                getSession: mocks.apiGetSession,
-            })
+            readCurrentSession(mocks.headers, mocks.apiGetSession)
         ).resolves.toStrictEqual(expectedSession);
         expect(mocks.apiGetSession).toHaveBeenCalledWith({
             headers: mocks.headers,

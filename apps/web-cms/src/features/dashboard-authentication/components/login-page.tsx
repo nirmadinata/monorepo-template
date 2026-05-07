@@ -1,21 +1,16 @@
 import { dashboardAuthenticationPaths } from "../lib/util";
-import { AuthFormCard } from "./auth-form-card";
-import { GoogleAuthButton } from "./molecules/google-auth-button";
+import { GoogleAuthPage } from "./google-auth-page";
 
 export function LoginPage() {
     return (
-        <AuthFormCard
+        <GoogleAuthPage
+            actionLabel="Sign in with Google"
             description="Return with the Google account already linked to this workspace."
             footerHref={dashboardAuthenticationPaths.welcome}
             footerLabel="Return to welcome"
             footerPrompt="Need to bootstrap this instance first?"
+            intent="sign-in"
             title="Welcome back"
-        >
-            <div className="space-y-5 text-sm text-muted-foreground">
-                <GoogleAuthButton intent="sign-in">
-                    Sign in with Google
-                </GoogleAuthButton>
-            </div>
-        </AuthFormCard>
+        />
     );
 }

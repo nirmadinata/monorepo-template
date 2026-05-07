@@ -9,6 +9,51 @@ import {
 
 import type { DashboardSession } from "../server/get-dashboard-session";
 
+const dashboardSummaryCards = [
+    {
+        description: "Example shell content for future CMS screens.",
+        detail:
+            "Navigation examples stay presentational for now, so the shell can evolve without requiring new backend routes.",
+        title: "Current status",
+    },
+    {
+        description: "Grouped navigation supports direct and nested states.",
+        detail:
+            "Use the sidebar to preview a direct link row, open nested menu sections, and the collapsed desktop shell layout.",
+        title: "Editorial workflow",
+    },
+    {
+        description: "The dashboard home feature now owns this route shell.",
+        detail:
+            "Additional authenticated views can land inside this feature boundary instead of growing the route file.",
+        title: "Next step",
+    },
+] as const;
+
+interface DashboardSummaryCardProps {
+    description: string;
+    detail: string;
+    title: string;
+}
+
+function DashboardSummaryCard({
+    description,
+    detail,
+    title,
+}: DashboardSummaryCardProps) {
+    return (
+        <Card className="border-border/75 bg-card/80 shadow-none">
+            <CardHeader className="pb-3">
+                <CardTitle className="text-base">{title}</CardTitle>
+                <CardDescription>{description}</CardDescription>
+            </CardHeader>
+            <CardContent className="text-sm text-muted-foreground">
+                {detail}
+            </CardContent>
+        </Card>
+    );
+}
+
 interface DashboardHomePageProps {
     user: DashboardSession["user"];
 }
@@ -54,51 +99,14 @@ export function DashboardHomePage({ user }: DashboardHomePageProps) {
             </section>
 
             <section className="grid gap-4 lg:grid-cols-3">
-                <Card className="border-border/75 bg-card/80 shadow-none">
-                    <CardHeader className="pb-3">
-                        <CardTitle className="text-base">
-                            Current status
-                        </CardTitle>
-                        <CardDescription>
-                            Example shell content for future CMS screens.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                        Navigation examples stay presentational for now, so the
-                        shell can evolve without requiring new backend routes.
-                    </CardContent>
-                </Card>
-
-                <Card className="border-border/75 bg-card/80 shadow-none">
-                    <CardHeader className="pb-3">
-                        <CardTitle className="text-base">
-                            Editorial workflow
-                        </CardTitle>
-                        <CardDescription>
-                            Grouped navigation supports direct and nested
-                            states.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                        Use the sidebar to preview a direct link row, open
-                        nested menu sections, and the collapsed desktop shell
-                        layout.
-                    </CardContent>
-                </Card>
-
-                <Card className="border-border/75 bg-card/80 shadow-none">
-                    <CardHeader className="pb-3">
-                        <CardTitle className="text-base">Next step</CardTitle>
-                        <CardDescription>
-                            The dashboard home feature now owns this route
-                            shell.
-                        </CardDescription>
-                    </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                        Additional authenticated views can land inside this
-                        feature boundary instead of growing the route file.
-                    </CardContent>
-                </Card>
+                {dashboardSummaryCards.map((card) => (
+                    <DashboardSummaryCard
+                        key={card.title}
+                        description={card.description}
+                        detail={card.detail}
+                        title={card.title}
+                    />
+                ))}
             </section>
         </div>
     );
