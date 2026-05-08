@@ -1,6 +1,6 @@
 import { redirect } from "@tanstack/react-router";
 
-import { getCurrentSession } from "#/features/dashboard-authentication/server/get-current-session";
+import { getCurrentSession } from "#/integrations/auth";
 
 export type DashboardSession = NonNullable<
     Awaited<ReturnType<typeof getCurrentSession>>

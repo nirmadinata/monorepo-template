@@ -1,7 +1,11 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
-import { env } from "cloudflare:workers";
 
-export const getWorkerEnv = createServerOnlyFn(() => env);
-export const getMainDBBinding = createServerOnlyFn(
-    () => getWorkerEnv().MAIN_DB
-);
+export const getWorkerEnv = createServerOnlyFn(async () => {
+    const { env } = await import("cloudflare:workers");
+
+    return env;
+});
+export const getMainDBBinding = createServerOnlyFn(async () => {
+    const env = await getWorkerEnv();
+    return env.MAIN_DB;
+});
