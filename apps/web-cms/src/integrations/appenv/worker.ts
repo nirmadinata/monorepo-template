@@ -1,11 +1,7 @@
+import { createServerOnlyFn } from "@tanstack/react-start";
 import { env } from "cloudflare:workers";
 
-export type AppWorkerEnv = typeof env;
-
-export function getWorkerEnv(): AppWorkerEnv {
-    return env;
-}
-
-export function getMainDBBinding() {
-    return getWorkerEnv().MAIN_DB;
-}
+export const getWorkerEnv = createServerOnlyFn(() => env);
+export const getMainDBBinding = createServerOnlyFn(
+    () => getWorkerEnv().MAIN_DB
+);

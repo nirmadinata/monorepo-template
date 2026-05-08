@@ -1,4 +1,5 @@
 import { drizzleAdapter } from "@better-auth/drizzle-adapter";
+import { createServerOnlyFn } from "@tanstack/react-start";
 import type { SecondaryStorage } from "better-auth";
 import { betterAuth } from "better-auth/minimal";
 import { openAPI } from "better-auth/plugins";
@@ -17,16 +18,6 @@ const authSchema = {
     verification: dbSchema.verification,
 };
 
-interface AuthKVStorage {
-    delete: (key: string) => Promise<void>;
-    get: (key: string) => Promise<string | null>;
-    put: (
-        key: string,
-        value: string,
-        options?: { expirationTtl: number }
-    ) => Promise<void>;
-}
-
 function parseTrustedOrigins(value?: string) {
     if (!value) {
         return;
@@ -40,47 +31,61 @@ function parseTrustedOrigins(value?: string) {
     return origins.length > 0 ? origins : undefined;
 }
 
-export function createAuthSecondaryStorage(
-    storage: AuthKVStorage
-): SecondaryStorage {
-    return {
-        delete: (key: string) => storage.delete(key),
-        get: (key: string) => storage.get(key),
-        set: (key: string, value: string, ttl?: number) =>
-            storage.put(key, value, ttl ? { expirationTtl: ttl } : undefined),
-    };
-}
+export const createAuthSecondaryStorage = createServerOnlyFn(
+    (storage: KVNamespace) =>
+        ({
+            delete: (key: string) => storage.delete(key),
+            get: (key: string) => storage.get(key),
+            set: (key: string, value: string, ttl?: number) =>
+                storage.put(
+                    key,
+                    value,
+                    ttl ? { expirationTtl: ttl } : undefined
+                ),
+        }) as SecondaryStorage
+);
 
-export async function hasExistingUsers(db: D1Database) {
+let authSecondaryStorageSingleton: ReturnType<
+    typeof createAuthSecondaryStorage
+> | null = null;
+
+export const getAuthSecondaryStorage = createServerOnlyFn(
+    (storage: KVNamespace) => {
+        authSecondaryStorageSingleton ??= createAuthSecondaryStorage(storage);
+        return authSecondaryStorageSingleton;
+    }
+);
+
+const createAuthAdapter = createServerOnlyFn((db: D1Database) =>
+    drizzleAdapter(getAppDB(db), {
+        provider: "sqlite",
+        schema: authSchema,
+    })
+);
+
+let authAdapterSingleton: ReturnType<typeof createAuthAdapter> | undefined;
+
+const getAuthAdapter = createServerOnlyFn((db: D1Database) => {
+    authAdapterSingleton ??= createAuthAdapter(db);
+
+    return authAdapterSingleton;
+});
+
+export const hasExistingUsers = createServerOnlyFn(async (db: D1Database) => {
     const existingUsers = await getAppDB(db).$count(
         dbSchema.users,
         eq(dbSchema.users.id, dbSchema.users.id)
     );
 
     return existingUsers > 0;
-}
-
-function createAuthAdapter(db: D1Database) {
-    return drizzleAdapter(getAppDB(db), {
-        provider: "sqlite",
-        schema: authSchema,
-    });
-}
-
-let authAdapterSingleton: ReturnType<typeof createAuthAdapter> | undefined;
-
-function getAuthAdapter(db: D1Database) {
-    authAdapterSingleton ??= createAuthAdapter(db);
-
-    return authAdapterSingleton;
-}
+});
 
 interface AuthParam {
     db?: D1Database;
     secondaryStorage?: SecondaryStorage;
 }
 
-function createAuth({ db, secondaryStorage }: AuthParam) {
+const createAuth = createServerOnlyFn(({ db, secondaryStorage }: AuthParam) => {
     const database = db ? getAuthAdapter(db) : undefined;
 
     return betterAuth({
@@ -142,14 +147,14 @@ function createAuth({ db, secondaryStorage }: AuthParam) {
             },
         },
     });
-}
+});
 
 let authSingleton: ReturnType<typeof createAuth> | undefined;
 
-export function getAuth(params: AuthParam) {
+export const getAuth = createServerOnlyFn((params: AuthParam) => {
     authSingleton ??= createAuth(params);
     return authSingleton;
-}
+});
 
 export type AuthSession = ReturnType<typeof getAuth>["$Infer"]["Session"];
 export type AuthUser = AuthSession["user"];
