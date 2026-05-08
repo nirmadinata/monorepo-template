@@ -1,3 +1,4 @@
+// oxlint-disable unicorn/prefer-spread
 import { defineConfig } from "oxlint";
 import core from "ultracite/oxlint/core";
 import next from "ultracite/oxlint/next";
@@ -5,11 +6,11 @@ import react from "ultracite/oxlint/react";
 import remix from "ultracite/oxlint/remix";
 import vitest from "ultracite/oxlint/vitest";
 
-import oxignore from "./oxignore";
+import oxignore from "./oxignore.json" with { type: "json" };
 
 export default defineConfig({
     extends: [core, react, next, remix, vitest],
-    ignorePatterns: oxignore,
+    ignorePatterns: Array.from(oxignore),
     overrides: [
         {
             files: ["apps/web-cms/**/*.{ts,tsx}"],
