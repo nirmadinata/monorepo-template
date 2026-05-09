@@ -9,13 +9,9 @@ export function PublicAuthLayout() {
                 <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
                     <Link className="no-underline" to="/">
                         <div className="flex items-center gap-3 text-foreground">
-                            <span className="font-semibold tracking-tight">
-                                Mock CMS
-                            </span>
+                            <span className="font-semibold tracking-tight">Mock CMS</span>
                             <span className="h-4 w-px bg-border/80" />
-                            <span className="text-xs text-muted-foreground">
-                                Admin workspace
-                            </span>
+                            <span className="text-xs text-muted-foreground">Admin workspace</span>
                         </div>
                     </Link>
 

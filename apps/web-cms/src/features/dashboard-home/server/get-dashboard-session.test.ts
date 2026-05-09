@@ -25,9 +25,7 @@ describe("getDashboardSession", () => {
 
         const { getDashboardSession } = await import("./get-dashboard-session");
 
-        await expect(getDashboardSession()).resolves.toStrictEqual(
-            expectedSession
-        );
+        await expect(getDashboardSession()).resolves.toStrictEqual(expectedSession);
     });
 
     it("redirects to login when no session is available", async () => {

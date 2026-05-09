@@ -71,20 +71,14 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
             const result = await authClient.signOut();
 
             if (result?.error) {
-                toast.error(
-                    result.error.message || DEFAULT_SIGN_OUT_ERROR_MESSAGE
-                );
+                toast.error(result.error.message || DEFAULT_SIGN_OUT_ERROR_MESSAGE);
 
                 return;
             }
 
             window.location.assign("/login");
         } catch (error) {
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : DEFAULT_SIGN_OUT_ERROR_MESSAGE
-            );
+            toast.error(error instanceof Error ? error.message : DEFAULT_SIGN_OUT_ERROR_MESSAGE);
         } finally {
             setIsSigningOut(false);
         }
@@ -111,9 +105,7 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
                 {isCompact ? null : (
                     <>
                         <span className="flex min-w-0 flex-1 flex-col">
-                            <span className="truncate font-medium">
-                                {displayName}
-                            </span>
+                            <span className="truncate font-medium">{displayName}</span>
                             <span className="truncate text-xs text-sidebar-foreground/70">
                                 {user.email}
                             </span>
@@ -124,12 +116,7 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
                 )}
             </DropdownMenuTrigger>
 
-            <DropdownMenuContent
-                align="end"
-                className="w-56 rounded-xl"
-                side="top"
-                sideOffset={10}
-            >
+            <DropdownMenuContent align="end" className="w-56 rounded-xl" side="top" sideOffset={10}>
                 <DropdownMenuGroup>
                     <DropdownMenuItem disabled>
                         <UserIcon />

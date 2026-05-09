@@ -33,9 +33,7 @@ interface DashboardNavigationParentItem {
     label: string;
 }
 
-export type DashboardNavigationItem =
-    | DashboardNavigationLinkItem
-    | DashboardNavigationParentItem;
+export type DashboardNavigationItem = DashboardNavigationLinkItem | DashboardNavigationParentItem;
 
 export interface DashboardNavigationGroup {
     items: readonly DashboardNavigationItem[];

@@ -30,9 +30,7 @@ export function GoogleAuthPage({
             title={title}
         >
             <div className="space-y-5 text-sm text-muted-foreground">
-                <GoogleAuthButton intent={intent}>
-                    {actionLabel}
-                </GoogleAuthButton>
+                <GoogleAuthButton intent={intent}>{actionLabel}</GoogleAuthButton>
             </div>
         </AuthFormCard>
     );

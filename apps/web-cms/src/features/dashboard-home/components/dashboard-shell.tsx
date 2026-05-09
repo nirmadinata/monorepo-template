@@ -2,11 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { ChevronRightIcon, ChevronsLeftRightEllipsisIcon } from "lucide-react";
 
 import { ThemeToggle } from "#/components/theme-toggle";
-import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from "#/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "#/components/ui/collapsible";
 import {
     Sidebar,
     SidebarContent,
@@ -33,22 +29,13 @@ import {
     DASHBOARD_BRAND_TAGLINE,
     dashboardNavigationGroups,
 } from "../lib/navigation";
-import type {
-    DashboardNavigationGroup,
-    DashboardNavigationItem,
-} from "../lib/navigation";
+import type { DashboardNavigationGroup, DashboardNavigationItem } from "../lib/navigation";
 import type { DashboardSession } from "../server/get-dashboard-session";
 import { DashboardAccountMenu } from "./dashboard-account-menu";
 
-type DashboardNavigationLinkItem = Extract<
-    DashboardNavigationItem,
-    { kind: "link" }
->;
+type DashboardNavigationLinkItem = Extract<DashboardNavigationItem, { kind: "link" }>;
 
-type DashboardNavigationParentItem = Extract<
-    DashboardNavigationItem,
-    { kind: "parent" }
->;
+type DashboardNavigationParentItem = Extract<DashboardNavigationItem, { kind: "parent" }>;
 
 function DashboardSidebarBrand() {
     return (
@@ -76,18 +63,12 @@ function DashboardHeaderBrand() {
             <p className="truncate text-sm font-semibold tracking-tight text-foreground">
                 {DASHBOARD_BRAND_NAME}
             </p>
-            <p className="truncate text-xs text-muted-foreground">
-                {DASHBOARD_BRAND_TAGLINE}
-            </p>
+            <p className="truncate text-xs text-muted-foreground">{DASHBOARD_BRAND_TAGLINE}</p>
         </div>
     );
 }
 
-function DashboardLinkMenuItem({
-    item,
-}: {
-    item: DashboardNavigationLinkItem;
-}) {
+function DashboardLinkMenuItem({ item }: { item: DashboardNavigationLinkItem }) {
     const Icon = item.icon;
 
     return (
@@ -104,11 +85,7 @@ function DashboardLinkMenuItem({
     );
 }
 
-function DashboardParentMenuItem({
-    item,
-}: {
-    item: DashboardNavigationParentItem;
-}) {
+function DashboardParentMenuItem({ item }: { item: DashboardNavigationParentItem }) {
     const Icon = item.icon;
 
     return (
@@ -126,12 +103,7 @@ function DashboardParentMenuItem({
                             <SidebarMenuSubItem key={child.label}>
                                 <SidebarMenuSubButton
                                     isActive={child.isActive}
-                                    render={
-                                        <Link
-                                            className="no-underline"
-                                            to={child.to}
-                                        />
-                                    }
+                                    render={<Link className="no-underline" to={child.to} />}
                                 >
                                     <span>{child.label}</span>
                                 </SidebarMenuSubButton>
@@ -144,11 +116,7 @@ function DashboardParentMenuItem({
     );
 }
 
-function DashboardNavigationMenuItem({
-    item,
-}: {
-    item: DashboardNavigationItem;
-}) {
+function DashboardNavigationMenuItem({ item }: { item: DashboardNavigationItem }) {
     if (item.kind === "link") {
         return <DashboardLinkMenuItem item={item} />;
     }
@@ -156,21 +124,14 @@ function DashboardNavigationMenuItem({
     return <DashboardParentMenuItem item={item} />;
 }
 
-function DashboardSidebarNavigation({
-    groups,
-}: {
-    groups: readonly DashboardNavigationGroup[];
-}) {
+function DashboardSidebarNavigation({ groups }: { groups: readonly DashboardNavigationGroup[] }) {
     return groups.map((group) => (
         <SidebarGroup key={group.label}>
             <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
             <SidebarGroupContent>
                 <SidebarMenu>
                     {group.items.map((item) => (
-                        <DashboardNavigationMenuItem
-                            key={item.label}
-                            item={item}
-                        />
+                        <DashboardNavigationMenuItem key={item.label} item={item} />
                     ))}
                 </SidebarMenu>
             </SidebarGroupContent>
@@ -194,9 +155,7 @@ export function DashboardShell({ children, user }: DashboardShellProps) {
                 <SidebarSeparator />
 
                 <SidebarContent>
-                    <DashboardSidebarNavigation
-                        groups={dashboardNavigationGroups}
-                    />
+                    <DashboardSidebarNavigation groups={dashboardNavigationGroups} />
                 </SidebarContent>
 
                 <SidebarSeparator />

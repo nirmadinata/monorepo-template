@@ -1,12 +1,6 @@
 // @vitest-environment jsdom
 
-import {
-    cleanup,
-    fireEvent,
-    render,
-    screen,
-    waitFor,
-} from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { AppThemeProvider } from "#/components/theme-provider";
@@ -31,13 +25,8 @@ const dashboardUser: DashboardSession["user"] = {
 };
 
 interface MockMediaQueryList {
-    addEventListener: (
-        type: string,
-        listener: EventListenerOrEventListenerObject | null
-    ) => void;
-    addListener: (
-        listener: ((event: MediaQueryListEvent) => void) | null
-    ) => void;
+    addEventListener: (type: string, listener: EventListenerOrEventListenerObject | null) => void;
+    addListener: (listener: ((event: MediaQueryListEvent) => void) | null) => void;
     dispatchEvent: (event: Event) => boolean;
     matches: boolean;
     media: string;
@@ -46,9 +35,7 @@ interface MockMediaQueryList {
         type: string,
         listener: EventListenerOrEventListenerObject | null
     ) => void;
-    removeListener: (
-        listener: ((event: MediaQueryListEvent) => void) | null
-    ) => void;
+    removeListener: (listener: ((event: MediaQueryListEvent) => void) | null) => void;
 }
 
 const linkSpy = vi.fn<(to: unknown) => void>();
@@ -56,35 +43,15 @@ const linkSpy = vi.fn<(to: unknown) => void>();
 function createMockMediaQueryList(query: string): MockMediaQueryList {
     return {
         addEventListener:
-            vi.fn<
-                (
-                    type: string,
-                    listener: EventListenerOrEventListenerObject | null
-                ) => void
-            >(),
-        addListener:
-            vi.fn<
-                (
-                    listener: ((event: MediaQueryListEvent) => void) | null
-                ) => void
-            >(),
+            vi.fn<(type: string, listener: EventListenerOrEventListenerObject | null) => void>(),
+        addListener: vi.fn<(listener: ((event: MediaQueryListEvent) => void) | null) => void>(),
         dispatchEvent: vi.fn<(event: Event) => boolean>().mockReturnValue(true),
         matches: false,
         media: query,
         onchange: null,
         removeEventListener:
-            vi.fn<
-                (
-                    type: string,
-                    listener: EventListenerOrEventListenerObject | null
-                ) => void
-            >(),
-        removeListener:
-            vi.fn<
-                (
-                    listener: ((event: MediaQueryListEvent) => void) | null
-                ) => void
-            >(),
+            vi.fn<(type: string, listener: EventListenerOrEventListenerObject | null) => void>(),
+        removeListener: vi.fn<(listener: ((event: MediaQueryListEvent) => void) | null) => void>(),
     };
 }
 
@@ -93,9 +60,7 @@ function setupDesktopViewport() {
         configurable: true,
         value: vi
             .fn<(query: string) => MockMediaQueryList>()
-            .mockImplementation((query: string) =>
-                createMockMediaQueryList(query)
-            ),
+            .mockImplementation((query: string) => createMockMediaQueryList(query)),
     });
     window.innerWidth = 1280;
     window.dispatchEvent(new Event("resize"));
@@ -168,15 +133,9 @@ describe(DashboardShell, () => {
         ];
 
         expect(brandMatches.length).toBeGreaterThan(0);
-        expect(screen.getAllByText("Admin workspace").length).toBeGreaterThan(
-            0
-        );
-        expect(
-            screen.getByRole("button", { name: "Switch to dark theme" })
-        ).toBeTruthy();
-        expect(
-            navigationLabels.every((label) => screen.getByText(label))
-        ).toBeTruthy();
+        expect(screen.getAllByText("Admin workspace").length).toBeGreaterThan(0);
+        expect(screen.getByRole("button", { name: "Switch to dark theme" })).toBeTruthy();
+        expect(navigationLabels.every((label) => screen.getByText(label))).toBeTruthy();
     });
 
     it("renders the account trigger in the sidebar footer", async () => {
@@ -185,14 +144,10 @@ describe(DashboardShell, () => {
         const accountTrigger = screen.getByRole("button", {
             name: /alex editor account menu/i,
         });
-        const sidebarFooter = accountTrigger.closest(
-            '[data-slot="sidebar-footer"]'
-        );
+        const sidebarFooter = accountTrigger.closest('[data-slot="sidebar-footer"]');
 
         expect(sidebarFooter).toBeTruthy();
-        expect(accountTrigger.textContent).toMatch(
-            /Alex Editor.*alex\.editor@example\.com/u
-        );
+        expect(accountTrigger.textContent).toMatch(/Alex Editor.*alex\.editor@example\.com/u);
     });
 
     it("collapses the desktop sidebar and keeps the shell usable", async () => {
@@ -201,9 +156,7 @@ describe(DashboardShell, () => {
         const sidebar = await screen.findByText("Workspace");
         const sidebarRoot = sidebar.closest('[data-slot="sidebar"]');
 
-        const sidebarTrigger = container.querySelector(
-            '[data-slot="sidebar-trigger"]'
-        );
+        const sidebarTrigger = container.querySelector('[data-slot="sidebar-trigger"]');
 
         expect(sidebarTrigger).toBeTruthy();
 
@@ -240,17 +193,11 @@ describe(DashboardShell, () => {
     it("opens the footer account menu above the trigger with profile and sign out actions", async () => {
         renderDashboardShell();
 
-        fireEvent.click(
-            screen.getByRole("button", { name: /alex editor account menu/i })
-        );
+        fireEvent.click(screen.getByRole("button", { name: /alex editor account menu/i }));
 
         const menu = await screen.findByRole("menu");
-        const profileItem = screen
-            .getByText("Profile")
-            .closest('[role="menuitem"]');
-        const signOutItem = screen
-            .getByText("Sign out")
-            .closest('[role="menuitem"]');
+        const profileItem = screen.getByText("Profile").closest('[role="menuitem"]');
+        const signOutItem = screen.getByText("Sign out").closest('[role="menuitem"]');
         const menuContent = menu.closest('[data-slot="dropdown-menu-content"]');
 
         expect(profileItem instanceof HTMLElement).toBeTruthy();
@@ -275,8 +222,7 @@ describe(DashboardShell, () => {
         );
 
         expect(
-            screen.getByRole("button", { name: /alex editor account menu/i })
-                .textContent
+            screen.getByRole("button", { name: /alex editor account menu/i }).textContent
         ).toMatch(/Alex Editor.*alex\.editor@example\.com/u);
     });
 
@@ -285,9 +231,7 @@ describe(DashboardShell, () => {
 
         renderDashboardShell();
 
-        fireEvent.click(
-            screen.getByRole("button", { name: /alex editor account menu/i })
-        );
+        fireEvent.click(screen.getByRole("button", { name: /alex editor account menu/i }));
         fireEvent.click(await screen.findByText("Sign out"));
 
         expect(signOutSpy).toHaveBeenCalledOnce();

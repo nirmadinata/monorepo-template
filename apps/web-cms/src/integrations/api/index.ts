@@ -29,9 +29,7 @@ export const api = new OpenAPIHono<PublicApiEnv>({
     .doc("/openapi.json", (c) => ({
         openapi: "3.0.0",
         info: {
-            description:
-                appenv.PUBLIC_API_DESCRIPTION ??
-                "Public API foundation for the web CMS.",
+            description: appenv.PUBLIC_API_DESCRIPTION ?? "Public API foundation for the web CMS.",
             title: appenv.PUBLIC_API_TITLE ?? "Web CMS Public API",
             version: appenv.PUBLIC_API_VERSION ?? "0.1.0",
         },

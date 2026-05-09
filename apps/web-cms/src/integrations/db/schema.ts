@@ -1,11 +1,5 @@
 import { relations, sql } from "drizzle-orm";
-import {
-    index,
-    integer,
-    sqliteTable,
-    text,
-    uniqueIndex,
-} from "drizzle-orm/sqlite-core";
+import { index, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 import { COLUMN_ALIASES, TABLE_ALIASES } from "./constants";
 
@@ -76,23 +70,17 @@ export const accounts = sqliteTable(
     {
         ...BETTER_AUTH_COMMON_FIELDS,
         accessToken: text(COLUMN_ALIASES.ACCOUNTS.ACCESS_TOKEN),
-        accessTokenExpiresAt: integer(
-            COLUMN_ALIASES.ACCOUNTS.ACCESS_TOKEN_EXPIRES_AT,
-            {
-                mode: "timestamp_ms",
-            }
-        ),
+        accessTokenExpiresAt: integer(COLUMN_ALIASES.ACCOUNTS.ACCESS_TOKEN_EXPIRES_AT, {
+            mode: "timestamp_ms",
+        }),
         accountId: text(COLUMN_ALIASES.ACCOUNTS.ACCOUNT_ID).notNull(),
         idToken: text(COLUMN_ALIASES.ACCOUNTS.ID_TOKEN),
         password: text(COLUMN_ALIASES.ACCOUNTS.PASSWORD),
         providerId: text(COLUMN_ALIASES.ACCOUNTS.PROVIDER_ID).notNull(),
         refreshToken: text(COLUMN_ALIASES.ACCOUNTS.REFRESH_TOKEN),
-        refreshTokenExpiresAt: integer(
-            COLUMN_ALIASES.ACCOUNTS.REFRESH_TOKEN_EXPIRES_AT,
-            {
-                mode: "timestamp_ms",
-            }
-        ),
+        refreshTokenExpiresAt: integer(COLUMN_ALIASES.ACCOUNTS.REFRESH_TOKEN_EXPIRES_AT, {
+            mode: "timestamp_ms",
+        }),
         scope: text(COLUMN_ALIASES.ACCOUNTS.SCOPE),
         userId: text(COLUMN_ALIASES.ACCOUNTS.USER_ID)
             .notNull()
@@ -101,10 +89,7 @@ export const accounts = sqliteTable(
             }),
     },
     (table) => [
-        uniqueIndex("account_provider_account_unique").on(
-            table.providerId,
-            table.accountId
-        ),
+        uniqueIndex("account_provider_account_unique").on(table.providerId, table.accountId),
         index("account_user_id_idx").on(table.userId),
     ]
 );

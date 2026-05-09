@@ -24,9 +24,7 @@ export function useGoogleAuthAction(intent: DashboardAuthenticationIntent) {
                 toast.error(result.error.message || DEFAULT_ERROR_MESSAGE);
             }
         } catch (error) {
-            toast.error(
-                error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE
-            );
+            toast.error(error instanceof Error ? error.message : DEFAULT_ERROR_MESSAGE);
         } finally {
             setIsPending(false);
         }

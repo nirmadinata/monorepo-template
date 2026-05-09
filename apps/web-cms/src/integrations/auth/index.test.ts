@@ -13,9 +13,9 @@ const mocks = vi.hoisted(() => ({
             handler: ReturnType<typeof vi.fn<() => unknown>>;
         }
     >(() => ({ handler: vi.fn<() => unknown>() })),
-    drizzleAdapterSpy: vi.fn<
-        (db: unknown, config: unknown) => { adapter: true }
-    >(() => ({ adapter: true })),
+    drizzleAdapterSpy: vi.fn<(db: unknown, config: unknown) => { adapter: true }>(() => ({
+        adapter: true,
+    })),
     getAppDBSpy: vi.fn<(dbBinding?: D1Database) => MockAppDB>(() => ({
         select: vi.fn<() => unknown>(),
     })),

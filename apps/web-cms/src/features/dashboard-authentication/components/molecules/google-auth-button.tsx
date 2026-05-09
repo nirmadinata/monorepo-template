@@ -15,12 +15,7 @@ export function GoogleAuthButton({ children, intent }: GoogleAuthButtonProps) {
 
     return (
         <div className="flex flex-col gap-3">
-            <Button
-                disabled={isPending}
-                onClick={() => void run()}
-                size="lg"
-                type="button"
-            >
+            <Button disabled={isPending} onClick={() => void run()} size="lg" type="button">
                 {isPending ? (
                     <Spinner data-icon="inline-start" />
                 ) : (

@@ -37,10 +37,7 @@ export function AuthFormCard({
                 <CardFooter className="justify-center border-t border-border/70 bg-muted/30 text-center text-xs text-muted-foreground">
                     <p>
                         {footerPrompt}{" "}
-                        <Link
-                            className="font-semibold text-foreground"
-                            to={footerHref}
-                        >
+                        <Link className="font-semibold text-foreground" to={footerHref}>
                             {footerLabel}
                         </Link>
                     </p>

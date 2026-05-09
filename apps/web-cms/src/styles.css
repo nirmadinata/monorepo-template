@@ -186,12 +186,7 @@ body {
             color-mix(in oklab, var(--surface) 64%, transparent),
             transparent 58%
         ),
-        linear-gradient(
-            180deg,
-            var(--page-2) 0%,
-            var(--page-1) 48%,
-            var(--page-0) 100%
-        );
+        linear-gradient(180deg, var(--page-2) 0%, var(--page-1) 48%, var(--page-0) 100%);
     overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

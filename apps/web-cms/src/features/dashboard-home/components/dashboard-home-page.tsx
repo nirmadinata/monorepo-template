@@ -1,11 +1,5 @@
 import { Button } from "#/components/ui/button";
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from "#/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#/components/ui/card";
 
 import type { DashboardSession } from "../server/get-dashboard-session";
 
@@ -33,20 +27,14 @@ interface DashboardSummaryCardProps {
     title: string;
 }
 
-function DashboardSummaryCard({
-    description,
-    detail,
-    title,
-}: DashboardSummaryCardProps) {
+function DashboardSummaryCard({ description, detail, title }: DashboardSummaryCardProps) {
     return (
         <Card className="border-border/75 bg-card/80 shadow-none">
             <CardHeader className="pb-3">
                 <CardTitle className="text-base">{title}</CardTitle>
                 <CardDescription>{description}</CardDescription>
             </CardHeader>
-            <CardContent className="text-sm text-muted-foreground">
-                {detail}
-            </CardContent>
+            <CardContent className="text-sm text-muted-foreground">{detail}</CardContent>
         </Card>
     );
 }
@@ -65,9 +53,9 @@ export function DashboardHomePage({ user }: DashboardHomePageProps) {
                         A professional workspace, ready for content.
                     </h1>
                     <p className="max-w-xl text-sm leading-7 text-muted-foreground sm:text-[0.95rem]">
-                        You are signed in as {user.email}. This landing view is
-                        intentionally restrained so the product feels clear,
-                        professional, and focused from the first screen.
+                        You are signed in as {user.email}. This landing view is intentionally
+                        restrained so the product feels clear, professional, and focused from the
+                        first screen.
                     </p>
                 </div>
 
@@ -76,16 +64,13 @@ export function DashboardHomePage({ user }: DashboardHomePageProps) {
                         <CardTitle className="text-lg font-semibold tracking-tight">
                             Dashboard
                         </CardTitle>
-                        <CardDescription>
-                            Signed in and ready to continue.
-                        </CardDescription>
+                        <CardDescription>Signed in and ready to continue.</CardDescription>
                     </CardHeader>
                     <CardContent className="flex flex-col gap-5 py-6 text-sm text-muted-foreground">
                         <div className="rounded-2xl border border-border/70 bg-muted/35 px-4 py-3">
                             <p className="leading-6">
-                                The authentication flow is complete and the new
-                                monochrome SaaS shell is active across public
-                                and authenticated routes.
+                                The authentication flow is complete and the new monochrome SaaS
+                                shell is active across public and authenticated routes.
                             </p>
                         </div>
                         <Button className="w-fit px-5" type="button">

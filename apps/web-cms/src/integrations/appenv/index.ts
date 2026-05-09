@@ -18,10 +18,7 @@ export const appenv = createEnv({
         BETTER_AUTH_URL: z.url(),
         GOOGLE_CLIENT_ID: z.string().min(1),
         GOOGLE_CLIENT_SECRET: z.string().min(1),
-        PUBLIC_API_DESCRIPTION: z
-            .string()
-            .min(1)
-            .default("Public API foundation for the web CMS."),
+        PUBLIC_API_DESCRIPTION: z.string().min(1).default("Public API foundation for the web CMS."),
         PUBLIC_API_TITLE: z.string().min(1).default("Web CMS Public API"),
         PUBLIC_API_VERSION: z.string().min(1).default("0.1.0"),
     },

@@ -15,9 +15,7 @@ export const authSchema = {
     verification: dbSchema.verification,
 };
 
-export async function assertFirstUserSignupAllowed(
-    checkForExistingUsers: () => Promise<boolean>
-) {
+export async function assertFirstUserSignupAllowed(checkForExistingUsers: () => Promise<boolean>) {
     if (await checkForExistingUsers()) {
         throw new APIError("FORBIDDEN", {
             message: "Sign up is closed after the first user.",
@@ -56,24 +54,16 @@ export const createAuthSecondaryStorage = createServerOnlyFn(
             delete: (key: string) => storage.delete(key),
             get: (key: string) => storage.get(key),
             set: (key: string, value: string, ttl?: number) =>
-                storage.put(
-                    key,
-                    value,
-                    ttl ? { expirationTtl: ttl } : undefined
-                ),
+                storage.put(key, value, ttl ? { expirationTtl: ttl } : undefined),
         }) as SecondaryStorage
 );
 
-let authSecondaryStorageSingleton: ReturnType<
-    typeof createAuthSecondaryStorage
-> | null = null;
+let authSecondaryStorageSingleton: ReturnType<typeof createAuthSecondaryStorage> | null = null;
 
-export const getAuthSecondaryStorage = createServerOnlyFn(
-    (storage: KVNamespace) => {
-        authSecondaryStorageSingleton ??= createAuthSecondaryStorage(storage);
-        return authSecondaryStorageSingleton;
-    }
-);
+export const getAuthSecondaryStorage = createServerOnlyFn((storage: KVNamespace) => {
+    authSecondaryStorageSingleton ??= createAuthSecondaryStorage(storage);
+    return authSecondaryStorageSingleton;
+});
 
 const createAuthAdapter = createServerOnlyFn((db: D1Database) =>
     drizzleAdapter(getAppDB(db), {
