@@ -5,8 +5,6 @@ export { schema as dbSchema };
 export * from "./constants";
 export * from "./utils";
 
-export function getAppDB(dbBinding: D1Database) {
-    return getDB(dbBinding);
-}
+export const getAppDB = getDB;
 
 export type AppDB = ReturnType<typeof getAppDB>;

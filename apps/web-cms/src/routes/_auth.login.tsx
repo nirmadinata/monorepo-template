@@ -1,19 +1,25 @@
-import { Navigate, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { LoginPage } from "#/features/dashboard-authentication/components/login-page";
-import { getBootstrapState } from "#/integrations/auth";
+import { getBootstrapState, getCurrentSession } from "#/integrations/auth";
 
 export const Route = createFileRoute("/_auth/login")({
-    loader: async () => getBootstrapState(),
+    loader: async () => {
+        const session = await getCurrentSession();
+
+        if (session?.session) {
+            throw redirect({ to: "/dashboard" });
+        }
+
+        const state = await getBootstrapState();
+
+        if (state.isBootstrapOpen) {
+            throw redirect({ to: "/" });
+        }
+    },
     component: LoginRoute,
 });
 
 function LoginRoute() {
-    const bootstrapState = Route.useLoaderData();
-
-    if (bootstrapState.isBootstrapOpen) {
-        return <Navigate replace to="/" />;
-    }
-
     return <LoginPage />;
 }

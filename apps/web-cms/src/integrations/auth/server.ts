@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getRequestHeaders } from "@tanstack/react-start/server";
 
-import { getMainDBBinding, getWorkerEnv } from "#/integrations/appenv/worker";
+import { getWorkerEnv } from "#/integrations/appenv/worker";
 import { getAuth } from "#/integrations/auth/auth";
 import {
     hasExistingUsers,
@@ -10,7 +10,8 @@ import {
 
 export const getBootstrapState = createServerFn({ method: "GET" }).handler(
     async () => {
-        const hasUsers = await hasExistingUsers(await getMainDBBinding());
+        const env = await getWorkerEnv();
+        const hasUsers = await hasExistingUsers(env.MAIN_DB);
 
         return {
             hasUsers,
