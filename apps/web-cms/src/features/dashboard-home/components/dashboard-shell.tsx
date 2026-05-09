@@ -10,6 +10,7 @@ import {
 import {
     Sidebar,
     SidebarContent,
+    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -36,6 +37,8 @@ import type {
     DashboardNavigationGroup,
     DashboardNavigationItem,
 } from "../lib/navigation";
+import type { DashboardSession } from "../server/get-dashboard-session";
+import { DashboardAccountMenu } from "./dashboard-account-menu";
 
 type DashboardNavigationLinkItem = Extract<
     DashboardNavigationItem,
@@ -177,9 +180,10 @@ function DashboardSidebarNavigation({
 
 interface DashboardShellProps {
     children: React.ReactNode;
+    user: DashboardSession["user"];
 }
 
-export function DashboardShell({ children }: DashboardShellProps) {
+export function DashboardShell({ children, user }: DashboardShellProps) {
     return (
         <SidebarProvider>
             <Sidebar collapsible="icon" variant="inset">
@@ -194,6 +198,12 @@ export function DashboardShell({ children }: DashboardShellProps) {
                         groups={dashboardNavigationGroups}
                     />
                 </SidebarContent>
+
+                <SidebarSeparator />
+
+                <SidebarFooter className="p-3 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:p-2">
+                    <DashboardAccountMenu user={user} />
+                </SidebarFooter>
 
                 <SidebarRail />
             </Sidebar>

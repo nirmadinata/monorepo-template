@@ -41,6 +41,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 ## Implementation Notes
 
 - The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard-home/server/get-dashboard-session.ts`.
+- The authenticated dashboard shell now renders the theme toggle in the header and a user account dropdown in the sidebar footer, with current-user data threaded from the `/dashboard` route loader into the shell.
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.

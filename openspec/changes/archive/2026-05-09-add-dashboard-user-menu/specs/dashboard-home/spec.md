@@ -1,4 +1,4 @@
-## ADDED Requirements
+## MODIFIED Requirements
 
 ### Requirement: Authenticated users have a dashboard landing page
 
@@ -29,19 +29,21 @@ The `web-cms` application SHALL expose a dashboard home route that serves as the
 - **WHEN** a signed-in user collapses the dashboard sidebar
 - **THEN** the application keeps the dashboard shell usable while reducing the sidebar to its collapsed presentation
 
-### Requirement: Dashboard sidebar footer exposes an account menu for the current user
+## ADDED Requirements
 
-The `web-cms` authenticated dashboard shell SHALL show the current user's identity in the sidebar footer and provide a footer account menu for session actions.
+### Requirement: Dashboard sidebar exposes an account menu for the current user
+
+The `web-cms` authenticated dashboard shell SHALL show the current user's identity in the sidebar footer and provide a top-aligned account dropdown for session actions.
 
 #### Scenario: Sidebar footer shows current user identity
 
 - **WHEN** a signed-in user views the dashboard shell
 - **THEN** the sidebar footer shows the current user's display name and email in the account trigger
 
-#### Scenario: Account menu opens above the sidebar footer trigger
+#### Scenario: Account menu opens above the trigger
 
 - **WHEN** a signed-in user activates the account trigger in the dashboard sidebar footer
-- **THEN** the application opens an account menu positioned above the trigger
+- **THEN** the application opens a dropdown menu positioned above the trigger
 - **AND** the menu includes `Profile` and `Sign out` actions
 
 #### Scenario: Collapsed sidebar keeps only the avatar visible
@@ -57,5 +59,5 @@ The `web-cms` authenticated dashboard shell SHALL show the current user's identi
 
 #### Scenario: User signs out from the dashboard sidebar
 
-- **WHEN** a signed-in user chooses `Sign out` from the sidebar account menu
+- **WHEN** a signed-in user chooses `Sign out` from the account menu
 - **THEN** the application starts the sign-out flow for the current session

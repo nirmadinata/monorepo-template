@@ -9,8 +9,10 @@ export const Route = createFileRoute("/dashboard")({
 });
 
 function RouteComponent() {
+    const session = Route.useLoaderData();
+
     return (
-        <DashboardShell>
+        <DashboardShell user={session.user}>
             <Outlet />
         </DashboardShell>
     );
