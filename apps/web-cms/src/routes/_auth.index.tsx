@@ -3,7 +3,7 @@ import { Navigate, createFileRoute } from "@tanstack/react-router";
 import { WelcomePage } from "#/features/dashboard-authentication/components/welcome-page";
 import { getBootstrapState } from "#/integrations/auth";
 
-export const Route = createFileRoute("/_public-auth/")({
+export const Route = createFileRoute("/_auth/")({
     loader: async () => getBootstrapState(),
     component: WelcomeRoute,
 });
