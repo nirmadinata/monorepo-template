@@ -1,0 +1,97 @@
+import { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import type { S3Client } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner/dist-types/getSignedUrl";
+import { createServerOnlyFn } from "@tanstack/react-start";
+
+import { DEFAULT_BUCKET_NAME, PRESIGNED_URL_EXPIRATION } from "#/integrations/r2/constants";
+import type {
+    GeneratePresignedDownloadUrlOptions,
+    GeneratePresignedUploadUrlOptions,
+    UploadTextContentOptions,
+    IStorageRepository,
+} from "#/integrations/r2/types";
+
+export const storageRepository = {
+    /**
+     * Generate a presigned URL for uploading a file to R2
+     */
+    generatePresignedUploadUrl: createServerOnlyFn(
+        async (client: S3Client, payload: GeneratePresignedUploadUrlOptions) => {
+            const command = new PutObjectCommand({
+                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Key: payload.key,
+                ContentType: payload.contentType,
+            });
+
+            return await getSignedUrl(client, command, {
+                expiresIn: payload.expiresIn || PRESIGNED_URL_EXPIRATION,
+            });
+        }
+    ),
+
+    /**
+     * Generate a presigned URL for downloading a file from R2
+     */
+    generatePresignedDownloadUrl: createServerOnlyFn(
+        async (client: S3Client, payload: GeneratePresignedDownloadUrlOptions) => {
+            const command = new GetObjectCommand({
+                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Key: payload.key,
+            });
+
+            return await getSignedUrl(client, command, {
+                expiresIn: payload.expiresIn || PRESIGNED_URL_EXPIRATION,
+            });
+        }
+    ),
+
+    /**
+     * Upload text content to R2
+     */
+    uploadTextContent: createServerOnlyFn(
+        async (client: S3Client, payload: UploadTextContentOptions) => {
+            const command = new PutObjectCommand({
+                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Key: payload.key,
+                Body: payload.content,
+                ContentType: "text/html; charset=utf-8",
+            });
+
+            await client.send(command);
+        }
+    ),
+
+    /**
+     * Get text content from R2
+     */
+    getTextContent: createServerOnlyFn(
+        async (client: S3Client, key: string, bucketName: string = DEFAULT_BUCKET_NAME) => {
+            const command = new GetObjectCommand({
+                Bucket: bucketName,
+                Key: key,
+            });
+
+            const response = await client.send(command);
+            if (!response.Body) {
+                return "";
+            }
+
+            const bytes = await response.Body.transformToByteArray();
+            return new TextDecoder("utf-8").decode(bytes);
+        }
+    ),
+
+    /**
+     * Delete an object from R2
+     */
+    deleteObject: createServerOnlyFn(
+        async (client: S3Client, key: string, bucketName: string = DEFAULT_BUCKET_NAME) => {
+            const command = new DeleteObjectCommand({
+                Bucket: bucketName,
+                Key: key,
+            });
+
+            await client.send(command);
+        }
+    ),
+} satisfies IStorageRepository;
