@@ -7,8 +7,8 @@ export function LoginPage() {
             actionLabel="Sign in with Google"
             description="Return with the Google account already linked to this workspace."
             footerHref={dashboardAuthenticationPaths.welcome}
-            footerLabel="Return to welcome"
-            footerPrompt="Need to bootstrap this instance first?"
+            footerLabel=""
+            footerPrompt="Login to get into dashboard"
             intent="sign-in"
             title="Welcome back"
         />
