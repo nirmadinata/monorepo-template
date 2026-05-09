@@ -14,13 +14,13 @@ This repository is a Bun-based template monorepo for future projects. Document w
 ## Repository Snapshot
 
 - Package manager: Bun (`1.3.13` via `packageManager`)
-- Workspace globs: `packages/*` and `apps/*`
+- Workspace globs: `packages/*` and `apps/*` (the `packages/` directory is currently empty)
 - Task runner: Turbo (`turbo.json`)
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Change workflow: OpenSpec under `openspec/`
 - Current maintained runtime surface: `apps/web-cms`
-- `packages/db/` still exists on disk, but it does not currently contain a package manifest or maintained source exports
+- There are currently no maintained workspace packages under `packages/`
 
 ## Commands
 
@@ -39,15 +39,18 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - `turbo.json`: shared task graph for `dev`, `build`, and `test`
 - `openspec/`: change proposals, designs, specs, and task plans
 - `.agents/skills/`: repository-local installed skills maintained alongside the workspace
+- `.claude/skills/` and `.claude/commands/`: repository-local Claude skill and command assets
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
-- `.opencode/`: repository-local Opencode commands and experimental workflow skills
+- `.github/prompts/` and `.github/hooks/`: repository-local GitHub Copilot prompt and hook configuration
+- `.opencode/`: repository-local Opencode commands, prompts, and experimental workflow skills
 - `graphify-out/`: checked-in graphify knowledge-graph outputs for repository exploration workflows
-- `packages/db/`: retired leftover directory from the former shared DB package; do not treat it as a maintained workspace package today
+- `.codex/skills/`: repository-local Codex skill assets
+- `packages/`: workspace package root, currently empty
 
 ### apps/web-cms
 
 - TanStack Start app targeting Cloudflare Workers via `@cloudflare/vite-plugin`
-- Dashboard authentication feature code lives under `src/features/dashboard-authentication/`
+- Dashboard authentication UI code lives under `src/features/dashboard-authentication/`
 - Authenticated dashboard shell code lives under `src/features/dashboard-home/`
 - Current server integrations live under `src/integrations/`
 - Auth is backed by Better Auth plus the app-local D1/Drizzle integration under `src/integrations/db`
@@ -77,6 +80,6 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 - The repository currently has one maintained app implementation (`apps/web-cms`)
 - The D1 schema, Drizzle client helper, and checked-in migrations are owned directly by `apps/web-cms`
-- `packages/db/` is not a current source of truth for runtime code, exports, or workspace scripts
+- `packages/` is currently empty and not a source of maintained runtime code, exports, or workspace scripts
 - The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed

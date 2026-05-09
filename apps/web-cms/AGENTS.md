@@ -13,6 +13,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Build and local scripts: `dev`, `build`, `preview`, `test`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
+- App theming is handled through `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`
 - App-owned database integration: `src/integrations/db`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
 - Required server env keys are documented in `.env.example`
@@ -20,9 +21,9 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 ## Source Map
 
 - `src/routes/`: file-based TanStack Router routes, including `/`, `/login`, `/dashboard`, `/api/auth/$`, and `/api/public/$`
-- `src/features/dashboard-authentication/`: public auth pages, bootstrap-state logic, Google sign-in UI, and current-session helpers
+- `src/features/dashboard-authentication/`: public auth pages, auth UI building blocks, and Google sign-in client actions
 - `src/features/dashboard-home/`: authenticated dashboard shell, route content, and dashboard session loader
-- `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-user preparation, and auth tests
+- `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, bootstrap-user preparation, and auth tests
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations, and app-facing `getAppDB()` exports
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
@@ -42,6 +43,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard-home/server/get-dashboard-session.ts`.
 - The authenticated dashboard shell now renders the theme toggle in the header and a user account dropdown in the sidebar footer, with current-user data threaded from the `/dashboard` route loader into the shell.
+- Dashboard navigation is currently static mock CMS navigation defined in `src/features/dashboard-home/lib/navigation.ts` and routes all items back to `/dashboard`.
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
