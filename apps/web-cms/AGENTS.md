@@ -17,6 +17,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - App-owned database integration: `src/integrations/db`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
 - Required server env keys are documented in `.env.example`
+- Human-readable app guide: `README.md`
 
 ## Source Map
 
@@ -31,6 +32,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/components/`: shared app components such as theming and reusable UI primitives
 - `vite.config.ts`: TanStack Start, Cloudflare, Tailwind, devtools, and React Compiler plugin setup
 - `wrangler.jsonc`: Worker entrypoint plus `MAIN_DB`, `MAIN_KV`, and `MAIN_R2` bindings
+- `README.md`: human-readable app overview, local setup, and deployment notes
 
 ## Editing Rules
 

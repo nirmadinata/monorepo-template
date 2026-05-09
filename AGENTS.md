@@ -42,8 +42,9 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - `.claude/skills/` and `.claude/commands/`: repository-local Claude skill and command assets
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.github/prompts/` and `.github/hooks/`: repository-local GitHub Copilot prompt and hook configuration
-- `.opencode/`: repository-local Opencode commands, prompts, and experimental workflow skills
+- `.opencode/`: repository-local Opencode commands, including `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, plus experimental workflow skills
 - `graphify-out/`: checked-in graphify knowledge-graph outputs for repository exploration workflows
+- `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance
 - `.codex/skills/`: repository-local Codex skill assets
 - `packages/`: workspace package root, currently empty
 

@@ -4,7 +4,9 @@ description: Synchronize the project current state with all necessary AGENTS.md 
 
 Synchronize the project current state with all necessary `AGENTS.md` files.
 
-**Input**: Optionally specify a scope after `/sync-agents` (for example `/sync-agents apps/web-cms` or `/sync-agents packages/db`). If omitted, audit the whole repository.
+Use `/sync-docs` when human-readable docs such as `docs/*.md` or maintained README files should be updated alongside `AGENTS.md` files.
+
+**Input**: Optionally specify a scope after `/sync-agents` (for example `/sync-agents apps/web-cms` or `/sync-agents openspec`). If omitted, audit the whole repository.
 
 **Steps**
 
