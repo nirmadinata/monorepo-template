@@ -10,14 +10,16 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - Package name: `web-cms`
 - Runtime: TanStack Start on Vite with `@cloudflare/vite-plugin`
-- Build and local scripts: `dev`, `build`, `preview`, `test`, `cf-typegen`, `deploy`
+- Build and local scripts: `dev`, `build`, `preview`, `test`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
 - App-owned database integration: `src/integrations/db`
+- Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
+- Required server env keys are documented in `.env.example`
 
 ## Source Map
 
-- `src/routes/`: file-based TanStack Router routes, including `/dashboard`, `/_public-auth/*`, `/api/auth/$`, and `/api/public/$`
+- `src/routes/`: file-based TanStack Router routes, including `/`, `/login`, `/dashboard`, `/api/auth/$`, and `/api/public/$`
 - `src/features/dashboard-authentication/`: public auth pages, bootstrap-state logic, Google sign-in UI, and current-session helpers
 - `src/features/dashboard-home/`: authenticated dashboard shell, route content, and dashboard session loader
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-user preparation, and auth tests
@@ -39,6 +41,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 ## Implementation Notes
 
 - The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard-home/server/get-dashboard-session.ts`.
-- Public auth route behavior depends on whether the database already has users; bootstrap-state logic lives under `src/features/dashboard-authentication/`.
+- Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
+- `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
-- The public API docs are served from `/api/public/docs`, with OpenAPI JSON at `/api/public/openapi.json`.
+- The public API docs are served from `/api/public/`, with OpenAPI JSON at `/api/public/openapi.json`.

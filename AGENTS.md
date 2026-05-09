@@ -14,12 +14,13 @@ This repository is a Bun-based template monorepo for future projects. Document w
 ## Repository Snapshot
 
 - Package manager: Bun (`1.3.13` via `packageManager`)
-- Workspace layout: `packages/*` and `apps/*`
+- Workspace globs: `packages/*` and `apps/*`
 - Task runner: Turbo (`turbo.json`)
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Change workflow: OpenSpec under `openspec/`
-- Current maintained app surface: `apps/web-cms`
+- Current maintained runtime surface: `apps/web-cms`
+- `packages/db/` still exists on disk, but it does not currently contain a package manifest or maintained source exports
 
 ## Commands
 
@@ -40,6 +41,8 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - `.agents/skills/`: repository-local installed skills maintained alongside the workspace
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.opencode/`: repository-local Opencode commands and experimental workflow skills
+- `graphify-out/`: checked-in graphify knowledge-graph outputs for repository exploration workflows
+- `packages/db/`: retired leftover directory from the former shared DB package; do not treat it as a maintained workspace package today
 
 ### apps/web-cms
 
@@ -49,6 +52,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - Current server integrations live under `src/integrations/`
 - Auth is backed by Better Auth plus the app-local D1/Drizzle integration under `src/integrations/db`
 - The app-owned D1 schema, Drizzle client helper, Drizzle config, and checked-in migrations live under `src/integrations/db/`
+- Current public auth UI routes are `/` and `/login` via `src/routes/_auth*`
 - Public API foundation is mounted under `/api/public/*` using Hono, `@hono/zod-openapi`, and Scalar
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
 - See `apps/web-cms/AGENTS.md` before editing app-specific code
@@ -73,5 +77,6 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 - The repository currently has one maintained app implementation (`apps/web-cms`)
 - The D1 schema, Drizzle client helper, and checked-in migrations are owned directly by `apps/web-cms`
+- `packages/db/` is not a current source of truth for runtime code, exports, or workspace scripts
 - The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
