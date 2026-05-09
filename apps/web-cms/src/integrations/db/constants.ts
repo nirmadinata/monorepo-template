@@ -6,9 +6,6 @@ export const TABLE_ALIASES = {
 } as const;
 
 export const COLUMN_ALIASES = {
-    /**
-     * common columns
-     */
     ACCOUNTS: {
         ACCESS_TOKEN: "access_token",
         ACCESS_TOKEN_EXPIRES_AT: "access_token_expires_at",
@@ -21,7 +18,6 @@ export const COLUMN_ALIASES = {
         SCOPE: "scope",
         USER_ID: "user_id",
     },
-
     COMMON_COLUMNS: {
         CREATED_AT: "created_at",
         ID: "id",

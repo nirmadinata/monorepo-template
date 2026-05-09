@@ -28,7 +28,6 @@ export const users = sqliteTable(
     TABLE_ALIASES.USERS,
     {
         ...BETTER_AUTH_COMMON_FIELDS,
-
         name: text(COLUMN_ALIASES.USERS.NAME).notNull(),
         email: text(COLUMN_ALIASES.USERS.EMAIL).notNull(),
         emailVerified: integer(COLUMN_ALIASES.USERS.EMAIL_VERIFIED, {
@@ -37,7 +36,6 @@ export const users = sqliteTable(
             .default(false)
             .notNull(),
         image: text(COLUMN_ALIASES.USERS.IMAGE),
-        // Better Auth Admin plugin (required fields): https://www.better-auth.com/docs/plugins/admin#schema
         role: text(COLUMN_ALIASES.USERS.ROLE),
         banned: integer(COLUMN_ALIASES.USERS.BANNED, {
             mode: "boolean",
@@ -47,19 +45,13 @@ export const users = sqliteTable(
             mode: "timestamp_ms",
         }),
     },
-    (table) => [
-        /**
-         * indexes
-         */
-        uniqueIndex("user_email_unique").on(table.email),
-    ]
+    (table) => [uniqueIndex("user_email_unique").on(table.email)]
 );
 
 export const sessions = sqliteTable(
     TABLE_ALIASES.SESSIONS,
     {
         ...BETTER_AUTH_COMMON_FIELDS,
-
         userId: text(COLUMN_ALIASES.SESSIONS.USER_ID)
             .notNull()
             .references(() => users.id, {
@@ -71,13 +63,9 @@ export const sessions = sqliteTable(
         }).notNull(),
         ipAddress: text(COLUMN_ALIASES.SESSIONS.IP_ADDRESS),
         userAgent: text(COLUMN_ALIASES.SESSIONS.USER_AGENT),
-        // Better Auth Admin plugin (optional): admin user id impersonating this session.
         impersonatedBy: text(COLUMN_ALIASES.SESSIONS.IMPERSONATED_BY),
     },
     (table) => [
-        /**
-         * indexes
-         */
         uniqueIndex("session_token_unique").on(table.token),
         index("session_user_id_idx").on(table.userId),
     ]
@@ -87,7 +75,6 @@ export const accounts = sqliteTable(
     TABLE_ALIASES.ACCOUNTS,
     {
         ...BETTER_AUTH_COMMON_FIELDS,
-
         accessToken: text(COLUMN_ALIASES.ACCOUNTS.ACCESS_TOKEN),
         accessTokenExpiresAt: integer(
             COLUMN_ALIASES.ACCOUNTS.ACCESS_TOKEN_EXPIRES_AT,
@@ -114,14 +101,10 @@ export const accounts = sqliteTable(
             }),
     },
     (table) => [
-        /**
-         * indexes
-         */
         uniqueIndex("account_provider_account_unique").on(
             table.providerId,
             table.accountId
         ),
-
         index("account_user_id_idx").on(table.userId),
     ]
 );
@@ -130,25 +113,14 @@ export const verification = sqliteTable(
     TABLE_ALIASES.VERIFICATIONS,
     {
         ...BETTER_AUTH_COMMON_FIELDS,
-
         expiresAt: integer(COLUMN_ALIASES.VERIFICATIONS.EXPIRES_AT, {
             mode: "timestamp_ms",
         }).notNull(),
         identifier: text(COLUMN_ALIASES.VERIFICATIONS.IDENTIFIER).notNull(),
         value: text(COLUMN_ALIASES.VERIFICATIONS.VALUE).notNull(),
     },
-    (table) => [
-        /**
-         * indexes
-         */
-
-        index("verification_identifier_idx").on(table.identifier),
-    ]
+    (table) => [index("verification_identifier_idx").on(table.identifier)]
 );
-
-/**
- * Relations
- */
 
 export const userRelations = relations(users, ({ many }) => ({
     accounts: many(accounts),

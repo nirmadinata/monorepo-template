@@ -12,6 +12,7 @@
             "binding": "MAIN_DB",
             // change this to your database name, which you can find in the dashboard under "D1 Databases"
             "database_name": "cms-db",
+            "migrations_dir": "./src/integrations/db/migrations/d1",
         },
     ],
     "kv_namespaces": [
@@ -33,6 +34,7 @@
                     "binding": "MAIN_DB",
                     // change this to your database name, which you can find in the dashboard under "D1 Databases"
                     "database_name": "cms-db",
+                    "migrations_dir": "./src/integrations/db/migrations/d1",
                 },
             ],
             "kv_namespaces": [

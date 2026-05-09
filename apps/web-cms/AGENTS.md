@@ -13,7 +13,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Build and local scripts: `dev`, `build`, `preview`, `test`, `cf-typegen`, `deploy`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
-- Shared database dependency: `@repo/db/d1`
+- App-owned database integration: `src/integrations/db`
 
 ## Source Map
 
@@ -22,7 +22,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard-home/`: authenticated dashboard shell, route content, and dashboard session loader
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-user preparation, and auth tests
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
-- `src/integrations/db/`: app-level wrapper around `@repo/db/d1`
+- `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations, and app-facing `getAppDB()` exports
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
 - `src/components/`: shared app components such as theming and reusable UI primitives
@@ -34,11 +34,11 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 1. Keep this file focused on the app as it exists today; do not describe future CMS features that have not landed.
 2. If you move feature directories, change route responsibilities, add or remove Worker bindings, or change app scripts, update this file in the same change.
 3. Treat `src/routeTree.gen.ts` as generated output from the TanStack Router route tree.
-4. Keep app-specific details here and leave cross-workspace database guidance in `packages/db/AGENTS.md`.
+4. Keep app-specific details here and leave cross-workspace guidance in the root `AGENTS.md`.
 
 ## Implementation Notes
 
 - The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard-home/server/get-dashboard-session.ts`.
 - Public auth route behavior depends on whether the database already has users; bootstrap-state logic lives under `src/features/dashboard-authentication/`.
-- Better Auth uses the shared D1 schema, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
+- Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
 - The public API docs are served from `/api/public/docs`, with OpenAPI JSON at `/api/public/openapi.json`.

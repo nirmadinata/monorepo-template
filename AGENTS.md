@@ -19,7 +19,6 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Change workflow: OpenSpec under `openspec/`
-- Current maintained package surface: `packages/db`
 - Current maintained app surface: `apps/web-cms`
 
 ## Commands
@@ -42,22 +41,14 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.opencode/`: repository-local Opencode commands and experimental workflow skills
 
-### packages/db
-
-- Package name: `@repo/db`
-- Current public export: `@repo/db/d1`
-- Purpose today: shared Cloudflare D1 Drizzle schema, utilities, and migration config for auth-backed apps
-- See `packages/db/AGENTS.md` before editing anything in this package
-
-### apps
-
 ### apps/web-cms
 
 - TanStack Start app targeting Cloudflare Workers via `@cloudflare/vite-plugin`
 - Dashboard authentication feature code lives under `src/features/dashboard-authentication/`
 - Authenticated dashboard shell code lives under `src/features/dashboard-home/`
 - Current server integrations live under `src/integrations/`
-- Auth is backed by Better Auth plus D1/Drizzle using the shared `@repo/db/d1` package exports
+- Auth is backed by Better Auth plus the app-local D1/Drizzle integration under `src/integrations/db`
+- The app-owned D1 schema, Drizzle client helper, Drizzle config, and checked-in migrations live under `src/integrations/db/`
 - Public API foundation is mounted under `/api/public/*` using Hono, `@hono/zod-openapi`, and Scalar
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
 - See `apps/web-cms/AGENTS.md` before editing app-specific code
@@ -80,7 +71,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 ## Current Constraints To Remember
 
-- The repository currently has one maintained package and one maintained app implementation (`apps/web-cms`)
-- The database package is still narrow in scope; only the D1 entrypoint is exported today
+- The repository currently has one maintained app implementation (`apps/web-cms`)
+- The D1 schema, Drizzle client helper, and checked-in migrations are owned directly by `apps/web-cms`
 - The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
