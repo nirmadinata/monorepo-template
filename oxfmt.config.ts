@@ -8,4 +8,5 @@ export default defineConfig({
     ...ultracite,
     ignorePatterns: Array.from(oxignore),
     tabWidth: 4,
+    printWidth: 100,
 });
