@@ -169,7 +169,7 @@ describe(DashboardShell, () => {
         expect(sidebarRoot.dataset.state).toBe("collapsed");
         expect(accountTrigger.textContent).toBe("AE");
         expect(screen.queryByText("alex.editor@example.com")).toBeNull();
-        expect(container).toHaveTextContent("Dashboard content");
+        expect(container.textContent).toContain("Dashboard content");
     });
 
     it("supports nested menu sections opening and closing", async () => {

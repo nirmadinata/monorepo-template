@@ -50,7 +50,8 @@ Cloudflare Worker bindings are configured in `wrangler.jsonc`:
 
 - `src/routes/`: file-based TanStack Router routes for public pages, dashboard pages, auth API, and public API
 - `src/features/dashboard-authentication/`: public auth pages and Google sign-in UI
-- `src/features/dashboard-home/`: dashboard shell, navigation, and authenticated route content
+- `src/features/dashboard/`: dashboard shell, navigation, account menu, and session-gated shell helpers
+- `src/features/dashboard-home/`: dashboard landing page content rendered inside the shell
 - `src/integrations/auth/`: Better Auth server/client setup plus bootstrap-state and session helpers
 - `src/integrations/api/`: Hono OpenAPI app, system route, and Scalar docs
 - `src/integrations/db/`: D1 schema, Drizzle config, migrations, and app-facing DB helpers
@@ -60,7 +61,7 @@ Cloudflare Worker bindings are configured in `wrangler.jsonc`:
 
 - Authentication is Google-only through Better Auth in this app today.
 - The first successful Google user bootstrap creates the initial `superadmin` account.
-- The dashboard shell is protected through `src/features/dashboard-home/server/get-dashboard-session.ts`.
+- The dashboard shell is protected through `src/features/dashboard/server/get-dashboard-session.ts`.
 - The public API docs are served from `/api/public/`, with the OpenAPI document at `/api/public/openapi.json`.
 
 ## Documentation

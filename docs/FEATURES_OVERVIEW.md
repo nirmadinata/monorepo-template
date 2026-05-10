@@ -23,8 +23,14 @@ This repository currently maintains one runtime app and no maintained workspace 
 ### Protected Dashboard Shell
 
 - Route: `/dashboard`
+- Code: `src/features/dashboard/`
+- Purpose: authenticated shell, static mock CMS navigation, header theme toggle, account menu, and session-gated shell wrapper
+
+### Dashboard Home Content
+
+- Route: `/dashboard/`
 - Code: `src/features/dashboard-home/`
-- Purpose: authenticated shell, static mock CMS navigation, header theme toggle, and account menu
+- Purpose: authenticated dashboard landing page content rendered inside the shared dashboard shell
 
 ### Better Auth Integration
 

@@ -52,7 +52,8 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 - TanStack Start app targeting Cloudflare Workers via `@cloudflare/vite-plugin`
 - Dashboard authentication UI code lives under `src/features/dashboard-authentication/`
-- Authenticated dashboard shell code lives under `src/features/dashboard-home/`
+- Authenticated dashboard shell code lives under `src/features/dashboard/`
+- Dashboard landing page content for `/dashboard` lives under `src/features/dashboard-home/`
 - Current server integrations live under `src/integrations/`
 - Auth is backed by Better Auth plus the app-local D1/Drizzle integration under `src/integrations/db`
 - The app-owned D1 schema, Drizzle client helper, Drizzle config, and checked-in migrations live under `src/integrations/db/`

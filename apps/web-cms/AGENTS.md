@@ -24,7 +24,8 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - `src/routes/`: file-based TanStack Router routes, including `/`, `/login`, `/dashboard`, `/api/auth/$`, and `/api/public/$`
 - `src/features/dashboard-authentication/`: public auth pages, auth UI building blocks, and Google sign-in client actions
-- `src/features/dashboard-home/`: authenticated dashboard shell, route content, and dashboard session loader
+- `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, account menu, and dashboard session loader
+- `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, bootstrap-user preparation, and auth tests
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations, and app-facing `getAppDB()` exports
@@ -45,9 +46,10 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 ## Implementation Notes
 
-- The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard-home/server/get-dashboard-session.ts`.
+- The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard/server/get-dashboard-session.ts`.
 - The authenticated dashboard shell now renders the theme toggle in the header and a user account dropdown in the sidebar footer, with current-user data threaded from the `/dashboard` route loader into the shell.
-- Dashboard navigation is currently static mock CMS navigation defined in `src/features/dashboard-home/lib/navigation.ts` and routes all items back to `/dashboard`.
+- Dashboard navigation is currently static mock CMS navigation defined in `src/features/dashboard/lib/navigation.ts` and routes all items back to `/dashboard`.
+- `src/features/dashboard-home/` currently owns the dashboard landing page content for `/dashboard/` while the shared shell remains reusable for future dashboard routes.
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.

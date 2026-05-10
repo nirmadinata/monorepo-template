@@ -29,6 +29,7 @@ This repository is a Bun-based template monorepo with one maintained runtime app
 Core implementation locations:
 
 - `src/features/dashboard-authentication/`
+- `src/features/dashboard/`
 - `src/features/dashboard-home/`
 - `src/integrations/auth/`
 - `src/integrations/api/`

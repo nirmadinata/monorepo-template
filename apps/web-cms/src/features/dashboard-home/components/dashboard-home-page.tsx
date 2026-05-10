@@ -1,7 +1,7 @@
 import { Button } from "#/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "#/components/ui/card";
 
-import type { DashboardSession } from "../server/get-dashboard-session";
+import type { DashboardSession } from "#/features/dashboard/server/get-dashboard-session";
 
 const dashboardSummaryCards = [
     {
@@ -15,8 +15,8 @@ const dashboardSummaryCards = [
         title: "Editorial workflow",
     },
     {
-        description: "The dashboard home feature now owns this route shell.",
-        detail: "Additional authenticated views can land inside this feature boundary instead of growing the route file.",
+        description: "The dashboard home feature now owns the landing page content.",
+        detail: "Additional home-specific widgets can land here while the shared shell stays separate.",
         title: "Next step",
     },
 ] as const;
