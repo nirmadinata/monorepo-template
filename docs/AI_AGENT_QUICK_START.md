@@ -42,7 +42,6 @@ From the repository root:
 - `bun install`
 - `bun run dev`
 - `bun run build`
-- `bun run test`
 - `bun run check`
 - `bun run fix`
 
@@ -50,10 +49,11 @@ From `apps/web-cms/`:
 
 - `bun run dev`
 - `bun run build`
-- `bun run test`
+- `bun run preview`
 - `bun run d1:generate`
 - `bun run d1:migrate:local`
 - `bun run cf-typegen`
+- `bun run deploy`
 
 ## Documentation Shortcuts
 

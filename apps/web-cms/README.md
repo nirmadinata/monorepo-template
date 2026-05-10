@@ -30,6 +30,7 @@ From the repository root, `bun run dev`, `bun run build`, `bun run check`, and `
 
 Required server environment variables are documented in `.env.example`:
 
+- `BUCKET_NAME`
 - `BETTER_AUTH_URL`
 - `BETTER_AUTH_SECRET`
 - `BETTER_AUTH_TRUSTED_ORIGINS`

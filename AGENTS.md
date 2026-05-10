@@ -1,6 +1,6 @@
 # Template Monorepo AGENTS Guide
 
-This repository is a Bun-based template monorepo for future projects. Document what exists today, not the architecture you expect to add later.
+This repository is a Bun-based monorepo template. Document what exists today, not the architecture you expect to add later.
 
 ## Required Workflow For AI Agents
 
@@ -43,7 +43,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.github/prompts/` and `.github/hooks/`: repository-local GitHub Copilot prompt and hook configuration
 - `.opencode/`: repository-local Opencode commands, including `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, plus experimental workflow skills
-- `graphify-out/`: checked-in graphify knowledge-graph outputs for repository exploration workflows
+- `graphify-out/`: local graphify knowledge-graph outputs for repository exploration workflows when generated
 - `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance
 - `.codex/skills/`: repository-local Codex skill assets
 - `packages/`: workspace package root, currently empty

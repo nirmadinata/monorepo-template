@@ -10,7 +10,7 @@ This repository currently maintains one runtime app and no maintained workspace 
 | Maintained packages | `packages/`                                             | None today                                                                                                                         |
 | Change workflow     | `openspec/`                                             | Proposal, design, spec, task, apply, and archive workflow                                                                          |
 | Human-readable docs | `docs/`                                                 | Curated project docs for humans and AI agents                                                                                      |
-| Agent tooling       | `.opencode/`, `.agents/`, `.github/skills/`, `.claude/` | Local command, prompt, and skill surfaces                                                                                          |
+| Agent tooling       | `.opencode/`, `.agents/`, `.github/skills/`, `.claude/`, `.codex/` | Local command, prompt, and skill surfaces                                                                                |
 
 ## `apps/web-cms` Runtime Map
 
