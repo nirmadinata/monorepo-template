@@ -30,6 +30,7 @@ vi.mock(import("#/integrations/appenv"), () => ({
         BETTER_AUTH_SECRET: "test-secret",
         BETTER_AUTH_TRUSTED_ORIGINS: undefined,
         BETTER_AUTH_URL: "http://localhost:3000",
+        BUCKET_NAME: "test-bucket",
         GOOGLE_CLIENT_ID: "google-client-id",
         GOOGLE_CLIENT_SECRET: "google-client-secret",
         PUBLIC_API_DESCRIPTION: "Public API foundation for the web CMS.",
@@ -48,17 +49,6 @@ vi.mock(import("#/integrations/db"), () => ({
     },
     getAppDB: mocks.getAppDBSpy,
 }));
-
-vi.mock(import("./utils"), async (importOriginal) => {
-    const actual = await importOriginal<typeof import("./utils")>();
-
-    return {
-        ...actual,
-        prepareBootstrapUser: vi.fn<
-            (user: Record<string, unknown>) => Promise<Record<string, unknown>>
-        >(async (user) => user),
-    };
-});
 
 vi.mock(import("@better-auth/drizzle-adapter"), () => ({
     drizzleAdapter: mocks.drizzleAdapterSpy,

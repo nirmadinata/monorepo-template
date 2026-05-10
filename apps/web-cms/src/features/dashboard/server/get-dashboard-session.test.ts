@@ -3,6 +3,7 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { getCurrentSession } from "#/integrations/auth";
+import { createDashboardSession } from "#/test/factories";
 
 const getCurrentSessionMock = vi.fn<typeof getCurrentSession>();
 
@@ -16,10 +17,8 @@ describe("getDashboardSession", () => {
     });
 
     it("returns the current session when the user is authenticated", async () => {
-        const expectedSession: Awaited<ReturnType<typeof getCurrentSession>> = {
-            session: { id: "session-1" },
-            user: { email: "editor@example.com" },
-        };
+        const expectedSession: Awaited<ReturnType<typeof getCurrentSession>> =
+            createDashboardSession();
 
         getCurrentSessionMock.mockResolvedValue(expectedSession);
 

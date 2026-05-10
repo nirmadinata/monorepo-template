@@ -72,7 +72,7 @@ vi.mock(import("@tanstack/react-router"), () => ({
 
         return (
             <a href={String(to)} {...props}>
-                {children}
+                {children as string}
             </a>
         );
     },
@@ -154,7 +154,7 @@ describe(DashboardShell, () => {
         const { container } = renderDashboardShell();
 
         const sidebar = await screen.findByText("Workspace");
-        const sidebarRoot = sidebar.closest('[data-slot="sidebar"]');
+        const sidebarRoot = sidebar.closest('[data-slot="sidebar"]') as HTMLElement | null;
 
         const sidebarTrigger = container.querySelector('[data-slot="sidebar-trigger"]');
 
@@ -166,7 +166,7 @@ describe(DashboardShell, () => {
             name: /alex editor account menu/i,
         });
 
-        expect(sidebarRoot.dataset.state).toBe("collapsed");
+        expect(sidebarRoot?.dataset.state).toBe("collapsed");
         expect(accountTrigger.textContent).toBe("AE");
         expect(screen.queryByText("alex.editor@example.com")).toBeNull();
         expect(container.textContent).toContain("Dashboard content");
@@ -198,10 +198,12 @@ describe(DashboardShell, () => {
         const menu = await screen.findByRole("menu");
         const profileItem = screen.getByText("Profile").closest('[role="menuitem"]');
         const signOutItem = screen.getByText("Sign out").closest('[role="menuitem"]');
-        const menuContent = menu.closest('[data-slot="dropdown-menu-content"]');
+        const menuContent = menu.closest(
+            '[data-slot="dropdown-menu-content"]'
+        ) as HTMLElement | null;
 
         expect(profileItem instanceof HTMLElement).toBeTruthy();
-        expect(profileItem?.dataset.disabled).toBe("");
+        expect((profileItem as HTMLElement | null)?.dataset.disabled).toBe("");
         expect(signOutItem).toBeTruthy();
         expect(menuContent instanceof HTMLElement).toBeTruthy();
         expect(menuContent?.dataset.side).toBe("top");
@@ -213,7 +215,7 @@ describe(DashboardShell, () => {
                 <DashboardShell
                     user={{
                         ...dashboardUser,
-                        name: null,
+                        name: "",
                     }}
                 >
                     <div>Dashboard content</div>
