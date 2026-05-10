@@ -1,7 +1,9 @@
+import { appenv } from "#/integrations/appenv";
+
 /**
  * Default R2 bucket name for the application
  */
-export const DEFAULT_BUCKET_NAME = "web-cms-assets";
+export const DEFAULT_BUCKET_NAME = appenv.BUCKET_NAME;
 
 /**
  * Presigned URL expiration time in seconds (1 hour)
