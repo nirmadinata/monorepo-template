@@ -9,6 +9,8 @@ import type {
     GeneratePresignedUploadUrlOptions,
     UploadTextContentOptions,
     IStorageRepository,
+    GetTextContentOptions,
+    DeleteTextContentOptions,
 } from "#/integrations/r2/types";
 
 export const storageRepository = {
@@ -23,9 +25,13 @@ export const storageRepository = {
                 ContentType: payload.contentType,
             });
 
-            return await getSignedUrl(client, command, {
+            const url = await getSignedUrl(client, command, {
                 expiresIn: payload.expiresIn || PRESIGNED_URL_EXPIRATION,
             });
+
+            return {
+                url,
+            };
         }
     ),
 
@@ -39,9 +45,13 @@ export const storageRepository = {
                 Key: payload.key,
             });
 
-            return await getSignedUrl(client, command, {
+            const url = await getSignedUrl(client, command, {
                 expiresIn: payload.expiresIn || PRESIGNED_URL_EXPIRATION,
             });
+
+            return {
+                url,
+            };
         }
     ),
 
@@ -64,31 +74,29 @@ export const storageRepository = {
     /**
      * Get text content from R2
      */
-    getTextContent: createServerOnlyFn(
-        async (client: S3Client, key: string, bucketName: string = DEFAULT_BUCKET_NAME) => {
-            const command = new GetObjectCommand({
-                Bucket: bucketName,
-                Key: key,
-            });
+    getTextContent: createServerOnlyFn(async (client: S3Client, payload: GetTextContentOptions) => {
+        const command = new GetObjectCommand({
+            Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+            Key: payload.key,
+        });
 
-            const response = await client.send(command);
-            if (!response.Body) {
-                return "";
-            }
-
-            const bytes = await response.Body.transformToByteArray();
-            return new TextDecoder("utf-8").decode(bytes);
+        const response = await client.send(command);
+        if (!response.Body) {
+            return "";
         }
-    ),
+
+        const bytes = await response.Body.transformToByteArray();
+        return new TextDecoder("utf-8").decode(bytes);
+    }),
 
     /**
      * Delete an object from R2
      */
     deleteObject: createServerOnlyFn(
-        async (client: S3Client, key: string, bucketName: string = DEFAULT_BUCKET_NAME) => {
+        async (client: S3Client, payload: DeleteTextContentOptions) => {
             const command = new DeleteObjectCommand({
-                Bucket: bucketName,
-                Key: key,
+                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Key: payload.key,
             });
 
             await client.send(command);

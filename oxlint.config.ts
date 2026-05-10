@@ -27,5 +27,7 @@ export default defineConfig({
         "sort-keys": "off",
         "require-await": "off",
         "no-abusive-eslint-disable": "off",
+        "no-empty-interface": "off",
+        "no-empty-object": "off",
     },
 });

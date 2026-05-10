@@ -38,3 +38,10 @@ export interface UploadTextContentOptions {
     content: string;
     bucketName?: string;
 }
+
+export interface GetTextContentOptions {
+    key: string;
+    bucketName?: string;
+}
+
+export interface DeleteTextContentOptions extends GetTextContentOptions {}
