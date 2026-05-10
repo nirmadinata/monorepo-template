@@ -15,6 +15,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
 - App theming is handled through `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`
 - App-owned database integration: `src/integrations/db`
+- App-owned object storage integration: `src/integrations/r2`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
 - Required server env keys are documented in `.env.example`
 - Human-readable app guide: `README.md`
@@ -27,6 +28,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, bootstrap-user preparation, and auth tests
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations, and app-facing `getAppDB()` exports
+- `src/integrations/r2/`: Cloudflare R2 S3 client setup, app constants, shared types, and server-only repository helpers for presigned URLs and object access
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
 - `src/components/`: shared app components such as theming and reusable UI primitives
@@ -49,4 +51,5 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
+- Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use `BUCKET_NAME` plus presigned URL and object helper utilities.
 - The public API docs are served from `/api/public/`, with OpenAPI JSON at `/api/public/openapi.json`.

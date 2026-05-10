@@ -56,6 +56,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - Current server integrations live under `src/integrations/`
 - Auth is backed by Better Auth plus the app-local D1/Drizzle integration under `src/integrations/db`
 - The app-owned D1 schema, Drizzle client helper, Drizzle config, and checked-in migrations live under `src/integrations/db/`
+- App-owned Cloudflare R2 client helpers, constants, and repository utilities live under `src/integrations/r2/`
 - Current public auth UI routes are `/` and `/login` via `src/routes/_auth*`
 - Public API foundation is mounted under `/api/public/*` using Hono, `@hono/zod-openapi`, and Scalar
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
@@ -81,6 +82,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 
 - The repository currently has one maintained app implementation (`apps/web-cms`)
 - The D1 schema, Drizzle client helper, and checked-in migrations are owned directly by `apps/web-cms`
+- The current R2 client and repository helpers are owned directly by `apps/web-cms`
 - `packages/` is currently empty and not a source of maintained runtime code, exports, or workspace scripts
 - The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
