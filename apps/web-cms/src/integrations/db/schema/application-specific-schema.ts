@@ -39,7 +39,7 @@ export const tags = sqliteTable(
         ...COMMON_COLUMNS,
         ...COMMON_AUTHORED_COLUMNS,
 
-        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID),
+        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
         name: text("name", { length: 100 }).notNull().unique(),
         slug: text("slug").notNull().unique(),
     },
@@ -63,7 +63,7 @@ export const mimeTypes = sqliteTable(
         ...COMMON_COLUMNS,
         ...COMMON_AUTHORED_COLUMNS,
 
-        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID),
+        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
         mimeType: text("mime_type").notNull().unique(),
         title: text("title"),
         description: text("description"),
@@ -88,7 +88,7 @@ export const medias = sqliteTable(
         ...COMMON_COLUMNS,
         ...COMMON_AUTHORED_COLUMNS,
 
-        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID),
+        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
 
         /**
          * foreign keys
@@ -135,7 +135,7 @@ export const mediaTags = sqliteTable(
     {
         ...COMMON_COLUMNS,
 
-        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID),
+        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
         mediaId: int("media_id")
             .notNull()
             .references(() => medias.id, { onDelete: "cascade" }),
@@ -147,9 +147,7 @@ export const mediaTags = sqliteTable(
         /**
          * primary key
          */
-        primaryKey({
-            columns: [table.id],
-        }),
+        primaryKey({ columns: [table.id] }),
 
         /**
          * indexes
@@ -166,20 +164,11 @@ export const mimeTypeRelations = relations(mimeTypes, ({ many }) => ({
 }));
 
 export const mediaRelations = relations(medias, ({ one, many }) => ({
-    mimeType: one(mimeTypes, {
-        fields: [medias.mediaMimeTypeId],
-        references: [mimeTypes.id],
-    }),
+    mimeType: one(mimeTypes, { fields: [medias.mediaMimeTypeId], references: [mimeTypes.id] }),
     tags: many(mediaTags),
 }));
 
 export const mediaTagRelations = relations(mediaTags, ({ one }) => ({
-    media: one(medias, {
-        fields: [mediaTags.mediaId],
-        references: [medias.id],
-    }),
-    tag: one(tags, {
-        fields: [mediaTags.tagId],
-        references: [tags.id],
-    }),
+    media: one(medias, { fields: [mediaTags.mediaId], references: [medias.id] }),
+    tag: one(tags, { fields: [mediaTags.tagId], references: [tags.id] }),
 }));
