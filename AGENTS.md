@@ -18,6 +18,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - Task runner: Turbo (`turbo.json`)
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
+- Workspace scripts currently cover `dev`, `build`, `check`, and `fix` (no test task)
 - Change workflow: OpenSpec under `openspec/`
 - Current maintained runtime surface: `apps/web-cms`
 - There are currently no maintained workspace packages under `packages/`
@@ -27,7 +28,6 @@ This repository is a Bun-based template monorepo for future projects. Document w
 - Install dependencies: `bun install`
 - Run all dev tasks: `bun run dev`
 - Run all builds: `bun run build`
-- Run all tests: `bun run test`
 - Lint and check: `bun run check`
 - Auto-fix formatting and lint issues: `bun run fix`
 
@@ -36,7 +36,7 @@ This repository is a Bun-based template monorepo for future projects. Document w
 ### Root
 
 - `package.json`: root scripts, Bun workspace config, shared dev tooling
-- `turbo.json`: shared task graph for `dev`, `build`, and `test`
+- `turbo.json`: shared task graph for `dev` and `build`
 - `openspec/`: change proposals, designs, specs, and task plans
 - `.agents/skills/`: repository-local installed skills maintained alongside the workspace
 - `.claude/skills/` and `.claude/commands/`: repository-local Claude skill and command assets

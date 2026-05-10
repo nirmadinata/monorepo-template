@@ -44,4 +44,4 @@ export interface GetTextContentOptions {
     bucketName?: string;
 }
 
-export interface DeleteTextContentOptions extends GetTextContentOptions {}
+export type DeleteTextContentOptions = GetTextContentOptions;

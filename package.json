@@ -9,7 +9,6 @@
     "scripts": {
         "build": "turbo run build",
         "dev": "turbo run dev",
-        "test": "turbo run test",
         "check": "bun --bun ultracite check",
         "fix": "bun --bun ultracite fix"
     },

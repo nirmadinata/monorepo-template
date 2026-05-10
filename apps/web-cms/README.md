@@ -19,13 +19,12 @@ Run these from `apps/web-cms/` unless noted otherwise.
 | `bun run dev`              | Start the local Vite development server on port 3000 |
 | `bun run build`            | Build the app for production                         |
 | `bun run preview`          | Preview the built app locally                        |
-| `bun run test`             | Run the app's Vitest suite                           |
 | `bun run d1:generate`      | Generate Drizzle migrations from the current schema  |
 | `bun run d1:migrate:local` | Apply D1 migrations to the local Worker state        |
 | `bun run cf-typegen`       | Regenerate Wrangler/Cloudflare types                 |
 | `bun run deploy`           | Build and deploy the app with Wrangler               |
 
-From the repository root, `bun run dev`, `bun run build`, `bun run test`, `bun run check`, and `bun run fix` operate across the workspace.
+From the repository root, `bun run dev`, `bun run build`, `bun run check`, and `bun run fix` operate across the workspace.
 
 ## Environment And Bindings
 

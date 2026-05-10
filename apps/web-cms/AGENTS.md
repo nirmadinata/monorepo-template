@@ -10,7 +10,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - Package name: `web-cms`
 - Runtime: TanStack Start on Vite with `@cloudflare/vite-plugin`
-- Build and local scripts: `dev`, `build`, `preview`, `test`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
+- Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
 - App theming is handled through `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`
@@ -26,7 +26,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard-authentication/`: public auth pages, auth UI building blocks, and Google sign-in client actions
 - `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, account menu, and dashboard session loader
 - `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell
-- `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, bootstrap-user preparation, and auth tests
+- `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, and bootstrap-user preparation
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations, and app-facing `getAppDB()` exports
 - `src/integrations/r2/`: Cloudflare R2 S3 client setup, app constants, shared types, and server-only repository helpers for presigned URLs and object access
