@@ -49,11 +49,16 @@ vi.mock(import("#/integrations/db"), () => ({
     getAppDB: mocks.getAppDBSpy,
 }));
 
-vi.mock(import("./utils"), () => ({
-    prepareBootstrapUser: vi.fn<
-        (user: Record<string, unknown>) => Promise<Record<string, unknown>>
-    >(async (user) => user),
-}));
+vi.mock(import("./utils"), async (importOriginal) => {
+    const actual = await importOriginal<typeof import("./utils")>();
+
+    return {
+        ...actual,
+        prepareBootstrapUser: vi.fn<
+            (user: Record<string, unknown>) => Promise<Record<string, unknown>>
+        >(async (user) => user),
+    };
+});
 
 vi.mock(import("@better-auth/drizzle-adapter"), () => ({
     drizzleAdapter: mocks.drizzleAdapterSpy,
