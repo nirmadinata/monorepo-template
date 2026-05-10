@@ -4,6 +4,7 @@ import type { S3Client } from "@aws-sdk/client-s3";
  * R2 Client Configuration
  */
 export interface R2Config {
+    bucketName: string;
     endpoint: string;
     accessKeyId: string;
     secretAccessKey: string;
@@ -24,7 +25,8 @@ export type IStorageRepository = Record<
 export interface GeneratePresignedUploadUrlOptions {
     key: string;
     contentType: string;
-    bucketName?: string;
+    contentLength?: number;
+    bucketName: string;
     expiresIn?: number;
 }
 
@@ -36,12 +38,12 @@ export type GeneratePresignedDownloadUrlOptions = Omit<
 export interface UploadTextContentOptions {
     key: string;
     content: string;
-    bucketName?: string;
+    bucketName: string;
 }
 
 export interface GetTextContentOptions {
     key: string;
-    bucketName?: string;
+    bucketName: string;
 }
 
 export type DeleteTextContentOptions = GetTextContentOptions;

@@ -1,9 +1,9 @@
 import { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import type { S3Client } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner/dist-types/getSignedUrl";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { createServerOnlyFn } from "@tanstack/react-start";
 
-import { DEFAULT_BUCKET_NAME, PRESIGNED_URL_EXPIRATION } from "#/integrations/r2/constants";
+import { PRESIGNED_URL_EXPIRATION } from "#/integrations/r2/constants";
 import type {
     GeneratePresignedDownloadUrlOptions,
     GeneratePresignedUploadUrlOptions,
@@ -20,7 +20,7 @@ export const storageRepository = {
     generatePresignedUploadUrl: createServerOnlyFn(
         async (client: S3Client, payload: GeneratePresignedUploadUrlOptions) => {
             const command = new PutObjectCommand({
-                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Bucket: payload.bucketName,
                 Key: payload.key,
                 ContentType: payload.contentType,
             });
@@ -41,7 +41,7 @@ export const storageRepository = {
     generatePresignedDownloadUrl: createServerOnlyFn(
         async (client: S3Client, payload: GeneratePresignedDownloadUrlOptions) => {
             const command = new GetObjectCommand({
-                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Bucket: payload.bucketName,
                 Key: payload.key,
             });
 
@@ -61,7 +61,7 @@ export const storageRepository = {
     uploadTextContent: createServerOnlyFn(
         async (client: S3Client, payload: UploadTextContentOptions) => {
             const command = new PutObjectCommand({
-                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Bucket: payload.bucketName,
                 Key: payload.key,
                 Body: payload.content,
                 ContentType: "text/html; charset=utf-8",
@@ -76,7 +76,7 @@ export const storageRepository = {
      */
     getTextContent: createServerOnlyFn(async (client: S3Client, payload: GetTextContentOptions) => {
         const command = new GetObjectCommand({
-            Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+            Bucket: payload.bucketName,
             Key: payload.key,
         });
 
@@ -95,7 +95,7 @@ export const storageRepository = {
     deleteObject: createServerOnlyFn(
         async (client: S3Client, payload: DeleteTextContentOptions) => {
             const command = new DeleteObjectCommand({
-                Bucket: payload.bucketName || DEFAULT_BUCKET_NAME,
+                Bucket: payload.bucketName,
                 Key: payload.key,
             });
 

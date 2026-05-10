@@ -1,6 +1,8 @@
 export const TABLE_ALIASES = {
     ACCOUNTS: "accounts",
+    MEDIA_TAGS: "media_tags",
     SESSIONS: "sessions",
+    TAGS: "tags",
     USERS: "users",
     VERIFICATIONS: "verifications",
 

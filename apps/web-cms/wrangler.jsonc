@@ -47,6 +47,7 @@
                     "binding": "MAIN_R2",
                     // change this to your bucket name, which you can find in the dashboard under "R2 Buckets"
                     "bucket_name": "cms-storage",
+                    "remote": true,
                 },
             ],
         },

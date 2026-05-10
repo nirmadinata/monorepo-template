@@ -3,7 +3,7 @@
  */
 
 import { relations, sql } from "drizzle-orm";
-import { index, int, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, int, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
 import { COLUMN_ALIASES } from "#/integrations/db/constants";
 import { users } from "#/integrations/db/schema/better-auth-schema";
@@ -25,8 +25,8 @@ const COMMON_COLUMNS = {
 } as const;
 
 const COMMON_AUTHORED_COLUMNS = {
-    createdBy: int("created_by").references(() => users.id, { onDelete: "set null" }),
-    updatedBy: int("updated_by").references(() => users.id, { onDelete: "set null" }),
+    createdBy: text("created_by").references(() => users.id, { onDelete: "set null" }),
+    updatedBy: text("updated_by").references(() => users.id, { onDelete: "set null" }),
 } as const;
 
 /**
@@ -44,11 +44,6 @@ export const tags = sqliteTable(
         slug: text("slug").notNull().unique(),
     },
     (table) => [
-        /**
-         * primary key
-         */
-        primaryKey({ columns: [table.id] }),
-
         /**
          * indexes
          */
@@ -70,11 +65,6 @@ export const mimeTypes = sqliteTable(
     },
 
     (table) => [
-        /**
-         * primary key
-         */
-        primaryKey({ columns: [table.id] }),
-
         /**
          * indexes
          */
@@ -119,13 +109,10 @@ export const medias = sqliteTable(
     } as const,
     (table) => [
         /**
-         * primary key
-         */
-        primaryKey({ columns: [table.id] }),
-
-        /**
          * indexes
          */
+        index("idx_medias_created_at").on(table.createdAt),
+        index("idx_medias_media_mime_type_id").on(table.mediaMimeTypeId),
         index("idx_medias_name").on(table.name),
     ]
 );
@@ -145,13 +132,11 @@ export const mediaTags = sqliteTable(
     },
     (table) => [
         /**
-         * primary key
-         */
-        primaryKey({ columns: [table.id] }),
-
-        /**
          * indexes
          */
+        index("idx_media_tags_media_id").on(table.mediaId),
+        index("idx_media_tags_tag_id").on(table.tagId),
+        uniqueIndex("media_tags_media_id_tag_id_unique").on(table.mediaId, table.tagId),
     ]
 );
 
