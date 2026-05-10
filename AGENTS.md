@@ -6,7 +6,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 
 1. Read this file before planning, proposing, or editing anything in the repository.
 2. After reading this file and before planning or executing a task, check for relevant installed skills in repository-local agent tooling directories.
-3. Treat `.agents/skills/` and `.github/skills/` as installed skill locations in this repository today. Also check `.agent/` or similar repository-local agent tooling folders when they are present.
+3. Treat `.agents/skills/`, `.github/skills/`, `.claude/skills/`, `.codex/skills/`, and `.opencode/skills/` as installed skill locations in this repository today. Also check `.agent/` or similar repository-local agent tooling folders when they are present.
 4. If a relevant installed skill matches the task, read it and use its instructions as part of your working context before continuing. If no relevant skill exists, continue with the repository guidance in this file.
 5. If your work touches a package, read the nearest package-level `AGENTS.md` before planning or editing in that area.
 6. When you finish work, update every relevant `AGENTS.md` whose documented facts changed. Do not consider the task complete until those files match reality.
@@ -42,7 +42,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - `.claude/skills/` and `.claude/commands/`: repository-local Claude skill and command assets
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.github/prompts/` and `.github/hooks/`: repository-local GitHub Copilot prompt and hook configuration
-- `.opencode/`: repository-local Opencode commands, including `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, plus experimental workflow skills
+- `.opencode/`: repository-local Opencode commands under `.opencode/command/`, including `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, plus experimental workflow skills under `.opencode/skills/`
 - `graphify-out/`: local graphify knowledge-graph outputs for repository exploration workflows when generated
 - `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance
 - `.codex/skills/`: repository-local Codex skill assets

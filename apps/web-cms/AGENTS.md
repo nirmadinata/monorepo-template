@@ -17,7 +17,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - App-owned database integration: `src/integrations/db`
 - App-owned object storage integration: `src/integrations/r2`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
-- Required server env keys, including `BUCKET_NAME`, are documented in `.env.example`
+- Typed environment parsing lives under `src/integrations/appenv/`; `.env.example` currently documents the Better Auth, Google OAuth, public API, and `BUCKET_NAME` values, while the S3-based R2 client also expects `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY`
 - Human-readable app guide: `README.md`
 
 ## Source Map
@@ -53,5 +53,5 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
-- Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use `BUCKET_NAME` plus presigned URL and object helper utilities.
+- Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
 - The public API docs are served from `/api/public/`, with OpenAPI JSON at `/api/public/openapi.json`.
