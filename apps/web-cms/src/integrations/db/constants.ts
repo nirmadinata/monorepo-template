@@ -3,6 +3,9 @@ export const TABLE_ALIASES = {
     SESSIONS: "sessions",
     USERS: "users",
     VERIFICATIONS: "verifications",
+
+    MEDIAS: "medias",
+    MIME_TYPES: "mime_types",
 } as const;
 
 export const COLUMN_ALIASES = {
