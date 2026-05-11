@@ -2,6 +2,7 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
+import { useEffect, useState } from "react";
 
 import { AppThemeProvider } from "#/components/theme-provider";
 import { Toaster } from "#/components/ui/sonner";
@@ -37,6 +38,20 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     shellComponent: RootDocument,
 });
 
+function ClientMounted({ children }: { children: React.ReactNode }) {
+    const [isMounted, setIsMounted] = useState(false);
+
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    if (!isMounted) {
+        return null;
+    }
+
+    return children;
+}
+
 function RootDocument({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" suppressHydrationWarning>
@@ -46,7 +61,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <body>
                 <AppThemeProvider>
                     {children}
-                    <Toaster position="top-right" richColors />
+                    <ClientMounted>
+                        <Toaster position="top-right" richColors />
+                    </ClientMounted>
                     <TanStackDevtools
                         config={{
                             position: "bottom-right",

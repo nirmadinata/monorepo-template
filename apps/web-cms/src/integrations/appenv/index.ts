@@ -4,7 +4,10 @@ import { z } from "zod";
 export const appenv = createEnv({
     clientPrefix: "VITE_",
     emptyStringAsUndefined: true,
-    runtimeEnv: { ...import.meta.env, ...process.env },
+    runtimeEnv: {
+        ...import.meta.env,
+        ...process.env,
+    },
 
     client: {
         VITE_APP_TITLE: z.string().min(1).optional(),

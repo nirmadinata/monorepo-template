@@ -11,6 +11,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Package name: `web-cms`
 - Runtime: TanStack Start on Vite with `@cloudflare/vite-plugin`
 - Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
+- Current dashboard routes: `/dashboard` and `/dashboard/media`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
 - App theming is handled through `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`
@@ -26,6 +27,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard-authentication/`: public auth pages, auth UI building blocks, and Google sign-in client actions
 - `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, account menu, and dashboard session loader
 - `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell
+- `src/features/dashboard-media-library/`: authenticated media-library page, upload/list/delete server flows, and media-specific helpers
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, trusted-origin parsing, and bootstrap-user preparation
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations, and app-facing `getAppDB()` exports
@@ -48,8 +50,10 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard/server/get-dashboard-session.ts`.
 - The authenticated dashboard shell now renders the theme toggle in the header and a user account dropdown in the sidebar footer, with current-user data threaded from the `/dashboard` route loader into the shell.
-- Dashboard navigation is currently static mock CMS navigation defined in `src/features/dashboard/lib/navigation.ts` and routes all items back to `/dashboard`.
+- Dashboard navigation is still mostly static mock CMS navigation, but `src/features/dashboard/lib/navigation.ts` now includes a concrete `/dashboard/media` entry.
 - `src/features/dashboard-home/` currently owns the dashboard landing page content for `/dashboard/` while the shared shell remains reusable for additional dashboard routes.
+- `src/features/dashboard-media-library/` owns the `/dashboard/media` route's upload, paginated list, signed preview, tag-filter, tag-edit, and delete flows, backed by D1 metadata plus R2 object storage.
+- The media library seeds supported `mime_types` rows at runtime from the app's allowed image and video MIME constants instead of exposing dashboard CRUD for MIME lookup rows.
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.

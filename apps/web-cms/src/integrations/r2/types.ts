@@ -1,14 +1,6 @@
-import type { S3Client } from "@aws-sdk/client-s3";
+import type { S3mini } from "s3mini";
 
-/**
- * R2 Client Configuration
- */
-export interface R2Config {
-    bucketName: string;
-    endpoint: string;
-    accessKeyId: string;
-    secretAccessKey: string;
-}
+export type R2Client = S3mini;
 
 /**
  * Repository of storage operations for R2
@@ -16,7 +8,7 @@ export interface R2Config {
 export type IStorageRepository = Record<
     string,
     // oxlint-disable-next-line typescript/no-explicit-any
-    (client: S3Client, ...args: any[]) => Promise<any>
+    (client: R2Client, ...args: any[]) => Promise<any>
 >;
 
 /**
@@ -26,7 +18,6 @@ export interface GeneratePresignedUploadUrlOptions {
     key: string;
     contentType: string;
     contentLength?: number;
-    bucketName: string;
     expiresIn?: number;
 }
 
@@ -38,12 +29,10 @@ export type GeneratePresignedDownloadUrlOptions = Omit<
 export interface UploadTextContentOptions {
     key: string;
     content: string;
-    bucketName: string;
 }
 
 export interface GetTextContentOptions {
     key: string;
-    bucketName: string;
 }
 
 export type DeleteTextContentOptions = GetTextContentOptions;

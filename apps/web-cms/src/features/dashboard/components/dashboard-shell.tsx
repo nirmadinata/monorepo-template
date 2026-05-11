@@ -1,4 +1,4 @@
-import { Link } from "@tanstack/react-router";
+import { Link, useMatchRoute } from "@tanstack/react-router";
 import { ChevronRightIcon, ChevronsLeftRightEllipsisIcon } from "lucide-react";
 
 import { ThemeToggle } from "#/components/theme-toggle";
@@ -70,11 +70,13 @@ function DashboardHeaderBrand() {
 
 function DashboardLinkMenuItem({ item }: { item: DashboardNavigationLinkItem }) {
     const Icon = item.icon;
+    const matchRoute = useMatchRoute();
+    const isActive = Boolean(matchRoute({ to: item.to }));
 
     return (
         <SidebarMenuItem>
             <SidebarMenuButton
-                isActive={item.isActive}
+                isActive={item.isActive ?? isActive}
                 render={<Link className="no-underline" to={item.to} />}
                 tooltip={item.label}
             >

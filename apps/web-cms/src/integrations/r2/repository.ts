@@ -1,6 +1,3 @@
-import { PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
-import type { S3Client } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { createServerOnlyFn } from "@tanstack/react-start";
 
 import { PRESIGNED_URL_EXPIRATION } from "#/integrations/r2/constants";
@@ -11,6 +8,7 @@ import type {
     IStorageRepository,
     GetTextContentOptions,
     DeleteTextContentOptions,
+    R2Client,
 } from "#/integrations/r2/types";
 
 export const storageRepository = {
@@ -18,20 +16,14 @@ export const storageRepository = {
      * Generate a presigned URL for uploading a file to R2
      */
     generatePresignedUploadUrl: createServerOnlyFn(
-        async (client: S3Client, payload: GeneratePresignedUploadUrlOptions) => {
-            const command = new PutObjectCommand({
-                Bucket: payload.bucketName,
-                Key: payload.key,
-                ContentType: payload.contentType,
-            });
+        async (client: R2Client, payload: GeneratePresignedUploadUrlOptions) => {
+            const url = await client.getPresignedUrl(
+                "PUT",
+                payload.key,
+                payload.expiresIn || PRESIGNED_URL_EXPIRATION
+            );
 
-            const url = await getSignedUrl(client, command, {
-                expiresIn: payload.expiresIn || PRESIGNED_URL_EXPIRATION,
-            });
-
-            return {
-                url,
-            };
+            return { url };
         }
     ),
 
@@ -39,19 +31,14 @@ export const storageRepository = {
      * Generate a presigned URL for downloading a file from R2
      */
     generatePresignedDownloadUrl: createServerOnlyFn(
-        async (client: S3Client, payload: GeneratePresignedDownloadUrlOptions) => {
-            const command = new GetObjectCommand({
-                Bucket: payload.bucketName,
-                Key: payload.key,
-            });
+        async (client: R2Client, payload: GeneratePresignedDownloadUrlOptions) => {
+            const url = await client.getPresignedUrl(
+                "GET",
+                payload.key,
+                payload.expiresIn || PRESIGNED_URL_EXPIRATION
+            );
 
-            const url = await getSignedUrl(client, command, {
-                expiresIn: payload.expiresIn || PRESIGNED_URL_EXPIRATION,
-            });
-
-            return {
-                url,
-            };
+            return { url };
         }
     ),
 
@@ -59,47 +46,27 @@ export const storageRepository = {
      * Upload text content to R2
      */
     uploadTextContent: createServerOnlyFn(
-        async (client: S3Client, payload: UploadTextContentOptions) => {
-            const command = new PutObjectCommand({
-                Bucket: payload.bucketName,
-                Key: payload.key,
-                Body: payload.content,
-                ContentType: "text/html; charset=utf-8",
-            });
-
-            await client.send(command);
+        async (client: R2Client, payload: UploadTextContentOptions) => {
+            const { ok } = await client.putObject(payload.key, payload.content);
+            return { ok };
         }
     ),
 
     /**
      * Get text content from R2
      */
-    getTextContent: createServerOnlyFn(async (client: S3Client, payload: GetTextContentOptions) => {
-        const command = new GetObjectCommand({
-            Bucket: payload.bucketName,
-            Key: payload.key,
-        });
-
-        const response = await client.send(command);
-        if (!response.Body) {
-            return "";
-        }
-
-        const bytes = await response.Body.transformToByteArray();
-        return new TextDecoder("utf-8").decode(bytes);
+    getTextContent: createServerOnlyFn(async (client: R2Client, payload: GetTextContentOptions) => {
+        const response = await client.getObject(payload.key);
+        return response;
     }),
 
     /**
      * Delete an object from R2
      */
     deleteObject: createServerOnlyFn(
-        async (client: S3Client, payload: DeleteTextContentOptions) => {
-            const command = new DeleteObjectCommand({
-                Bucket: payload.bucketName,
-                Key: payload.key,
-            });
-
-            await client.send(command);
+        async (client: R2Client, payload: DeleteTextContentOptions) => {
+            const ok = await client.deleteObject(payload.key);
+            return { ok };
         }
     ),
 } satisfies IStorageRepository;

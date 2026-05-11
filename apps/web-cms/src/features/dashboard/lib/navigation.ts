@@ -1,6 +1,7 @@
 import {
     BookOpenIcon,
     FolderKanbanIcon,
+    ImagesIcon,
     LayoutDashboardIcon,
     PenSquareIcon,
     Settings2Icon,
@@ -16,13 +17,13 @@ interface DashboardNavigationLinkItem {
     isActive?: boolean;
     kind: "link";
     label: string;
-    to: "/dashboard";
+    to: "/dashboard" | "/dashboard/media";
 }
 
 interface DashboardNavigationParentChild {
     isActive?: boolean;
     label: string;
-    to: "/dashboard";
+    to: "/dashboard" | "/dashboard/media";
 }
 
 interface DashboardNavigationParentItem {
@@ -50,6 +51,12 @@ export const dashboardNavigationGroups: readonly DashboardNavigationGroup[] = [
                 kind: "link",
                 label: "Overview",
                 to: "/dashboard",
+            },
+            {
+                icon: ImagesIcon,
+                kind: "link",
+                label: "Media",
+                to: "/dashboard/media",
             },
             {
                 children: [

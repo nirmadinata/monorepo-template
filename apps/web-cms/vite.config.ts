@@ -27,7 +27,9 @@ const config = defineConfig(() => {
             viteReact(),
             babel({ presets: [reactCompilerPreset()] }),
         ],
-        resolve: { tsconfigPaths: true },
+        resolve: {
+            tsconfigPaths: true,
+        },
     };
 });
 
