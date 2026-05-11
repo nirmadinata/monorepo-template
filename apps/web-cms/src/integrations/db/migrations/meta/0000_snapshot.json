@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "4c6fd448-59cd-4c17-8f69-18984182212f",
+  "id": "b25d79dd-17cb-4cd2-8b74-7e5fae65cc2b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "media_tags": {
@@ -27,8 +27,8 @@
           "name": "id",
           "type": "integer",
           "primaryKey": true,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true,
+          "autoincrement": true
         },
         "media_id": {
           "name": "media_id",
@@ -45,7 +45,30 @@
           "autoincrement": false
         }
       },
-      "indexes": {},
+      "indexes": {
+        "idx_media_tags_media_id": {
+          "name": "idx_media_tags_media_id",
+          "columns": [
+            "media_id"
+          ],
+          "isUnique": false
+        },
+        "idx_media_tags_tag_id": {
+          "name": "idx_media_tags_tag_id",
+          "columns": [
+            "tag_id"
+          ],
+          "isUnique": false
+        },
+        "media_tags_media_id_tag_id_unique": {
+          "name": "media_tags_media_id_tag_id_unique",
+          "columns": [
+            "media_id",
+            "tag_id"
+          ],
+          "isUnique": true
+        }
+      },
       "foreignKeys": {
         "media_tags_media_id_medias_id_fk": {
           "name": "media_tags_media_id_medias_id_fk",
@@ -99,14 +122,14 @@
         },
         "created_by": {
           "name": "created_by",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "updated_by": {
           "name": "updated_by",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -115,11 +138,11 @@
           "name": "id",
           "type": "integer",
           "primaryKey": true,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true,
+          "autoincrement": true
         },
-        "mediaMimeTypeId": {
-          "name": "mediaMimeTypeId",
+        "mime_type_id": {
+          "name": "mime_type_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
@@ -139,6 +162,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "original_filename": {
+          "name": "original_filename",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "storage_key": {
           "name": "storage_key",
           "type": "text",
@@ -153,15 +183,15 @@
           "notNull": true,
           "autoincrement": false
         },
-        "image_width": {
-          "name": "image_width",
+        "width": {
+          "name": "width",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "image_height": {
-          "name": "image_height",
+        "height": {
+          "name": "height",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -174,8 +204,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "duration": {
-          "name": "duration",
+        "duration_seconds": {
+          "name": "duration_seconds",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -189,6 +219,20 @@
             "storage_key"
           ],
           "isUnique": true
+        },
+        "idx_medias_created_at": {
+          "name": "idx_medias_created_at",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "idx_medias_mime_type_id": {
+          "name": "idx_medias_mime_type_id",
+          "columns": [
+            "mime_type_id"
+          ],
+          "isUnique": false
         },
         "idx_medias_name": {
           "name": "idx_medias_name",
@@ -225,17 +269,17 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "medias_mediaMimeTypeId_mime_types_id_fk": {
-          "name": "medias_mediaMimeTypeId_mime_types_id_fk",
+        "medias_mime_type_id_mime_types_id_fk": {
+          "name": "medias_mime_type_id_mime_types_id_fk",
           "tableFrom": "medias",
           "tableTo": "mime_types",
           "columnsFrom": [
-            "mediaMimeTypeId"
+            "mime_type_id"
           ],
           "columnsTo": [
             "id"
           ],
-          "onDelete": "cascade",
+          "onDelete": "no action",
           "onUpdate": "no action"
         }
       },
@@ -264,14 +308,14 @@
         },
         "created_by": {
           "name": "created_by",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "updated_by": {
           "name": "updated_by",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -280,7 +324,14 @@
           "name": "id",
           "type": "integer",
           "primaryKey": true,
-          "notNull": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "kind": {
+          "name": "kind",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "mime_type": {
@@ -374,14 +425,14 @@
         },
         "created_by": {
           "name": "created_by",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
         "updated_by": {
           "name": "updated_by",
-          "type": "integer",
+          "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
@@ -390,8 +441,8 @@
           "name": "id",
           "type": "integer",
           "primaryKey": true,
-          "notNull": false,
-          "autoincrement": false
+          "notNull": true,
+          "autoincrement": true
         },
         "name": {
           "name": "name",

@@ -1,41 +1,48 @@
 CREATE TABLE `media_tags` (
 	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
-	`id` integer PRIMARY KEY,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`media_id` integer NOT NULL,
 	`tag_id` integer NOT NULL,
 	FOREIGN KEY (`media_id`) REFERENCES `medias`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`tag_id`) REFERENCES `tags`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE INDEX `idx_media_tags_media_id` ON `media_tags` (`media_id`);--> statement-breakpoint
+CREATE INDEX `idx_media_tags_tag_id` ON `media_tags` (`tag_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `media_tags_media_id_tag_id_unique` ON `media_tags` (`media_id`,`tag_id`);--> statement-breakpoint
 CREATE TABLE `medias` (
 	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
-	`created_by` integer,
-	`updated_by` integer,
-	`id` integer PRIMARY KEY,
-	`mediaMimeTypeId` integer NOT NULL,
+	`created_by` text,
+	`updated_by` text,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`mime_type_id` integer NOT NULL,
 	`name` text,
 	`description` text,
+	`original_filename` text,
 	`storage_key` text NOT NULL,
 	`size_in_bytes` integer NOT NULL,
-	`image_width` integer,
-	`image_height` integer,
+	`width` integer,
+	`height` integer,
 	`image_alt_text` text,
-	`duration` integer,
+	`duration_seconds` integer,
 	FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE set null,
 	FOREIGN KEY (`updated_by`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE set null,
-	FOREIGN KEY (`mediaMimeTypeId`) REFERENCES `mime_types`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`mime_type_id`) REFERENCES `mime_types`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `medias_storage_key_unique` ON `medias` (`storage_key`);--> statement-breakpoint
+CREATE INDEX `idx_medias_created_at` ON `medias` (`created_at`);--> statement-breakpoint
+CREATE INDEX `idx_medias_mime_type_id` ON `medias` (`mime_type_id`);--> statement-breakpoint
 CREATE INDEX `idx_medias_name` ON `medias` (`name`);--> statement-breakpoint
 CREATE TABLE `mime_types` (
 	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
-	`created_by` integer,
-	`updated_by` integer,
-	`id` integer PRIMARY KEY,
+	`created_by` text,
+	`updated_by` text,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`kind` text NOT NULL,
 	`mime_type` text NOT NULL,
 	`title` text,
 	`description` text,
@@ -48,9 +55,9 @@ CREATE INDEX `idx_mime_types_mime_type` ON `mime_types` (`mime_type`);--> statem
 CREATE TABLE `tags` (
 	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
-	`created_by` integer,
-	`updated_by` integer,
-	`id` integer PRIMARY KEY,
+	`created_by` text,
+	`updated_by` text,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
 	`name` text(100) NOT NULL,
 	`slug` text NOT NULL,
 	FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE set null,

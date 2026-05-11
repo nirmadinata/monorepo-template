@@ -59,6 +59,7 @@ export const mimeTypes = sqliteTable(
         ...COMMON_AUTHORED_COLUMNS,
 
         id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
+        kind: text("kind").notNull(),
         mimeType: text("mime_type").notNull().unique(),
         title: text("title"),
         description: text("description"),
@@ -83,36 +84,37 @@ export const medias = sqliteTable(
         /**
          * foreign keys
          */
-        mediaMimeTypeId: int()
+        mimeTypeId: int("mime_type_id")
             .notNull()
-            .references(() => mimeTypes.id, { onDelete: "cascade" }),
+            .references(() => mimeTypes.id),
 
         /**
          * general fields
          */
         name: text("name"),
         description: text("description"),
+        originalFilename: text("original_filename"),
         storageKey: text("storage_key").notNull().unique(),
         sizeInBytes: int("size_in_bytes").notNull(),
 
         /**
          * image-kind specific fields
          */
-        imageWidth: int("image_width"),
-        imageHeight: int("image_height"),
+        width: int("width"),
+        height: int("height"),
         imageAltText: text("image_alt_text"),
 
         /**
          * playable-kind specific fields
          */
-        duration: int("duration"),
+        durationSeconds: int("duration_seconds"),
     } as const,
     (table) => [
         /**
          * indexes
          */
         index("idx_medias_created_at").on(table.createdAt),
-        index("idx_medias_media_mime_type_id").on(table.mediaMimeTypeId),
+        index("idx_medias_mime_type_id").on(table.mimeTypeId),
         index("idx_medias_name").on(table.name),
     ]
 );
@@ -149,7 +151,7 @@ export const mimeTypeRelations = relations(mimeTypes, ({ many }) => ({
 }));
 
 export const mediaRelations = relations(medias, ({ one, many }) => ({
-    mimeType: one(mimeTypes, { fields: [medias.mediaMimeTypeId], references: [mimeTypes.id] }),
+    mimeType: one(mimeTypes, { fields: [medias.mimeTypeId], references: [mimeTypes.id] }),
     tags: many(mediaTags),
 }));
 
