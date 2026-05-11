@@ -28,7 +28,9 @@ From the repository root, `bun run dev`, `bun run build`, `bun run check`, and `
 
 ## Environment And Bindings
 
-Required server environment variables are documented in `.env.example`:
+The app's typed environment parsing lives in `src/integrations/appenv/`.
+
+`.env.example` currently documents these server environment variables:
 
 - `BUCKET_NAME`
 - `BETTER_AUTH_URL`
@@ -39,6 +41,12 @@ Required server environment variables are documented in `.env.example`:
 - `PUBLIC_API_TITLE`
 - `PUBLIC_API_VERSION`
 - `PUBLIC_API_DESCRIPTION`
+
+The S3-based R2 client under `src/integrations/r2/client.ts` also expects:
+
+- `R2_ACCOUNT_ID`
+- `R2_ACCESS_KEY_ID`
+- `R2_SECRET_ACCESS_KEY`
 
 Cloudflare Worker bindings are configured in `wrangler.jsonc`:
 
@@ -55,6 +63,8 @@ Cloudflare Worker bindings are configured in `wrangler.jsonc`:
 - `src/integrations/auth/`: Better Auth server/client setup plus bootstrap-state and session helpers
 - `src/integrations/api/`: Hono OpenAPI app, system route, and Scalar docs
 - `src/integrations/db/`: D1 schema, Drizzle config, migrations, and app-facing DB helpers
+- `src/integrations/appenv/`: typed environment parsing and Cloudflare Worker binding access
+- `src/integrations/r2/`: Cloudflare R2 S3 client setup, shared types, constants, and repository helpers
 - `src/components/ui/`: shared UI primitives configured through `components.json`
 
 ## Auth And API Notes
@@ -62,6 +72,7 @@ Cloudflare Worker bindings are configured in `wrangler.jsonc`:
 - Authentication is Google-only through Better Auth in this app today.
 - The first successful Google user bootstrap creates the initial `superadmin` account.
 - The dashboard shell is protected through `src/features/dashboard/server/get-dashboard-session.ts`.
+- Cloudflare R2 access is wrapped through `src/integrations/r2/`, which uses an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY`.
 - The public API docs are served from `/api/public/`, with the OpenAPI document at `/api/public/openapi.json`.
 
 ## Documentation

@@ -44,10 +44,10 @@ This repository currently maintains one runtime app and no maintained workspace 
 - Code: `src/integrations/api/`
 - Purpose: shared Hono OpenAPI app with a system route, OpenAPI JSON, and Scalar docs
 
-### Data Access And Bindings
+### Data Access, Storage, And Bindings
 
-- Code: `src/integrations/db/` and `src/integrations/appenv/`
-- Purpose: D1 schema, Drizzle config, migrations, app DB helpers, and typed Worker binding access
+- Code: `src/integrations/db/`, `src/integrations/r2/`, and `src/integrations/appenv/`
+- Purpose: D1 schema, Drizzle config, migrations, app DB helpers, Cloudflare R2 S3 client and repository helpers, and typed Worker binding access
 - Current Worker bindings: `MAIN_DB`, `MAIN_KV`, `MAIN_R2`
 
 ## Documentation Surfaces
