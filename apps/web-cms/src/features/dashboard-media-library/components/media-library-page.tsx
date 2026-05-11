@@ -369,6 +369,7 @@ function MediaTable({
                                         <div className="flex items-center justify-end gap-2">
                                             {item.previewUrl ? (
                                                 <Button
+                                                    nativeButton={false}
                                                     render={
                                                         <a
                                                             aria-label={`Open ${displayName}`}
