@@ -4,7 +4,7 @@ import type { SecondaryStorage } from "better-auth";
 import { APIError } from "better-auth/api";
 import { eq } from "drizzle-orm";
 
-import { dbSchema, getAppDB } from "#/integrations/db";
+import { dbSchema, getDB } from "#/integrations/db";
 
 export const BOOTSTRAP_ADMIN_ROLE = "superadmin";
 
@@ -66,7 +66,7 @@ export const getAuthSecondaryStorage = createServerOnlyFn((storage: KVNamespace)
 });
 
 const createAuthAdapter = createServerOnlyFn((db: D1Database) =>
-    drizzleAdapter(getAppDB(db), {
+    drizzleAdapter(getDB(db), {
         provider: "sqlite",
         schema: authSchema,
     })
@@ -81,7 +81,7 @@ export const getAuthAdapter = createServerOnlyFn((db: D1Database) => {
 });
 
 export const hasExistingUsers = createServerOnlyFn(async (db: D1Database) => {
-    const existingUsers = await getAppDB(db).$count(
+    const existingUsers = await getDB(db).$count(
         dbSchema.users,
         eq(dbSchema.users.id, dbSchema.users.id)
     );

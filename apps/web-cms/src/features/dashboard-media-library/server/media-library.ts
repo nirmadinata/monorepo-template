@@ -4,7 +4,7 @@ import { z } from "zod";
 
 import { getWorkerEnv } from "#/integrations/appenv/worker";
 import { getCurrentSession } from "#/integrations/auth";
-import { dbSchema, getAppDB } from "#/integrations/db";
+import { dbSchema, getDB } from "#/integrations/db";
 import { getR2Client } from "#/integrations/r2/client";
 import { storageRepository } from "#/integrations/r2/repository";
 
@@ -82,7 +82,7 @@ async function requireMediaSession() {
 
 async function getMediaLibraryDB() {
     const env = await getWorkerEnv();
-    return getAppDB(env.MAIN_DB);
+    return getDB(env.MAIN_DB);
 }
 
 async function ensureMediaMimeTypesSeeded(userId?: string) {

@@ -23,6 +23,7 @@ This repository is a Bun-based template monorepo with one maintained runtime app
 
 - Public auth pages at `/` and `/login`
 - Protected dashboard shell at `/dashboard`
+- Protected media-library route at `/dashboard/media`
 - Better Auth API route at `/api/auth/*`
 - Public API foundation at `/api/public/*`
 
@@ -31,9 +32,12 @@ Core implementation locations:
 - `src/features/dashboard-authentication/`
 - `src/features/dashboard/`
 - `src/features/dashboard-home/`
+- `src/features/dashboard-media-library/`
 - `src/integrations/auth/`
 - `src/integrations/api/`
 - `src/integrations/db/`
+- `src/integrations/r2/`
+- `src/integrations/appenv/`
 
 ## Common Commands
 
@@ -68,6 +72,7 @@ From `apps/web-cms/`:
 - `apps/web-cms/src/routeTree.gen.ts` is generated output
 - Authentication UI lives under `src/features/dashboard-authentication/`, while bootstrap/session server helpers live under `src/integrations/auth/`
 - `apps/web-cms/README.md` and the root `docs/` surface are maintained docs, not starter scaffolding
+- `apps/web-cms/src/test/` exists today but is currently empty, and the workspace still has no maintained test task
 
 ## When You Finish Work
 

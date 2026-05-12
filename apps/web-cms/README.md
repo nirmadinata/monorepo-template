@@ -28,6 +28,8 @@ Run these from `apps/web-cms/` unless noted otherwise.
 
 From the repository root, `bun run dev`, `bun run build`, `bun run check`, and `bun run fix` operate across the workspace.
 
+There is currently no maintained workspace test task.
+
 ## Environment And Bindings
 
 The app's typed environment parsing lives in `src/integrations/appenv/`.
@@ -35,6 +37,9 @@ The app's typed environment parsing lives in `src/integrations/appenv/`.
 `.env.example` currently documents these server environment variables:
 
 - `BUCKET_NAME`
+- `R2_ACCOUNT_ID`
+- `R2_ACCESS_KEY_ID`
+- `R2_SECRET_ACCESS_KEY`
 - `BETTER_AUTH_URL`
 - `BETTER_AUTH_SECRET`
 - `BETTER_AUTH_TRUSTED_ORIGINS`
@@ -44,17 +49,19 @@ The app's typed environment parsing lives in `src/integrations/appenv/`.
 - `PUBLIC_API_VERSION`
 - `PUBLIC_API_DESCRIPTION`
 
-The S3-based R2 client under `src/integrations/r2/client.ts` also expects:
+The typed environment parser in `src/integrations/appenv/` also accepts:
 
-- `R2_ACCOUNT_ID`
-- `R2_ACCESS_KEY_ID`
-- `R2_SECRET_ACCESS_KEY`
+- optional client-side `VITE_APP_TITLE`
 
 Cloudflare Worker bindings are configured in `wrangler.jsonc`:
 
 - `MAIN_DB` for the app-owned D1 database
 - `MAIN_KV` for Better Auth secondary storage
 - `MAIN_R2` for app-owned object storage
+
+Current caveat:
+
+- Checked-in D1 migrations currently live under `src/integrations/db/migrations/`, while `wrangler.jsonc`'s `env.development` override points `MAIN_DB` at `src/integrations/db/migrations/d1`
 
 ## Important Paths
 
