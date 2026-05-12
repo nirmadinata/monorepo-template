@@ -1,6 +1,15 @@
+import { useForm } from "@tanstack/react-form";
+
+import { Button } from "#/components/ui/button";
+import { FieldError } from "#/components/ui/field";
+import { Spinner } from "#/components/ui/spinner";
+import { submitForm } from "#/lib/forms";
+
+import { runGoogleAuthAction } from "../hooks/use-google-auth-action";
+import { googleAuthSubmissionSchema } from "../lib/form-schema";
 import type { DashboardAuthenticationIntent } from "../lib/util";
+import { GoogleMark } from "./atoms/google-mark";
 import { AuthFormCard } from "./auth-form-card";
-import { GoogleAuthButton } from "./molecules/google-auth-button";
 
 interface GoogleAuthPageProps {
     actionLabel: string;
@@ -21,6 +30,18 @@ export function GoogleAuthPage({
     intent,
     title,
 }: GoogleAuthPageProps) {
+    const form = useForm({
+        defaultValues: {
+            intent,
+        },
+        onSubmit: async ({ value }) => {
+            await runGoogleAuthAction(value.intent);
+        },
+        validators: {
+            onSubmit: googleAuthSubmissionSchema,
+        },
+    });
+
     return (
         <AuthFormCard
             description={description}
@@ -29,9 +50,33 @@ export function GoogleAuthPage({
             footerPrompt={footerPrompt}
             title={title}
         >
-            <div className="space-y-5 text-sm text-muted-foreground">
-                <GoogleAuthButton intent={intent}>{actionLabel}</GoogleAuthButton>
-            </div>
+            <form
+                className="space-y-5 text-sm text-muted-foreground"
+                onSubmit={(event) => {
+                    void submitForm(event, form, "Unable to start Google authentication.");
+                }}
+            >
+                <form.Subscribe
+                    selector={(state) => ({
+                        errors: state.errors,
+                        isSubmitting: state.isSubmitting,
+                    })}
+                >
+                    {({ errors, isSubmitting }) => (
+                        <>
+                            <Button disabled={isSubmitting} size="lg" type="submit">
+                                {isSubmitting ? (
+                                    <Spinner data-icon="inline-start" />
+                                ) : (
+                                    <GoogleMark data-icon="inline-start" />
+                                )}
+                                {actionLabel}
+                            </Button>
+                            <FieldError errors={errors} />
+                        </>
+                    )}
+                </form.Subscribe>
+            </form>
         </AuthFormCard>
     );
 }

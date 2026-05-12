@@ -28,6 +28,7 @@ const config = defineConfig(() => {
             babel({ presets: [reactCompilerPreset()] }),
         ],
         resolve: {
+            dedupe: ["react", "react-dom"],
             tsconfigPaths: true,
         },
     };

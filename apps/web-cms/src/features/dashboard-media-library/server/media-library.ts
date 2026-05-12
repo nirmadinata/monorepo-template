@@ -8,9 +8,9 @@ import { dbSchema, getDB } from "#/integrations/db";
 import { getR2Client } from "#/integrations/r2/client";
 import { storageRepository } from "#/integrations/r2/repository";
 
+import { mediaLibrarySearchSchema as mediaLibraryPageInputSchema } from "../lib/form-schema";
 import {
     MEDIA_LIBRARY_FILTER_KIND_VALUES,
-    MEDIA_LIBRARY_PAGE_SIZE,
     SEEDED_MEDIA_MIME_TYPES,
     formatBytes,
     getMaxUploadSizeForMimeType,
@@ -20,14 +20,6 @@ import {
     sanitizeStorageKeySegment,
     slugifyTagName,
 } from "../lib/media-library";
-
-const mediaLibraryPageInputSchema = z.object({
-    kind: z.enum(MEDIA_LIBRARY_FILTER_KIND_VALUES).default("all"),
-    page: z.number().int().min(1).default(1),
-    pageSize: z.number().int().min(1).max(50).default(MEDIA_LIBRARY_PAGE_SIZE),
-    search: z.string().trim().max(100).default(""),
-    tag: z.string().trim().max(100).default(""),
-});
 
 const uploadIntentInputSchema = z.object({
     fileName: z.string().trim().min(1).max(255),

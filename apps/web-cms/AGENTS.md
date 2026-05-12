@@ -28,7 +28,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard-authentication/`: public auth pages, auth UI building blocks, and Google sign-in client actions
 - `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, account menu, and dashboard session loader
 - `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell
-- `src/features/dashboard-media-library/`: authenticated media-library page, upload/list/delete server flows, and media-specific helpers
+- `src/features/dashboard-media-library/`: authenticated media-library page, TanStack Form-managed upload/filter/tag-edit flows, upload/list/delete server flows, and media-specific helpers
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, trusted-origin parsing, and bootstrap-user preparation
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations under `migrations/`, and app-facing `getAppDB()` exports
@@ -36,6 +36,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
 - `src/components/`: shared app components such as theming and reusable UI primitives
+- `src/lib/forms.ts`: app-local TanStack Form helpers for shared field props and submission error mapping
 - `src/test/`: currently empty app-local test directory
 - `vite.config.ts`: TanStack Start, Cloudflare, Tailwind, devtools, and React Compiler plugin setup
 - `wrangler.jsonc`: Worker entrypoint plus `MAIN_DB`, `MAIN_KV`, and `MAIN_R2` bindings
@@ -59,7 +60,9 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - The first successful Google bootstrap sign-in creates the initial `superadmin` account.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
+- The public authentication submit action is now managed through TanStack Form with a feature-local auth schema and form-level error rendering.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
 - Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
+- The media-library search/filter, tag-edit, and upload flows are now managed through TanStack Form with feature-local schemas reused by the route search contract where applicable.
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at `src/integrations/db/migrations/d1`.
 - The public API docs are served from `/api/public/`, with OpenAPI JSON at `/api/public/openapi.json`.
