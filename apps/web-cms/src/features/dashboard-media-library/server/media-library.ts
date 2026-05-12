@@ -1,4 +1,4 @@
-import { createServerFn } from "@tanstack/react-start";
+import { createServerFn, createServerOnlyFn } from "@tanstack/react-start";
 import { and, asc, desc, eq, inArray, like } from "drizzle-orm";
 import { z } from "zod";
 
@@ -70,7 +70,7 @@ function createStorageKey(kind: "image" | "video", fileName: string) {
     return `media/${kind}/${date}/${crypto.randomUUID()}-${sanitizeStorageKeySegment(fileName)}`;
 }
 
-async function requireMediaSession() {
+const requireMediaSession = createServerOnlyFn(async () => {
     const session = await getCurrentSession();
 
     if (!session?.user) {
@@ -78,14 +78,14 @@ async function requireMediaSession() {
     }
 
     return session;
-}
+});
 
-async function getMediaLibraryDB() {
+const getMediaLibraryDB = createServerOnlyFn(async () => {
     const env = await getWorkerEnv();
     return getDB(env.MAIN_DB);
-}
+});
 
-async function ensureMediaMimeTypesSeeded(userId?: string) {
+const ensureMediaMimeTypesSeeded = createServerOnlyFn(async (userId?: string) => {
     const db = await getMediaLibraryDB();
 
     await db
@@ -103,9 +103,9 @@ async function ensureMediaMimeTypesSeeded(userId?: string) {
         .onConflictDoNothing();
 
     return db;
-}
+});
 
-async function listAvailableTags() {
+const listAvailableTags = createServerOnlyFn(async () => {
     const db = await getMediaLibraryDB();
 
     return db
@@ -116,23 +116,25 @@ async function listAvailableTags() {
         })
         .from(dbSchema.tags)
         .orderBy(asc(dbSchema.tags.name));
-}
+});
 
-async function resolveMimeTypeIdsForKind(kind: MediaLibraryPageInput["kind"]) {
-    if (kind === "all") {
-        return null;
+const resolveMimeTypeIdsForKind = createServerOnlyFn(
+    async (kind: MediaLibraryPageInput["kind"]) => {
+        if (kind === "all") {
+            return null;
+        }
+
+        const db = await getMediaLibraryDB();
+        const mimeTypes = await db
+            .select({ id: dbSchema.mimeTypes.id })
+            .from(dbSchema.mimeTypes)
+            .where(eq(dbSchema.mimeTypes.kind, kind));
+
+        return mimeTypes.map((mimeType) => mimeType.id);
     }
+);
 
-    const db = await getMediaLibraryDB();
-    const mimeTypes = await db
-        .select({ id: dbSchema.mimeTypes.id })
-        .from(dbSchema.mimeTypes)
-        .where(eq(dbSchema.mimeTypes.kind, kind));
-
-    return mimeTypes.map((mimeType) => mimeType.id);
-}
-
-async function resolveMediaIdsForTag(tagSlug: string) {
+const resolveMediaIdsForTag = createServerOnlyFn(async (tagSlug: string) => {
     if (!tagSlug) {
         return null;
     }
@@ -154,9 +156,9 @@ async function resolveMediaIdsForTag(tagSlug: string) {
         .where(eq(dbSchema.mediaTags.tagId, tag.id));
 
     return mediaTags.map((mediaTag) => mediaTag.mediaId);
-}
+});
 
-async function getMediaTagsForMediaIds(mediaIds: number[]) {
+const getMediaTagsForMediaIds = createServerOnlyFn(async (mediaIds: number[]) => {
     if (mediaIds.length === 0) {
         return new Map<number, { id: number; name: string; slug: string }[]>();
     }
@@ -187,9 +189,9 @@ async function getMediaTagsForMediaIds(mediaIds: number[]) {
     }
 
     return map;
-}
+});
 
-async function getMimeTypeMap(ids: number[]) {
+const getMimeTypeMap = createServerOnlyFn(async (ids: number[]) => {
     if (ids.length === 0) {
         return new Map<number, { kind: string; mimeType: string; title: string | null }>();
     }
@@ -206,18 +208,18 @@ async function getMimeTypeMap(ids: number[]) {
         .where(inArray(dbSchema.mimeTypes.id, ids));
 
     return new Map(rows.map((row) => [row.id, row]));
-}
+});
 
-async function createSignedMediaUrl(storageKey: string) {
+const createSignedMediaUrl = createServerOnlyFn(async (storageKey: string) => {
     const client = getR2Client();
     const { url } = await storageRepository.generatePresignedDownloadUrl(client, {
         key: storageKey,
     });
 
     return url;
-}
+});
 
-async function buildMediaPage(input: MediaLibraryPageInput) {
+const buildMediaPage = createServerOnlyFn(async (input: MediaLibraryPageInput) => {
     const db = await getMediaLibraryDB();
     const filters = [];
     const mimeTypeIds = await resolveMimeTypeIdsForKind(input.kind);
@@ -342,49 +344,47 @@ async function buildMediaPage(input: MediaLibraryPageInput) {
             totalPages,
         },
     };
-}
+});
 
-function createEmptyMediaPage(input: MediaLibraryPageInput) {
-    return {
-        availableKinds: MEDIA_LIBRARY_FILTER_KIND_VALUES,
-        availableTags: [] as { id: number; name: string; slug: string }[],
-        filters: {
-            kind: input.kind,
-            page: input.page,
-            pageSize: input.pageSize,
-            search: input.search,
-            tag: input.tag,
-        },
-        items: [] as {
-            createdAt: number | null;
-            description: string | null;
-            durationSeconds: number | null;
-            fileSizeLabel: string;
-            height: number | null;
-            id: number;
-            imageAltText: string | null;
-            kind: string;
-            mimeType: string;
-            name: string | null;
-            originalFilename: string | null;
-            previewError: boolean;
-            previewUrl: string | null;
-            sizeInBytes: number;
-            tags: { id: number; name: string; slug: string }[];
-            width: number | null;
-        }[],
-        pagination: {
-            hasNextPage: false,
-            hasPreviousPage: input.page > 1,
-            page: input.page,
-            pageSize: input.pageSize,
-            totalItems: 0,
-            totalPages: 1,
-        },
-    };
-}
+const createEmptyMediaPage = createServerOnlyFn((input: MediaLibraryPageInput) => ({
+    availableKinds: MEDIA_LIBRARY_FILTER_KIND_VALUES,
+    availableTags: [] as { id: number; name: string; slug: string }[],
+    filters: {
+        kind: input.kind,
+        page: input.page,
+        pageSize: input.pageSize,
+        search: input.search,
+        tag: input.tag,
+    },
+    items: [] as {
+        createdAt: number | null;
+        description: string | null;
+        durationSeconds: number | null;
+        fileSizeLabel: string;
+        height: number | null;
+        id: number;
+        imageAltText: string | null;
+        kind: string;
+        mimeType: string;
+        name: string | null;
+        originalFilename: string | null;
+        previewError: boolean;
+        previewUrl: string | null;
+        sizeInBytes: number;
+        tags: { id: number; name: string; slug: string }[];
+        width: number | null;
+    }[],
+    pagination: {
+        hasNextPage: false,
+        hasPreviousPage: input.page > 1,
+        page: input.page,
+        pageSize: input.pageSize,
+        totalItems: 0,
+        totalPages: 1,
+    },
+}));
 
-async function ensureTags(tagNames: string[], userId: string) {
+const ensureTags = createServerOnlyFn(async (tagNames: string[], userId: string) => {
     const normalizedTagNames = normalizeTagNames(tagNames);
 
     if (normalizedTagNames.length === 0) {
@@ -413,9 +413,9 @@ async function ensureTags(tagNames: string[], userId: string) {
         })
         .from(dbSchema.tags)
         .where(inArray(dbSchema.tags.name, normalizedTagNames));
-}
+});
 
-async function getMediaByStorageKey(storageKey: string) {
+const getMediaByStorageKey = createServerOnlyFn(async (storageKey: string) => {
     const db = await getMediaLibraryDB();
     const [media] = await db
         .select({
@@ -437,9 +437,9 @@ async function getMediaByStorageKey(storageKey: string) {
         .limit(1);
 
     return media ?? null;
-}
+});
 
-async function getMediaById(mediaId: number) {
+const getMediaById = createServerOnlyFn(async (mediaId: number) => {
     const db = await getMediaLibraryDB();
     const [media] = await db
         .select({
@@ -451,7 +451,7 @@ async function getMediaById(mediaId: number) {
         .limit(1);
 
     return media ?? null;
-}
+});
 
 export const getMediaLibraryPage = createServerFn({ method: "GET" })
     .inputValidator(mediaLibraryPageInputSchema)
