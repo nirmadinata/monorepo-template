@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 import { Card, CardContent, CardFooter } from "#/components/ui/card";
 
-interface AuthFormCardProps {
+interface AuthFormCardTemplateProps {
     children: React.ReactNode;
     description: string;
     footerHref: string;
@@ -11,14 +11,14 @@ interface AuthFormCardProps {
     title: string;
 }
 
-export function AuthFormCard({
+export function AuthFormCardTemplate({
     children,
     description,
     footerHref,
     footerLabel,
     footerPrompt,
     title,
-}: AuthFormCardProps) {
+}: AuthFormCardTemplateProps) {
     return (
         <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div className="space-y-5 lg:pr-8">

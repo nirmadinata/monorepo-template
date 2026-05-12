@@ -5,9 +5,12 @@ import { mediaLibrarySearchSchema } from "#/features/dashboard-media-library/lib
 import { getMediaLibraryPage } from "#/features/dashboard-media-library/server/media-library";
 
 export const Route = createFileRoute("/dashboard/media")({
-    loader: async ({ location }) => getMediaLibraryPage({ data: location.search }),
-    component: DashboardMediaRoute,
     validateSearch: mediaLibrarySearchSchema,
+    loader: async ({ location }) =>
+        getMediaLibraryPage({
+            data: mediaLibrarySearchSchema.parse(location.search),
+        }),
+    component: DashboardMediaRoute,
 });
 
 function DashboardMediaRoute() {

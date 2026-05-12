@@ -1,5 +1,5 @@
 import { dashboardAuthenticationPaths } from "../lib/util";
-import { GoogleAuthPage } from "./google-auth-page";
+import { GoogleAuthPage } from "./organisms/google-auth-page";
 
 export function WelcomePage() {
     return (

@@ -13,10 +13,12 @@
 ## Capabilities
 
 ### New Capabilities
+
 - `web-cms-form-flows`: Shared TanStack Form-driven form behavior for `apps/web-cms`, including schema-based validation, submission state, and consistent field/form error handling across auth and dashboard forms.
 - `dashboard-media-library-form-interactions`: TanStack Form-managed upload, filter, and tag-edit flows for the dashboard media library.
 
 ### Modified Capabilities
+
 - `dashboard-authentication-pages`: Authentication page interactions change from direct button actions to TanStack Form-managed submission flows with schema-backed form state and visible submission errors.
 
 ## Impact

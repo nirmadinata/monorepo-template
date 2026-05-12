@@ -14,7 +14,7 @@ import { useSidebar } from "#/components/ui/sidebar";
 import { authClient } from "#/integrations/auth/client";
 import { cn } from "#/lib/utils";
 
-import type { DashboardSession } from "../server/get-dashboard-session";
+import type { DashboardSession } from "../../server/get-dashboard-session";
 
 const DEFAULT_SIGN_OUT_ERROR_MESSAGE = "Unable to sign out right now.";
 

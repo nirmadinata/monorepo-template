@@ -6,8 +6,6 @@ import {
     normalizeTagNames,
 } from "./media-library";
 
-const fileSchema = typeof File === "undefined" ? z.custom<File>() : z.instanceof(File);
-
 export const mediaLibrarySearchSchema = z.object({
     kind: z.enum(MEDIA_LIBRARY_FILTER_KIND_VALUES).optional().default("all"),
     page: z.coerce.number().int().min(1).optional().default(1),
@@ -35,8 +33,14 @@ export const mediaTagEditFormSchema = z.object({
 });
 
 export const mediaUploadSubmissionSchema = z.object({
-    files: z.array(fileSchema).min(1, "Select at least one file to upload."),
+    files: z.array(z.file()).min(1, "Select at least one file to upload."),
 });
+
+export const MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES: z.infer<
+    typeof mediaUploadSubmissionSchema
+> = {
+    files: [],
+};
 
 export type MediaLibrarySearchValues = z.infer<typeof mediaLibrarySearchSchema>;
 export type MediaTagEditValues = z.infer<typeof mediaTagEditSchema>;

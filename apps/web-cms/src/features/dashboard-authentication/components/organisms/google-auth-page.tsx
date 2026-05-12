@@ -5,11 +5,11 @@ import { FieldError } from "#/components/ui/field";
 import { Spinner } from "#/components/ui/spinner";
 import { submitForm } from "#/lib/forms";
 
-import { runGoogleAuthAction } from "../hooks/use-google-auth-action";
-import { googleAuthSubmissionSchema } from "../lib/form-schema";
-import type { DashboardAuthenticationIntent } from "../lib/util";
-import { GoogleMark } from "./atoms/google-mark";
-import { AuthFormCard } from "./auth-form-card";
+import { runGoogleAuthAction } from "../../hooks/use-google-auth-action";
+import { googleAuthSubmissionSchema } from "../../lib/form-schema";
+import type { DashboardAuthenticationIntent } from "../../lib/util";
+import { GoogleMark } from "../atoms/google-mark";
+import { AuthFormCardTemplate } from "../templates/auth-form-card-template";
 
 interface GoogleAuthPageProps {
     actionLabel: string;
@@ -43,7 +43,7 @@ export function GoogleAuthPage({
     });
 
     return (
-        <AuthFormCard
+        <AuthFormCardTemplate
             description={description}
             footerHref={footerHref}
             footerLabel={footerLabel}
@@ -77,6 +77,6 @@ export function GoogleAuthPage({
                     )}
                 </form.Subscribe>
             </form>
-        </AuthFormCard>
+        </AuthFormCardTemplate>
     );
 }
