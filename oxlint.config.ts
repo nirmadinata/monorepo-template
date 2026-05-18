@@ -9,6 +9,7 @@ import oxignore from "./oxignore.json" with { type: "json" };
 
 export default defineConfig({
     extends: [core, react, next, remix],
+    jsPlugins: ["oxlint-tailwindcss"],
     ignorePatterns: Array.from(oxignore),
     overrides: [
         {
@@ -27,5 +28,7 @@ export default defineConfig({
         "require-await": "off",
         "no-abusive-eslint-disable": "off",
         "no-empty-interface": "off",
+        "tailwindcss/enforce-canonical": ["error"],
+        "tailwindcss/enforce-sort-order": ["error"],
     },
 });

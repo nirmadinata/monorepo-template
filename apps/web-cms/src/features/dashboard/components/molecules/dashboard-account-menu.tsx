@@ -89,7 +89,7 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
             <DropdownMenuTrigger
                 aria-label={`${displayName} account menu`}
                 className={cn(
-                    "items-center rounded-xl border border-sidebar-border/70 bg-sidebar-accent/40 text-sidebar-foreground shadow-none outline-none transition-colors hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-sidebar-ring aria-expanded:bg-sidebar-accent",
+                    "items-center rounded-xl border border-sidebar-border/70 bg-sidebar-accent/40 text-sidebar-foreground shadow-none transition-colors outline-none hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-sidebar-ring aria-expanded:bg-sidebar-accent",
                     isCompact
                         ? "flex size-8 justify-center p-0"
                         : "flex w-full gap-3 px-2.5 py-2 text-left text-sm"

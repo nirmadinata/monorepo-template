@@ -96,7 +96,7 @@ function DashboardParentMenuItem({ item }: { item: DashboardNavigationParentItem
                 <CollapsibleTrigger render={<SidebarMenuButton />}>
                     <Icon />
                     <span>{item.label}</span>
-                    <ChevronRightIcon className="ml-auto transition-transform data-panel-open:rotate-90 group-data-[collapsible=icon]:hidden" />
+                    <ChevronRightIcon className="ml-auto transition-transform group-data-[collapsible=icon]:hidden data-panel-open:rotate-90" />
                 </CollapsibleTrigger>
 
                 <CollapsibleContent>
