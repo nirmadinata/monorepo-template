@@ -16,7 +16,7 @@
         "@types/bun": "latest",
         "oxfmt": "^0.48.0",
         "oxlint": "^1.62.0",
-        "turbo": "^2.9.12",
+        "turbo": "^2.9.14",
         "ultracite": "7.6.3"
     },
     "peerDependencies": {
