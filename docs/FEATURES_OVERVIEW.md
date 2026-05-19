@@ -1,12 +1,13 @@
 # Features Overview
 
-This repository currently maintains one runtime app and no maintained workspace packages.
+This repository currently maintains two runtime apps and no maintained workspace packages.
 
 ## Workspace Summary
 
 | Surface             | Location                                                           | Current purpose                                                                                                                                             |
 | ------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Maintained app      | `apps/web-cms`                                                     | TanStack Start app on Cloudflare Workers with auth UI, protected dashboard shell, dashboard media library, Better Auth API route, and public API foundation |
+| Maintained app      | `apps/web-landing`                                                 | Next.js App Router landing page on OpenNext Cloudflare with cookie-based `next-intl` localization for `en` and `id`                                         |
 | Maintained packages | `packages/`                                                        | None today                                                                                                                                                  |
 | Change workflow     | `openspec/`                                                        | Proposal, design, spec, task, apply, and archive workflow                                                                                                   |
 | Human-readable docs | `docs/`                                                            | Curated project docs for humans and AI agents                                                                                                               |
@@ -56,15 +57,33 @@ This repository currently maintains one runtime app and no maintained workspace 
 - Purpose: D1 schema, Drizzle config, migrations, media/tag MIME metadata tables, app DB helpers, Cloudflare R2 S3 client and repository helpers, and typed Worker binding access
 - Current Worker bindings: `MAIN_DB`, `MAIN_KV`, `MAIN_R2`
 
+## `apps/web-landing` Runtime Map
+
+### Public Landing Page
+
+- Route: `/`
+- Code: `src/app/page.tsx`
+- Purpose: localized marketing landing content rendered from `next-intl` message catalogs
+
+### Localization
+
+- Code: `src/i18n/`, `src/messages/`, `src/app/actions.ts`, and `src/components/language-switcher.tsx`
+- Purpose: request-scoped cookie-based locale resolution, shared message catalogs for `en` and `id`, and in-app language switching without locale-prefixed routing
+
+### OpenNext And Cloudflare Runtime
+
+- Code: `next.config.ts`, `open-next.config.ts`, `wrangler.jsonc`, and `cloudflare-env.d.ts`
+- Purpose: Next.js to Cloudflare build/deploy integration plus typed Worker bindings for static assets, images, and self-reference
+
 ## Documentation Surfaces
 
 - `AGENTS.md`: canonical agent-facing repo guide
 - `apps/web-cms/AGENTS.md`: app-specific agent context
+- `apps/web-landing/AGENTS.md`: app-specific agent context
 - `docs/README.md`: human-readable docs index
 - `apps/web-cms/README.md`: human-readable app guide
+- `apps/web-landing/README.md`: human-readable app guide
 
 ## What Does Not Exist Today
 
 - No maintained runtime packages under `packages/`
-- No additional maintained apps under `apps/`
-- No multi-app docs hierarchy beyond the single `web-cms` app surface

@@ -1,59 +1,76 @@
-import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
-export default function Home() {
+import { LanguageSwitcher } from "@/components/language-switcher";
+
+export default async function Home() {
+    const t = await getTranslations("HomePage");
+
     return (
-        <div className="grid min-h-screen grid-rows-[20px_1fr_20px] items-center justify-items-center gap-16 p-8 pb-20 font-sans sm:p-20">
-            <main className="row-start-2 flex flex-col items-center gap-8 sm:items-start">
-                <Image
-                    className="dark:invert"
-                    src="/next.svg"
-                    alt="Next.js logo"
-                    width={180}
-                    height={38}
-                    priority
-                />
-                <ol className="list-inside list-decimal text-center font-mono text-sm/6 sm:text-left">
-                    <li className="mb-2 tracking-[-.01em]">
-                        Get started by editing{" "}
-                        <code className="rounded bg-black/5 px-1 py-0.5 font-mono font-semibold dark:bg-white/6">
-                            src/app/page.tsx
-                        </code>
-                        .
-                    </li>
-                    <li className="tracking-[-.01em]">Save and see your changes instantly.</li>
-                </ol>
+        <main className="min-h-screen bg-[radial-gradient(circle_at_top,#f8fafc,#e2e8f0_45%,#cbd5e1)] px-6 py-10 text-slate-950 sm:px-10">
+            <div className="mx-auto flex max-w-6xl flex-col gap-12">
+                <header className="flex flex-col gap-6 rounded-4xl border border-white/70 bg-white/80 p-6 shadow-lg shadow-slate-300/30 backdrop-blur sm:p-8">
+                    <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                        <div className="max-w-3xl space-y-4">
+                            <p className="text-xs font-semibold tracking-[0.3em] text-sky-700 uppercase">
+                                {t("eyebrow")}
+                            </p>
+                            <h1 className="max-w-2xl text-4xl font-semibold tracking-tight text-slate-950 sm:text-6xl">
+                                {t("title")}
+                            </h1>
+                            <p className="max-w-2xl text-base leading-7 text-slate-600 sm:text-lg">
+                                {t("description")}
+                            </p>
+                        </div>
+                        <LanguageSwitcher></LanguageSwitcher>
+                    </div>
 
-                <div className="flex flex-col items-center gap-4 sm:flex-row">
-                    <a
-                        className="flex h-10 w-full items-center justify-center rounded-full border border-solid border-black/8 px-4 text-sm font-medium transition-colors hover:border-transparent hover:bg-[#f2f2f2] sm:h-12 sm:w-auto sm:px-5 sm:text-base md:w-39.5 dark:border-white/[.145] dark:hover:bg-[#1a1a1a]"
-                        href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Read our docs
-                    </a>
-                </div>
-            </main>
-            <footer className="row-start-3 flex flex-wrap items-center justify-center gap-6">
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image aria-hidden src="/file.svg" alt="File icon" width={16} height={16} />
-                    Learn
-                </a>
-                <a
-                    className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-                    href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    <Image aria-hidden src="/globe.svg" alt="Globe icon" width={16} height={16} />
-                    Go to nextjs.org →
-                </a>
-            </footer>
-        </div>
+                    <div className="flex flex-col gap-3 sm:flex-row">
+                        <a
+                            className="inline-flex items-center justify-center rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
+                            href="https://nextjs.org/docs"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            {t("primaryCta")}
+                        </a>
+                        <a
+                            className="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+                            href="https://opennext.js.org/cloudflare"
+                            rel="noopener noreferrer"
+                            target="_blank"
+                        >
+                            {t("secondaryCta")}
+                        </a>
+                    </div>
+                </header>
+
+                <section className="grid gap-4 md:grid-cols-3">
+                    <article className="rounded-[1.75rem] border border-white/70 bg-white/75 p-6 shadow-md shadow-slate-300/20 backdrop-blur">
+                        <h2 className="text-lg font-semibold text-slate-950">
+                            {t("featureOneTitle")}
+                        </h2>
+                        <p className="mt-3 text-sm leading-6 text-slate-600">
+                            {t("featureOneDescription")}
+                        </p>
+                    </article>
+                    <article className="rounded-[1.75rem] border border-white/70 bg-white/75 p-6 shadow-md shadow-slate-300/20 backdrop-blur">
+                        <h2 className="text-lg font-semibold text-slate-950">
+                            {t("featureTwoTitle")}
+                        </h2>
+                        <p className="mt-3 text-sm leading-6 text-slate-600">
+                            {t("featureTwoDescription")}
+                        </p>
+                    </article>
+                    <article className="rounded-[1.75rem] border border-white/70 bg-white/75 p-6 shadow-md shadow-slate-300/20 backdrop-blur">
+                        <h2 className="text-lg font-semibold text-slate-950">
+                            {t("featureThreeTitle")}
+                        </h2>
+                        <p className="mt-3 text-sm leading-6 text-slate-600">
+                            {t("featureThreeDescription")}
+                        </p>
+                    </article>
+                </section>
+            </div>
+        </main>
     );
 }

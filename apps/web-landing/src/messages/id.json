@@ -1,0 +1,25 @@
+{
+    "Metadata": {
+        "title": "OpenNext Landing",
+        "description": "Landing page Next.js dwibahasa dengan lokalisasi berbasis cookie."
+    },
+    "HomePage": {
+        "eyebrow": "Lokalisasi berbasis cookie",
+        "title": "Kirim satu landing page dalam dua bahasa.",
+        "description": "Starter ini sekarang memakai next-intl dengan strategi locale berbasis cookie, sehingga konten Inggris dan Indonesia tetap memakai URL yang sama.",
+        "primaryCta": "Jelajahi Next.js",
+        "secondaryCta": "OpenNext untuk Cloudflare",
+        "featureTitle": "Mengapa setup ini cocok",
+        "featureOneTitle": "URL tetap stabil",
+        "featureOneDescription": "Preferensi bahasa disimpan di cookie, bukan pada route dengan prefix locale.",
+        "featureTwoTitle": "Pesan bersama",
+        "featureTwoDescription": "UI server dan client membaca katalog terjemahan yang sama.",
+        "featureThreeTitle": "Migrasi sederhana",
+        "featureThreeDescription": "Output Paraglide lama dihapus agar aplikasi hanya memiliki satu jalur i18n."
+    },
+    "LanguageSwitcher": {
+        "label": "Bahasa",
+        "en": "English",
+        "id": "Bahasa Indonesia"
+    }
+}

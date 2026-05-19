@@ -20,7 +20,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Workspace scripts currently cover `dev`, `build`, `check`, and `fix` (no test task)
 - Change workflow: OpenSpec under `openspec/`
-- Current maintained runtime surface: `apps/web-cms`
+- Current maintained runtime surfaces: `apps/web-cms` and `apps/web-landing`
 - There are currently no maintained workspace packages under `packages/`
 
 ## Commands
@@ -65,6 +65,17 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
 - See `apps/web-cms/AGENTS.md` before editing app-specific code
 
+### apps/web-landing
+
+- Next.js App Router app targeting Cloudflare Workers through OpenNext
+- Current public landing route lives at `/` via `src/app/page.tsx`
+- Root app shell and localized metadata live in `src/app/layout.tsx`
+- Cookie-based `next-intl` setup lives under `src/i18n/` with message catalogs under `src/messages/`
+- Locale switching uses an app-owned server action in `src/app/actions.ts` plus UI in `src/components/language-switcher.tsx`
+- Current supported locales are `en` and `id`, persisted through the `NEXT_LOCALE` cookie without locale-prefixed routing
+- Worker entrypoint and bindings live in `wrangler.jsonc`
+- See `apps/web-landing/AGENTS.md` before editing app-specific code
+
 ## OpenSpec Expectations
 
 - Use OpenSpec changes for planned work that benefits from proposal, design, and task artifacts
@@ -83,10 +94,11 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 
 ## Current Constraints To Remember
 
-- The repository currently has one maintained app implementation (`apps/web-cms`)
+- The repository currently has two maintained app implementations (`apps/web-cms` and `apps/web-landing`)
 - The D1 schema, Drizzle client helper, and checked-in migrations are owned directly by `apps/web-cms`
 - The current R2 client and repository helpers are owned directly by `apps/web-cms`
 - `packages/` is currently empty and not a source of maintained runtime code, exports, or workspace scripts
 - The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
 - The web app already includes a protected dashboard media library backed by app-local D1 metadata and R2 object storage
+- The landing app already includes cookie-based `next-intl` localization for `en` and `id` without locale-prefixed routing
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed

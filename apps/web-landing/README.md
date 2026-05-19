@@ -1,47 +1,56 @@
-# OpenNext Starter
+# web-landing
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+`apps/web-landing` is a maintained Next.js 16 App Router application that runs through OpenNext on Cloudflare Workers. Today it serves a public landing page with cookie-based `next-intl` localization for English and Indonesian while keeping URLs unchanged.
 
-## Getting Started
+## What Exists Today
 
-Read the documentation at https://opennext.js.org/cloudflare.
+- Public landing page at `/`
+- Cookie-based locale switching between `en` and `id`
+- `next-intl` request configuration with English fallback for missing or invalid locale cookies
+- App-owned message catalogs under `src/messages/`
+- OpenNext Cloudflare deployment and preview workflow
+- Cloudflare Worker bindings for static assets, image optimization, and worker self-reference
 
-## Develop
+## Commands
 
-Run the Next.js development server:
+Run these from `apps/web-landing/` unless noted otherwise.
 
-```bash
-npm run dev
-# or similar package manager command
-```
+| Command              | Purpose                                             |
+| -------------------- | --------------------------------------------------- |
+| `bun run dev`        | Start the Next.js development server                |
+| `bun run build`      | Build the app for production                        |
+| `bun run start`      | Start the production Next.js server                 |
+| `bun run preview`    | Build and preview the app on the Cloudflare runtime |
+| `bun run upload`     | Build and upload the Cloudflare bundle              |
+| `bun run deploy`     | Build and deploy the app to Cloudflare              |
+| `bun run cf-typegen` | Regenerate Wrangler/Cloudflare types                |
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+From the repository root, `bun run dev`, `bun run build`, `bun run check`, and `bun run fix` operate across the workspace.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+There is currently no maintained workspace test task.
 
-## Preview
+## Important Paths
 
-Preview the application locally on the Cloudflare runtime:
+- `src/app/layout.tsx`: localized metadata plus `NextIntlClientProvider` wiring
+- `src/app/page.tsx`: landing page content rendered from translation catalogs
+- `src/app/actions.ts`: locale-switching server action that writes the `NEXT_LOCALE` cookie
+- `src/components/language-switcher.tsx`: language switcher UI
+- `src/i18n/`: supported locale constants, request config, and message mapping
+- `src/messages/`: English and Indonesian translation catalogs
+- `next.config.ts`: `next-intl` plugin configuration plus OpenNext dev support
+- `open-next.config.ts`: OpenNext Cloudflare config
+- `wrangler.jsonc`: Worker entrypoint and `ASSETS`, `IMAGES`, `WORKER_SELF_REFERENCE` bindings
 
-```bash
-npm run preview
-# or similar package manager command
-```
+## Localization Notes
 
-## Deploy
+- Supported locales are `en` and `id`
+- `en` is the default locale
+- Locale preference is stored in the `NEXT_LOCALE` cookie
+- URLs stay stable; the app does not use locale-prefixed routing
+- Server and client UI both read from the same app-owned `next-intl` message catalogs
 
-Deploy the application to Cloudflare:
+## Documentation
 
-```bash
-npm run deploy
-# or similar package manager command
-```
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Read the repository root `AGENTS.md` before editing anything in this app.
+- Read `apps/web-landing/AGENTS.md` for app-specific agent context.
+- See `docs/README.md` for the repository's human-readable documentation index.

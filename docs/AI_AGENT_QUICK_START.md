@@ -1,12 +1,12 @@
 # AI Agent Quick Start
 
-This repository is a Bun-based template monorepo with one maintained runtime app today: `apps/web-cms`.
+This repository is a Bun-based template monorepo with two maintained runtime apps today: `apps/web-cms` and `apps/web-landing`.
 
 ## Read This First
 
 1. Read `../AGENTS.md`
 2. Read the nearest local `AGENTS.md` for the area you will edit
-3. Use `./FEATURES_OVERVIEW.md` and `../apps/web-cms/README.md` for human-readable context when needed
+3. Use `./FEATURES_OVERVIEW.md` plus the relevant app README for human-readable context when needed
 
 ## Current Repo Snapshot
 
@@ -14,7 +14,7 @@ This repository is a Bun-based template monorepo with one maintained runtime app
 - Workspace runner: Turbo
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Change workflow: OpenSpec under `openspec/`
-- Maintained app: `apps/web-cms`
+- Maintained apps: `apps/web-cms`, `apps/web-landing`
 - Maintained packages under `packages/`: none
 
 ## Current Runtime Surfaces
@@ -39,6 +39,22 @@ Core implementation locations:
 - `src/integrations/r2/`
 - `src/integrations/appenv/`
 
+### `apps/web-landing`
+
+- Public landing page at `/`
+- Cookie-based `next-intl` localization for `en` and `id`
+- Locale switching through the `NEXT_LOCALE` cookie with no locale-prefixed routing
+- OpenNext Cloudflare deployment and preview workflow
+
+Core implementation locations:
+
+- `src/app/`
+- `src/components/language-switcher.tsx`
+- `src/i18n/`
+- `src/messages/`
+- `next.config.ts`
+- `wrangler.jsonc`
+
 ## Common Commands
 
 From the repository root:
@@ -59,6 +75,16 @@ From `apps/web-cms/`:
 - `bun run cf-typegen`
 - `bun run deploy`
 
+From `apps/web-landing/`:
+
+- `bun run dev`
+- `bun run build`
+- `bun run start`
+- `bun run preview`
+- `bun run upload`
+- `bun run deploy`
+- `bun run cf-typegen`
+
 ## Documentation Shortcuts
 
 - `/sync-docs` updates both `AGENTS.md` files and human-readable docs
@@ -70,8 +96,9 @@ From `apps/web-cms/`:
 - Document what exists today, not future architecture
 - `packages/` is currently empty; do not document runtime code there
 - `apps/web-cms/src/routeTree.gen.ts` is generated output
+- `apps/web-landing` keeps locale selection in the `NEXT_LOCALE` cookie and does not use locale-prefixed routes
 - Authentication UI lives under `src/features/dashboard-authentication/`, while bootstrap/session server helpers live under `src/integrations/auth/`
-- `apps/web-cms/README.md` and the root `docs/` surface are maintained docs, not starter scaffolding
+- `apps/web-cms/README.md`, `apps/web-landing/README.md`, and the root `docs/` surface are maintained docs, not starter scaffolding
 - `apps/web-cms/src/test/` exists today but is currently empty, and the workspace still has no maintained test task
 
 ## When You Finish Work

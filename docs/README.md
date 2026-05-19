@@ -10,7 +10,7 @@ Start with `../AGENTS.md` if you are an AI agent or if you need the canonical wo
 2. `./AI_AGENT_QUICK_START.md` for a concise project walkthrough
 3. `./FEATURES_OVERVIEW.md` for the current maintained runtime and feature map
 4. `./AGENTS_MD_GUIDE.md` when creating or updating `AGENTS.md` files
-5. `../apps/web-cms/README.md` when working specifically in the maintained app
+5. `../apps/web-cms/README.md` or `../apps/web-landing/README.md` when working in a maintained app
 
 ## Documentation Files
 
@@ -65,6 +65,16 @@ Use it for:
 - app-specific commands
 - environment and Worker bindings
 - route and integration entry points
+
+### `../apps/web-landing/README.md`
+
+Human-readable app guide for the maintained `web-landing` application.
+
+Use it for:
+
+- app-specific commands
+- localization behavior and important paths
+- Cloudflare Worker bindings and deployment workflow
 
 ## Documentation Maintenance Commands
 
