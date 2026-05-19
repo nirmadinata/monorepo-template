@@ -61,7 +61,7 @@ Cloudflare Worker bindings are configured in `wrangler.jsonc`:
 
 Current caveat:
 
-- Checked-in D1 migrations currently live under `src/integrations/db/migrations/`, while `wrangler.jsonc`'s `env.development` override points `MAIN_DB` at `src/integrations/db/migrations/d1`
+- Checked-in D1 migrations currently live under `src/integrations/db/migrations/`, while `wrangler.jsonc`'s `env.development` override points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in
 
 ## Important Paths
 
