@@ -10,6 +10,7 @@ In this repository today:
 
 - `AGENTS.md` at the root is the canonical starting point
 - `apps/web-cms/AGENTS.md` adds app-specific guidance
+- `apps/web-landing/AGENTS.md` adds app-specific guidance
 
 ## When To Add A New `AGENTS.md`
 

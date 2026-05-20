@@ -4,7 +4,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 ## App Purpose
 
-`apps/web-landing` is a maintained Next.js App Router landing page that runs through OpenNext on Cloudflare Workers. Today it serves a single public landing page with cookie-based `next-intl` localization for English and Indonesian.
+`apps/web-landing` is a maintained Next.js App Router landing page that runs through OpenNext on Cloudflare Workers. Today it serves a single public landing page inside a shared responsive public shell with cookie-based `next-intl` localization for English and Indonesian.
 
 ## Current App Surface
 
@@ -24,6 +24,8 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/app/page.tsx`: landing page content rendered from localized message catalogs
 - `src/app/actions.ts`: server action that validates locale changes, writes the locale cookie, and redirects back to the current route
 - `src/components/language-switcher.tsx`: client language control for switching between English and Indonesian
+- `src/components/public-shell.tsx`: shared public website shell with top navigation, mobile menu, main content area, and footer
+- `src/components/public-shell-navigation.ts`: shared navigation and footer link definitions for the public shell
 - `src/i18n/config.ts`: supported locale constants and cookie configuration
 - `src/i18n/messages.ts`: locale-to-message-catalog mapping
 - `src/i18n/request.ts`: request-scoped `next-intl` config using the locale cookie with English fallback

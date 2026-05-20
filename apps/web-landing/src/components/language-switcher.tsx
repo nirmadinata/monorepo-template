@@ -38,10 +38,10 @@ export function LanguageSwitcher() {
     return (
         <form
             action={setLocaleAction}
-            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-slate-50 p-2"
+            className="flex max-w-full flex-wrap items-center justify-end gap-2 rounded-[1.25rem] border border-slate-200/80 bg-white/80 p-2 shadow-sm shadow-slate-200/40 backdrop-blur"
         >
             <input name="pathname" type="hidden" value={pathname}></input>
-            <span className="px-2 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase">
+            <span className="sr-only px-2 text-xs font-semibold tracking-[0.2em] text-slate-500 uppercase sm:not-sr-only">
                 {t("label")}
             </span>
             <div className="flex items-center gap-2">
