@@ -1,6 +1,4 @@
 import { ChevronUpIcon, LogOutIcon, UserIcon } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
 
 import { Avatar, AvatarFallback, AvatarImage } from "#/components/ui/avatar";
 import {
@@ -11,12 +9,10 @@ import {
     DropdownMenuTrigger,
 } from "#/components/ui/dropdown-menu";
 import { useSidebar } from "#/components/ui/sidebar";
-import { authClient } from "#/integrations/auth/client";
 import { cn } from "#/lib/utils";
 
+import { useDashboardSignOut } from "../../hooks/use-dashboard-sign-out";
 import type { DashboardSession } from "../../server/get-dashboard-session";
-
-const DEFAULT_SIGN_OUT_ERROR_MESSAGE = "Unable to sign out right now.";
 
 function getDisplayName(user: DashboardSession["user"]) {
     const name = user.name?.trim();
@@ -55,34 +51,10 @@ interface DashboardAccountMenuProps {
 
 export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
     const { isMobile, state } = useSidebar();
-    const [isSigningOut, setIsSigningOut] = useState(false);
+    const { isSigningOut, signOut } = useDashboardSignOut();
     const displayName = getDisplayName(user);
     const avatarFallbackLabel = getAvatarFallbackLabel(displayName);
     const isCompact = !isMobile && state === "collapsed";
-
-    async function handleSignOut() {
-        if (isSigningOut) {
-            return;
-        }
-
-        setIsSigningOut(true);
-
-        try {
-            const result = await authClient.signOut();
-
-            if (result?.error) {
-                toast.error(result.error.message || DEFAULT_SIGN_OUT_ERROR_MESSAGE);
-
-                return;
-            }
-
-            window.location.assign("/login");
-        } catch (error) {
-            toast.error(error instanceof Error ? error.message : DEFAULT_SIGN_OUT_ERROR_MESSAGE);
-        } finally {
-            setIsSigningOut(false);
-        }
-    }
 
     return (
         <DropdownMenu>
@@ -125,7 +97,7 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
                     <DropdownMenuItem
                         disabled={isSigningOut}
                         onClick={() => {
-                            void handleSignOut();
+                            void signOut();
                         }}
                         variant="destructive"
                     >

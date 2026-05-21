@@ -6,10 +6,12 @@ import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 import { appenv } from "#/integrations/appenv";
 import {
+    BOOTSTRAP_ADMIN_ROLE,
     getAuthAdapter,
     hasExistingUsers,
     parseTrustedOrigins,
     prepareBootstrapUser,
+    seedFirstUserSignupData,
 } from "#/integrations/auth/utils";
 
 interface AuthParam {
@@ -41,6 +43,17 @@ const createAuth = createServerOnlyFn(({ db, secondaryStorage }: AuthParam) => {
                         }
 
                         return { data: user };
+                    },
+                    async after(user) {
+                        if (!db || !user) {
+                            return;
+                        }
+
+                        if ((user.role as string | null | undefined) !== BOOTSTRAP_ADMIN_ROLE) {
+                            return;
+                        }
+
+                        await seedFirstUserSignupData(db, user.id);
                     },
                 },
             },

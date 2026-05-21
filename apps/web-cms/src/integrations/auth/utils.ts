@@ -4,6 +4,7 @@ import type { SecondaryStorage } from "better-auth";
 import { APIError } from "better-auth/api";
 import { eq } from "drizzle-orm";
 
+import { seedAppForFirstUserSignup } from "#/integrations/app/bootstrap";
 import { dbSchema, getDB } from "#/integrations/db";
 
 export const BOOTSTRAP_ADMIN_ROLE = "superadmin";
@@ -33,6 +34,10 @@ export async function prepareBootstrapUser<TUser extends object>(
         ...user,
         role: BOOTSTRAP_ADMIN_ROLE,
     };
+}
+
+export async function seedFirstUserSignupData(db: D1Database, userId: string) {
+    await seedAppForFirstUserSignup({ db, userId });
 }
 
 export function parseTrustedOrigins(value?: string) {

@@ -1,12 +1,9 @@
-import { useForm } from "@tanstack/react-form";
-
 import { Button } from "#/components/ui/button";
 import { FieldError } from "#/components/ui/field";
 import { Spinner } from "#/components/ui/spinner";
 import { submitForm } from "#/lib/forms";
 
-import { runGoogleAuthAction } from "../../hooks/use-google-auth-action";
-import { googleAuthSubmissionSchema } from "../../lib/form-schema";
+import { useGoogleAuthForm } from "../../hooks/use-google-auth-form";
 import type { DashboardAuthenticationIntent } from "../../lib/util";
 import { GoogleMark } from "../atoms/google-mark";
 import { AuthFormCardTemplate } from "../templates/auth-form-card-template";
@@ -30,17 +27,7 @@ export function GoogleAuthPage({
     intent,
     title,
 }: GoogleAuthPageProps) {
-    const form = useForm({
-        defaultValues: {
-            intent,
-        },
-        onSubmit: async ({ value }) => {
-            await runGoogleAuthAction(value.intent);
-        },
-        validators: {
-            onSubmit: googleAuthSubmissionSchema,
-        },
-    });
+    const form = useGoogleAuthForm(intent);
 
     return (
         <AuthFormCardTemplate

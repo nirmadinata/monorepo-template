@@ -1,16 +1,12 @@
 import { MoonIcon, SunIcon } from "lucide-react";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
 
 import { Button } from "#/components/ui/button";
+import { useMounted } from "#/hooks/use-mounted";
 
 export function ThemeToggle() {
     const { resolvedTheme, setTheme } = useTheme();
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    const isMounted = useMounted();
 
     const isDark = isMounted && resolvedTheme === "dark";
 

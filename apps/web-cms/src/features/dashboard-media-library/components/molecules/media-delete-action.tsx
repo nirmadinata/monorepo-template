@@ -1,6 +1,4 @@
 import { TriangleAlertIcon } from "lucide-react";
-import { useState } from "react";
-import { toast } from "sonner";
 
 import {
     AlertDialog,
@@ -16,7 +14,7 @@ import {
 } from "#/components/ui/alert-dialog";
 import { Button } from "#/components/ui/button";
 
-import { deleteMediaAsset } from "../../server/media-library";
+import { useMediaDeleteAction } from "../../hooks/use-media-delete-action";
 
 interface MediaDeleteActionProps {
     mediaId: number;
@@ -25,7 +23,7 @@ interface MediaDeleteActionProps {
 }
 
 export function MediaDeleteAction({ mediaId, mediaName, onDeleted }: MediaDeleteActionProps) {
-    const [isDeleting, setIsDeleting] = useState(false);
+    const { deleteMedia, isDeleting } = useMediaDeleteAction({ mediaId, onDeleted });
 
     return (
         <AlertDialog>
@@ -48,21 +46,7 @@ export function MediaDeleteAction({ mediaId, mediaName, onDeleted }: MediaDelete
                     <AlertDialogAction
                         disabled={isDeleting}
                         onClick={async () => {
-                            setIsDeleting(true);
-
-                            try {
-                                await deleteMediaAsset({ data: { mediaId } });
-                                toast.success("Media deleted.");
-                                await onDeleted();
-                            } catch (error) {
-                                toast.error(
-                                    error instanceof Error
-                                        ? error.message
-                                        : "Unable to delete this media asset right now."
-                                );
-                            } finally {
-                                setIsDeleting(false);
-                            }
+                            await deleteMedia();
                         }}
                         variant="destructive"
                     >

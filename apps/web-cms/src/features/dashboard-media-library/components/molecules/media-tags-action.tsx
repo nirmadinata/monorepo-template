@@ -1,7 +1,3 @@
-import { useForm } from "@tanstack/react-form";
-import { useEffect, useState } from "react";
-import { toast } from "sonner";
-
 import { Badge } from "#/components/ui/badge";
 import { Button } from "#/components/ui/button";
 import {
@@ -18,8 +14,7 @@ import { FieldError } from "#/components/ui/field";
 import { Textarea } from "#/components/ui/textarea";
 import { extractFormErrorItems, getManagedFieldProps, submitForm } from "#/lib/forms";
 
-import { mediaTagEditFormSchema, parseTagDraft } from "../../lib/form-schema";
-import { updateMediaTags } from "../../server/media-library";
+import { useMediaTagsAction } from "../../hooks/use-media-tags-action";
 
 interface MediaTagsActionProps {
     mediaId: number;
@@ -29,41 +24,11 @@ interface MediaTagsActionProps {
 }
 
 export function MediaTagsAction({ mediaId, mediaName, onUpdated, tagNames }: MediaTagsActionProps) {
-    const [isOpen, setIsOpen] = useState(false);
-    const form = useForm({
-        defaultValues: {
-            mediaId,
-            tagDraft: tagNames.join(", "),
-        },
-        onSubmit: async ({ value }) => {
-            await updateMediaTags({
-                data: {
-                    mediaId: value.mediaId,
-                    tagNames: parseTagDraft(value.tagDraft),
-                },
-            });
-
-            toast.success("Tags updated.");
-            setIsOpen(false);
-            await onUpdated();
-        },
-        validators: {
-            onSubmit: mediaTagEditFormSchema,
-        },
+    const { form, isOpen, normalizedTagNames, setIsOpen } = useMediaTagsAction({
+        mediaId,
+        onUpdated,
+        tagNames,
     });
-
-    const normalizedTagNames = parseTagDraft(form.state.values.tagDraft);
-
-    useEffect(() => {
-        if (!isOpen) {
-            return;
-        }
-
-        form.reset({
-            mediaId,
-            tagDraft: tagNames.join(", "),
-        });
-    }, [form, isOpen, mediaId, tagNames]);
 
     return (
         <Dialog

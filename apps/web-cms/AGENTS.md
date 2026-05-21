@@ -29,7 +29,9 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, dashboard account menu, and dashboard session loader, with shell UI split across `components/molecules`, `components/templates`, and the stable `dashboard-shell.tsx` entrypoint
 - `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell, with the route-facing page entrypoint delegating to a feature-local template
 - `src/features/dashboard-media-library/`: authenticated media-library page, TanStack Form-managed upload/filter/tag-edit flows, upload/list/delete server flows, and media-specific helpers, with page UI split across feature-local atomic component layers plus the stable `media-library-page.tsx` entrypoint
+- `src/features/*/hooks/`: feature-local hooks that keep component logic separate from component view files
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, trusted-origin parsing, and bootstrap-user preparation
+- `src/integrations/app/`: app-level server-only bootstrap helpers such as first-signup data seeding
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations under `migrations/`, and app-facing `getDB()`/`dbSchema` exports
 - `src/integrations/r2/`: Cloudflare R2 S3 client setup, app constants, shared types, and server-only repository helpers for presigned URLs and object access
@@ -57,9 +59,9 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard-home/` currently owns the dashboard landing page content for `/dashboard/` while the shared shell remains reusable for additional dashboard routes.
 - `src/features/dashboard-media-library/` owns the `/dashboard/media` route's upload, paginated list, signed preview, tag-filter, tag-edit, and delete flows, backed by D1 metadata plus R2 object storage.
 - Feature-owned UI under `src/features/*/components/` now follows an atomic-design convention where route-facing `*-page.tsx` or layout entry files stay stable and delegate into only the needed `atoms`, `molecules`, `organisms`, and `templates` subfolders for that feature.
-- The media library seeds supported `mime_types` rows at runtime from the app's allowed image and video MIME constants instead of exposing dashboard CRUD for MIME lookup rows.
+- The first successful bootstrap signup seeds app-owned lookup data, including the media library's supported `mime_types` rows, from the app's allowed image and video MIME constants.
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
-- The first successful Google bootstrap sign-in creates the initial `superadmin` account.
+- The first successful Google bootstrap sign-in creates the initial `superadmin` account and runs the initial app data seeding.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - The public authentication submit action is now managed through TanStack Form with a feature-local auth schema and form-level error rendering.
 - Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.

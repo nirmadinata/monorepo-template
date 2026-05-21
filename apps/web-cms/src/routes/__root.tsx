@@ -2,10 +2,10 @@ import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
 import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
-import { useEffect, useState } from "react";
 
 import { AppThemeProvider } from "#/components/theme-provider";
 import { Toaster } from "#/components/ui/sonner";
+import { useMounted } from "#/hooks/use-mounted";
 import TanStackQueryDevtools from "#/integrations/tanstack-query/devtools";
 
 import appCss from "#/styles.css?url";
@@ -44,11 +44,7 @@ function RootNotFound() {
 }
 
 function ClientMounted({ children }: { children: React.ReactNode }) {
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
+    const isMounted = useMounted();
 
     if (!isMounted) {
         return null;

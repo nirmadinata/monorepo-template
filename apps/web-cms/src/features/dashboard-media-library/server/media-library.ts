@@ -11,7 +11,6 @@ import { storageRepository } from "#/integrations/r2/repository";
 import { mediaLibrarySearchSchema as mediaLibraryPageInputSchema } from "../lib/form-schema";
 import {
     MEDIA_LIBRARY_FILTER_KIND_VALUES,
-    SEEDED_MEDIA_MIME_TYPES,
     formatBytes,
     getMaxUploadSizeForMimeType,
     getMediaKindForMimeType,
@@ -75,26 +74,6 @@ const requireMediaSession = createServerOnlyFn(async () => {
 const getMediaLibraryDB = createServerOnlyFn(async () => {
     const env = await getWorkerEnv();
     return getDB(env.MAIN_DB);
-});
-
-const ensureMediaMimeTypesSeeded = createServerOnlyFn(async (userId?: string) => {
-    const db = await getMediaLibraryDB();
-
-    await db
-        .insert(dbSchema.mimeTypes)
-        .values(
-            SEEDED_MEDIA_MIME_TYPES.map((mimeType) => ({
-                createdBy: userId ?? null,
-                description: null,
-                kind: mimeType.kind,
-                mimeType: mimeType.mimeType,
-                title: mimeType.title,
-                updatedBy: userId ?? null,
-            }))
-        )
-        .onConflictDoNothing();
-
-    return db;
 });
 
 const listAvailableTags = createServerOnlyFn(async () => {
@@ -448,16 +427,14 @@ const getMediaById = createServerOnlyFn(async (mediaId: number) => {
 export const getMediaLibraryPage = createServerFn({ method: "GET" })
     .inputValidator(mediaLibraryPageInputSchema)
     .handler(async ({ data }) => {
-        const session = await requireMediaSession();
-        await ensureMediaMimeTypesSeeded(session.user.id);
+        await requireMediaSession();
         return buildMediaPage(data);
     });
 
 export const requestMediaUploadIntent = createServerFn({ method: "POST" })
     .inputValidator(uploadIntentInputSchema)
     .handler(async ({ data }) => {
-        const session = await requireMediaSession();
-        await ensureMediaMimeTypesSeeded(session.user.id);
+        await requireMediaSession();
 
         if (!isSupportedMediaMimeType(data.mimeType)) {
             throw new Error("This file type is not supported by the media library.");
@@ -502,7 +479,7 @@ export const finalizeMediaUpload = createServerFn({ method: "POST" })
     .inputValidator(finalizeUploadInputSchema)
     .handler(async ({ data }) => {
         const session = await requireMediaSession();
-        const db = await ensureMediaMimeTypesSeeded(session.user.id);
+        const db = await getMediaLibraryDB();
 
         const existingMedia = await getMediaByStorageKey(data.storageKey);
 

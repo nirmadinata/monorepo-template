@@ -27,9 +27,8 @@ export function MediaLibraryPageTemplate({
 
             <section className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
                 <div className="flex flex-col gap-3">
-                    <p className="brand-kicker">Media Library</p>
                     <h1 className="text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
-                        Manage uploaded images and videos.
+                        Manage Media.
                     </h1>
                     <p className="max-w-3xl text-sm leading-7 text-muted-foreground sm:text-[0.95rem]">
                         Browse uploaded media, preview visible assets with signed URLs, and

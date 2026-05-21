@@ -20,7 +20,7 @@ export function AuthFormCardTemplate({
     title,
 }: AuthFormCardTemplateProps) {
     return (
-        <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:items-center">
             <div className="space-y-5 lg:pr-8">
                 <p className="brand-kicker">Secure Access</p>
                 <h1 className="max-w-xl text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
@@ -32,7 +32,7 @@ export function AuthFormCardTemplate({
             </div>
 
             <Card className="w-full border border-border/80 bg-card/92 shadow-(--shadow-lg) backdrop-blur-xl">
-                <CardContent className="space-y-6 py-6">{children}</CardContent>
+                <CardContent className="flex justify-center space-y-6 py-6">{children}</CardContent>
 
                 <CardFooter className="justify-center border-t border-border/70 bg-muted/30 text-center text-xs text-muted-foreground">
                     <p>
