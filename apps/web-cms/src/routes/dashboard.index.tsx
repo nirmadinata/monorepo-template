@@ -1,4 +1,4 @@
-import { createFileRoute, useLoaderData } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 
 import { DashboardHomePage } from "#/features/dashboard-home/components/dashboard-home-page";
 
@@ -7,9 +7,5 @@ export const Route = createFileRoute("/dashboard/")({
 });
 
 function DashboardRoute() {
-    const session = useLoaderData({
-        from: "/dashboard",
-    });
-
-    return <DashboardHomePage user={session.user} />;
+    return <DashboardHomePage />;
 }

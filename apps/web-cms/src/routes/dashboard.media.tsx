@@ -13,10 +13,10 @@ export const Route = createFileRoute("/dashboard/media")({
     component: DashboardMediaRoute,
 });
 
-const dashboardMediaRoute = getRouteApi("/dashboard/media");
+const routeApi = getRouteApi("/dashboard/media");
 
 function DashboardMediaRoute() {
-    const data = dashboardMediaRoute.useLoaderData();
+    const data = routeApi.useLoaderData();
 
     return <MediaLibraryPage data={data} />;
 }

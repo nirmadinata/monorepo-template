@@ -1,19 +1,21 @@
-import { Navigate, createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { WelcomePage } from "#/features/dashboard-authentication/components/welcome-page";
 import { getBootstrapState } from "#/integrations/auth";
 
+async function loader() {
+    const state = await getBootstrapState();
+
+    if (!state.isBootstrapOpen) {
+        throw redirect({ to: "/login" });
+    }
+}
+
 export const Route = createFileRoute("/_auth/")({
-    loader: async () => getBootstrapState(),
+    loader,
     component: WelcomeRoute,
 });
 
 function WelcomeRoute() {
-    const bootstrapState = Route.useLoaderData();
-
-    if (!bootstrapState.isBootstrapOpen) {
-        return <Navigate replace to="/login" />;
-    }
-
     return <WelcomePage />;
 }
