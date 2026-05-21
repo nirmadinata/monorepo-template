@@ -40,8 +40,6 @@ export function MediaLibraryPage({ data }: MediaLibraryPageProps) {
     const filterForm = useForm({
         defaultValues: mediaLibrarySearchSchema.parse(data.filters),
         onSubmit: async ({ value }) => {
-            console.log(`should navigate`);
-
             await navigate({
                 to: "/dashboard/media",
                 search: (previous) => ({
@@ -52,6 +50,7 @@ export function MediaLibraryPage({ data }: MediaLibraryPageProps) {
                     search: value.search,
                     tag: value.tag,
                 }),
+                reloadDocument: true,
             });
         },
         validators: {
