@@ -35,8 +35,13 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
             },
         ],
     }),
+    notFoundComponent: RootNotFound,
     shellComponent: RootDocument,
 });
+
+function RootNotFound() {
+    return <p className="px-4 py-6 text-sm text-muted-foreground sm:px-6 lg:px-8">Not found.</p>;
+}
 
 function ClientMounted({ children }: { children: React.ReactNode }) {
     const [isMounted, setIsMounted] = useState(false);
