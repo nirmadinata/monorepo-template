@@ -52,7 +52,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 ## Implementation Notes
 
 - The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard/server/get-dashboard-session.ts`.
-- The authenticated dashboard shell now renders the theme toggle in the header and a user account dropdown in the sidebar footer, with current-user data threaded from the `/dashboard` route loader into the shell.
+- The authenticated dashboard shell now renders the theme toggle in the header, a user account dropdown in the sidebar footer, and hover-to-expand behavior when the desktop sidebar is in icon-collapse mode, with current-user data threaded from the `/dashboard` route loader into the shell.
 - Dashboard navigation is still mostly static mock CMS navigation, but `src/features/dashboard/lib/navigation.ts` now includes a concrete `/dashboard/media` entry.
 - `src/features/dashboard-home/` currently owns the dashboard landing page content for `/dashboard/` while the shared shell remains reusable for additional dashboard routes.
 - `src/features/dashboard-media-library/` owns the `/dashboard/media` route's upload, paginated list, signed preview, tag-filter, tag-edit, and delete flows, backed by D1 metadata plus R2 object storage.
@@ -73,6 +73,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 When `graphify-out/` is present, use it as the repository's local knowledge graph.
 
 Rules:
+
 - Before answering architecture or codebase questions, read `graphify-out/GRAPH_REPORT.md` for god nodes and community structure when that file exists
 - If `graphify-out/wiki/index.md` exists, navigate it instead of reading raw files
 - For cross-module "how does X relate to Y" questions, prefer `graphify query "<question>"`, `graphify path "<A>" "<B>"`, or `graphify explain "<concept>"` over grep when graphify outputs are available

@@ -1,5 +1,6 @@
 import { Link, useMatchRoute } from "@tanstack/react-router";
 import { ChevronRightIcon } from "lucide-react";
+import { useState } from "react";
 
 import { ThemeToggle } from "#/components/theme-toggle";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "#/components/ui/collapsible";
@@ -126,27 +127,52 @@ interface DashboardShellTemplateProps {
 }
 
 export function DashboardShellTemplate({ children, user }: DashboardShellTemplateProps) {
+    const [isSidebarPinnedOpen, setIsSidebarPinnedOpen] = useState(false);
+    const [isSidebarHovering, setIsSidebarHovering] = useState(false);
+
+    const isSidebarOpen = isSidebarPinnedOpen || isSidebarHovering;
+
     return (
-        <SidebarProvider>
-            <Sidebar collapsible="icon" variant="inset">
-                <SidebarHeader className="gap-3 p-3">
-                    <DashboardSidebarBrand />
-                </SidebarHeader>
+        <SidebarProvider
+            onOpenChange={(open) => {
+                setIsSidebarPinnedOpen(open);
 
-                <SidebarSeparator />
+                if (open) {
+                    setIsSidebarHovering(false);
+                }
+            }}
+            open={isSidebarOpen}
+        >
+            <div
+                onMouseEnter={() => {
+                    if (!isSidebarPinnedOpen) {
+                        setIsSidebarHovering(true);
+                    }
+                }}
+                onMouseLeave={() => {
+                    setIsSidebarHovering(false);
+                }}
+            >
+                <Sidebar collapsible="icon" variant="inset">
+                    <SidebarHeader className="gap-3 p-3">
+                        <DashboardSidebarBrand />
+                    </SidebarHeader>
 
-                <SidebarContent>
-                    <DashboardSidebarNavigation groups={dashboardNavigationGroups} />
-                </SidebarContent>
+                    <SidebarSeparator />
 
-                <SidebarSeparator />
+                    <SidebarContent>
+                        <DashboardSidebarNavigation groups={dashboardNavigationGroups} />
+                    </SidebarContent>
 
-                <SidebarFooter className="p-3 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:p-2">
-                    <DashboardAccountMenu user={user} />
-                </SidebarFooter>
+                    <SidebarSeparator />
 
-                <SidebarRail />
-            </Sidebar>
+                    <SidebarFooter className="p-3 group-data-[collapsible=icon]:items-center group-data-[collapsible=icon]:p-2">
+                        <DashboardAccountMenu user={user} />
+                    </SidebarFooter>
+
+                    <SidebarRail />
+                </Sidebar>
+            </div>
 
             <SidebarInset className="min-h-screen bg-background">
                 <header className="sticky top-0 z-10 border-b border-border/70 bg-background/80 backdrop-blur-xl">

@@ -54,7 +54,7 @@ export const dashboardNavigationGroups: readonly DashboardNavigationGroup[] = [
             {
                 icon: ImagesIcon,
                 kind: "link",
-                label: "Media",
+                label: "Media Manager",
                 to: "/dashboard/media",
             },
             {
