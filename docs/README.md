@@ -24,6 +24,7 @@ Use it for:
 - repository constraints and current workspace map
 - package/app guidance lookup rules
 - agent tooling and installed skill discovery expectations
+- repository-local Opencode command and plugin surfaces
 
 ### `AI_AGENT_QUICK_START.md`
 
@@ -76,10 +77,19 @@ Use it for:
 - localization behavior and important paths
 - Cloudflare Worker bindings and deployment workflow
 
+## Additional `AGENTS.md` Files
+
+The maintained runtime guidance starts with the root `AGENTS.md` plus the nearest app or package guide.
+
+The repository can also contain `AGENTS.md` files inside repository-local tooling directories when a checked-in skill or reference set vendors one. Today that includes `.agents/skills/vercel-react-best-practices/AGENTS.md`.
+
+Treat those as local skill artifacts, not as replacements for the root or app/package guides.
+
 ## Documentation Maintenance Commands
 
 - `/sync-docs`: synchronize both `AGENTS.md` files and human-readable docs together
 - `/sync-agents`: synchronize only `AGENTS.md` files
+- `/opsx-explore`: OpenSpec exploration workflow command
 - `/opsx-propose`, `/opsx-apply`, `/opsx-archive`: OpenSpec change workflow commands
 
 ## Conventions
@@ -87,6 +97,7 @@ Use it for:
 - `AGENTS.md` files stay concise, operational, and close to the code they describe
 - `docs/*.md` files are human-readable and navigable
 - Shared facts such as commands, paths, maintained apps, and feature locations should stay consistent across both surfaces
+- Skill-local documentation under `.agents/`, `.github/skills/`, `.claude/`, `.codex/`, or `.opencode/` may ship their own docs, but maintained runtime guidance still starts at the root guide and the nearest app/package guide
 - Documentation should describe what exists today, not future architecture
 
 ## Update Triggers

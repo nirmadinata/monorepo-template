@@ -8,9 +8,9 @@ This guide explains how `AGENTS.md` files should work in this repository.
 
 In this repository today:
 
-- `AGENTS.md` at the root is the canonical starting point
-- `apps/web-cms/AGENTS.md` adds app-specific guidance
-- `apps/web-landing/AGENTS.md` adds app-specific guidance
+- `AGENTS.md` at the root is the canonical starting point for maintained runtime work
+- `apps/web-cms/AGENTS.md` and `apps/web-landing/AGENTS.md` add the current app-specific guidance
+- repository-local tooling directories can also contain checked-in `AGENTS.md` files for installed skills or references, such as `.agents/skills/vercel-react-best-practices/AGENTS.md`
 
 ## When To Add A New `AGENTS.md`
 
@@ -21,6 +21,8 @@ Add a new package-level or app-level `AGENTS.md` when all of these are true:
 - agents are likely to edit it without enough context from the root guide alone
 
 Do not add extra `AGENTS.md` files for placeholder directories, generated output, or areas that do not own maintained runtime code.
+
+Do not treat a skill-local `AGENTS.md` inside `.agents/`, `.github/skills/`, `.claude/`, `.codex/`, or `.opencode/` as a replacement for a runtime package/app guide. Those files are valid repository artifacts, but they document the skill or reference bundle that owns them.
 
 ## What To Include
 

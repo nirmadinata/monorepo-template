@@ -11,7 +11,7 @@ This repository currently maintains two runtime apps and no maintained workspace
 | Maintained packages | `packages/`                                                        | None today                                                                                                                                                  |
 | Change workflow     | `openspec/`                                                        | Proposal, design, spec, task, apply, and archive workflow                                                                                                   |
 | Human-readable docs | `docs/`                                                            | Curated project docs for humans and AI agents                                                                                                               |
-| Agent tooling       | `.opencode/`, `.agents/`, `.github/skills/`, `.claude/`, `.codex/` | Local command, prompt, and skill surfaces                                                                                                                   |
+| Agent tooling       | `.opencode/`, `.agents/`, `.github/skills/`, `.claude/`, `.codex/` | Local command, prompt, skill, and Opencode plugin surfaces                                                                                                   |
 
 ## `apps/web-cms` Runtime Map
 
@@ -70,6 +70,11 @@ This repository currently maintains two runtime apps and no maintained workspace
 - Code: `src/i18n/`, `src/messages/`, `src/app/actions.ts`, and `src/components/language-switcher.tsx`
 - Purpose: request-scoped cookie-based locale resolution, shared message catalogs for `en` and `id`, and in-app language switching without locale-prefixed routing
 
+### Public Shell
+
+- Code: `src/components/public-shell.tsx` and `src/components/public-shell-navigation.ts`
+- Purpose: shared responsive shell with sticky header, mobile navigation, footer resource links, and anchor-based section navigation for the landing page
+
 ### OpenNext And Cloudflare Runtime
 
 - Code: `next.config.ts`, `open-next.config.ts`, `wrangler.jsonc`, and `cloudflare-env.d.ts`
@@ -83,6 +88,12 @@ This repository currently maintains two runtime apps and no maintained workspace
 - `docs/README.md`: human-readable docs index
 - `apps/web-cms/README.md`: human-readable app guide
 - `apps/web-landing/README.md`: human-readable app guide
+- Repository-local skills may also vendor their own `AGENTS.md` files under tooling directories, such as `.agents/skills/vercel-react-best-practices/AGENTS.md`
+
+## Workflow Tooling
+
+- `.opencode/command/`: repository-local `/sync-docs`, `/sync-agents`, and `opsx-*` commands
+- `.opencode/opencode.json`: Opencode config that loads `.opencode/plugins/graphify.js`
 
 ## What Does Not Exist Today
 

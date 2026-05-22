@@ -19,7 +19,6 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - App-owned object storage integration: `src/integrations/r2`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
 - Typed environment parsing lives under `src/integrations/appenv/`; `appenv` currently requires the Better Auth, Google OAuth, public API, `BUCKET_NAME`, and R2 S3 credential values, and also supports optional client-side `VITE_APP_TITLE`
-- App-local test directory: `src/test/` exists today but is currently empty; the workspace still has no maintained test task
 - Human-readable app guide: `README.md`
 
 ## Source Map
@@ -39,7 +38,6 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
 - `src/components/`: shared app components such as theming and reusable UI primitives
 - `src/lib/forms.ts`: app-local TanStack Form helpers for shared field props and submission error mapping
-- `src/test/`: currently empty app-local test directory
 - `vite.config.ts`: TanStack Start, Cloudflare, Tailwind, devtools, and React Compiler plugin setup
 - `wrangler.jsonc`: Worker entrypoint plus `MAIN_DB`, `MAIN_KV`, and `MAIN_R2` bindings
 - `README.md`: human-readable app overview, local setup, and deployment notes
@@ -69,3 +67,13 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - The media-library search/filter, tag-edit, and upload flows are now managed through TanStack Form with feature-local schemas reused by the route search contract where applicable.
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in.
 - The public API docs are served from `/api/public/`, with OpenAPI JSON at `/api/public/openapi.json`.
+
+## graphify
+
+When `graphify-out/` is present, use it as the repository's local knowledge graph.
+
+Rules:
+- Before answering architecture or codebase questions, read `graphify-out/GRAPH_REPORT.md` for god nodes and community structure when that file exists
+- If `graphify-out/wiki/index.md` exists, navigate it instead of reading raw files
+- For cross-module "how does X relate to Y" questions, prefer `graphify query "<question>"`, `graphify path "<A>" "<B>"`, or `graphify explain "<concept>"` over grep when graphify outputs are available
+- After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)

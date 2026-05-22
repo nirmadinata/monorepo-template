@@ -42,7 +42,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - `.claude/skills/` and `.claude/commands/`: repository-local Claude skill and command assets
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.github/prompts/` and `.github/hooks/`: repository-local GitHub Copilot prompt and hook configuration
-- `.opencode/`: repository-local Opencode commands under `.opencode/command/`, including `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, plus experimental workflow skills under `.opencode/skills/`
+- `.opencode/`: repository-local Opencode commands under `.opencode/command/`, including `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, experimental workflow skills under `.opencode/skills/`, and `opencode.json` plugin wiring for `.opencode/plugins/graphify.js`
 - `graphify-out/`: local graphify knowledge-graph outputs for repository exploration workflows when generated
 - `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance
 - `.codex/skills/`: repository-local Codex skill assets
@@ -102,3 +102,13 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - The web app already includes a protected dashboard media library backed by app-local D1 metadata and R2 object storage
 - The landing app already includes cookie-based `next-intl` localization for `en` and `id` without locale-prefixed routing
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
+
+## graphify
+
+When `graphify-out/` is present, use it as the repository's local knowledge graph.
+
+Rules:
+- Before answering architecture or codebase questions, read `graphify-out/GRAPH_REPORT.md` for god nodes and community structure when that file exists
+- If `graphify-out/wiki/index.md` exists, navigate it instead of reading raw files
+- For cross-module "how does X relate to Y" questions, prefer `graphify query "<question>"`, `graphify path "<A>" "<B>"`, or `graphify explain "<concept>"` over grep when graphify outputs are available
+- After modifying code files in this session, run `graphify update .` to keep the graph current (AST-only, no API cost)

@@ -16,6 +16,7 @@ This repository is a Bun-based template monorepo with two maintained runtime app
 - Change workflow: OpenSpec under `openspec/`
 - Maintained apps: `apps/web-cms`, `apps/web-landing`
 - Maintained packages under `packages/`: none
+- Repository-local Opencode config: `.opencode/opencode.json` loads `.opencode/plugins/graphify.js`
 
 ## Current Runtime Surfaces
 
@@ -89,6 +90,8 @@ From `apps/web-landing/`:
 
 - `/sync-docs` updates both `AGENTS.md` files and human-readable docs
 - `/sync-agents` updates only `AGENTS.md` files
+- `/opsx-explore` is the repo-local exploration command for OpenSpec work
+- `/opsx-propose`, `/opsx-apply`, and `/opsx-archive` are the other repo-local OpenSpec workflow commands
 - `docs/README.md` is the root index for human-readable docs
 
 ## High-Signal Pitfalls
@@ -99,7 +102,7 @@ From `apps/web-landing/`:
 - `apps/web-landing` keeps locale selection in the `NEXT_LOCALE` cookie and does not use locale-prefixed routes
 - Authentication UI lives under `src/features/dashboard-authentication/`, while bootstrap/session server helpers live under `src/integrations/auth/`
 - `apps/web-cms/README.md`, `apps/web-landing/README.md`, and the root `docs/` surface are maintained docs, not starter scaffolding
-- `apps/web-cms/src/test/` exists today but is currently empty, and the workspace still has no maintained test task
+- The workspace still has no maintained test task
 
 ## When You Finish Work
 

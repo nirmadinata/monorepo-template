@@ -5,6 +5,7 @@
 ## What Exists Today
 
 - Public landing page at `/`
+- Shared `PublicShell` layout with sticky header, mobile navigation, and footer resources
 - Cookie-based locale switching between `en` and `id`
 - `next-intl` request configuration with English fallback for missing or invalid locale cookies
 - App-owned message catalogs under `src/messages/`
@@ -35,6 +36,8 @@ There is currently no maintained workspace test task.
 - `src/app/page.tsx`: landing page content rendered from translation catalogs
 - `src/app/actions.ts`: locale-switching server action that writes the `NEXT_LOCALE` cookie
 - `src/components/language-switcher.tsx`: language switcher UI
+- `src/components/public-shell.tsx`: shared responsive public shell with header, mobile menu, main content area, and footer
+- `src/components/public-shell-navigation.ts`: shared landing-page anchor navigation and footer resource link definitions
 - `src/i18n/`: supported locale constants, request config, and message mapping
 - `src/messages/`: English and Indonesian translation catalogs
 - `next.config.ts`: `next-intl` plugin configuration plus OpenNext dev support

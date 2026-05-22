@@ -76,6 +76,7 @@ Current caveat:
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare Worker binding access
 - `src/integrations/r2/`: Cloudflare R2 S3 client setup, shared types, constants, and repository helpers
 - `src/components/ui/`: shared UI primitives configured through `components.json`
+- `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`: app theming and the dashboard theme toggle
 
 ## Auth And API Notes
 
