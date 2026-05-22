@@ -10,7 +10,6 @@ import {
 import type { ComponentType } from "react";
 
 export const DASHBOARD_BRAND_NAME = "Mock CMS";
-export const DASHBOARD_BRAND_TAGLINE = "Admin workspace";
 
 interface DashboardNavigationLinkItem {
     icon: ComponentType<{ className?: string }>;

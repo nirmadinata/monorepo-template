@@ -1,5 +1,5 @@
 import { Link, useMatchRoute } from "@tanstack/react-router";
-import { ChevronRightIcon, ChevronsLeftRightEllipsisIcon } from "lucide-react";
+import { ChevronRightIcon } from "lucide-react";
 
 import { ThemeToggle } from "#/components/theme-toggle";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "#/components/ui/collapsible";
@@ -24,11 +24,7 @@ import {
     SidebarTrigger,
 } from "#/components/ui/sidebar";
 
-import {
-    DASHBOARD_BRAND_NAME,
-    DASHBOARD_BRAND_TAGLINE,
-    dashboardNavigationGroups,
-} from "../../lib/navigation";
+import { DASHBOARD_BRAND_NAME, dashboardNavigationGroups } from "../../lib/navigation";
 import type { DashboardNavigationGroup, DashboardNavigationItem } from "../../lib/navigation";
 import type { DashboardSession } from "../../server/get-dashboard-session";
 import { DashboardAccountMenu } from "../molecules/dashboard-account-menu";
@@ -40,31 +36,14 @@ type DashboardNavigationParentItem = Extract<DashboardNavigationItem, { kind: "p
 function DashboardSidebarBrand() {
     return (
         <Link className="no-underline" to="/dashboard">
-            <div className="flex items-center gap-3 overflow-hidden rounded-xl border border-sidebar-border/70 bg-sidebar-accent/50 px-3 py-3 text-sidebar-foreground transition-colors hover:bg-sidebar-accent">
-                <div className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-sidebar-border/80 bg-sidebar text-sidebar-foreground shadow-sm">
-                    <ChevronsLeftRightEllipsisIcon />
-                </div>
+            <div className="flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-sidebar-border/70 bg-sidebar-accent/50 px-3 py-3 text-sidebar-foreground transition-colors hover:bg-sidebar-accent">
                 <div className="min-w-0 group-data-[collapsible=icon]:hidden">
                     <p className="truncate text-sm font-semibold tracking-tight">
                         {DASHBOARD_BRAND_NAME}
                     </p>
-                    <p className="truncate text-xs text-sidebar-foreground/70">
-                        {DASHBOARD_BRAND_TAGLINE}
-                    </p>
                 </div>
             </div>
         </Link>
-    );
-}
-
-function DashboardHeaderBrand() {
-    return (
-        <div className="min-w-0">
-            <p className="truncate text-sm font-semibold tracking-tight text-foreground">
-                {DASHBOARD_BRAND_NAME}
-            </p>
-            <p className="truncate text-xs text-muted-foreground">{DASHBOARD_BRAND_TAGLINE}</p>
-        </div>
     );
 }
 
@@ -174,7 +153,6 @@ export function DashboardShellTemplate({ children, user }: DashboardShellTemplat
                     <div className="flex h-16 items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
                         <div className="flex min-w-0 items-center gap-3">
                             <SidebarTrigger />
-                            <DashboardHeaderBrand />
                         </div>
 
                         <div className="flex items-center gap-2">
