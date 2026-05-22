@@ -108,6 +108,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 When `graphify-out/` is present, use it as the repository's local knowledge graph.
 
 Rules:
+
 - Before answering architecture or codebase questions, read `graphify-out/GRAPH_REPORT.md` for god nodes and community structure when that file exists
 - If `graphify-out/wiki/index.md` exists, navigate it instead of reading raw files
 - For cross-module "how does X relate to Y" questions, prefer `graphify query "<question>"`, `graphify path "<A>" "<B>"`, or `graphify explain "<concept>"` over grep when graphify outputs are available
