@@ -15,7 +15,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
 - App theming is handled through `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`
-- App-owned database integration: `src/integrations/db`
+- App-owned database integration: `src/integrations/db`, backed by shared schema source from `packages/db-schema`
 - App-owned object storage integration: `src/integrations/r2`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
 - Typed environment parsing lives under `src/integrations/appenv/`; `appenv` currently requires the Better Auth, Google OAuth, public API, `BUCKET_NAME`, and R2 S3 credential values, and also supports optional client-side `VITE_APP_TITLE`
@@ -32,7 +32,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, trusted-origin parsing, and bootstrap-user preparation
 - `src/integrations/app/`: app-level server-only bootstrap helpers such as first-signup data seeding
 - `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
-- `src/integrations/db/`: app-owned D1 schema, Drizzle client helper, Drizzle config, checked-in migrations under `migrations/`, and app-facing `getDB()`/`dbSchema` exports
+- `src/integrations/db/`: app-owned Drizzle D1 client helper, Drizzle config, checked-in migrations under `migrations/`, and app-facing `getDB()`/`dbSchema` exports backed by `@repo/db-schema`
 - `src/integrations/r2/`: Cloudflare R2 S3 client setup, app constants, shared types, and server-only repository helpers for presigned URLs and object access
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
@@ -62,7 +62,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - The first successful Google bootstrap sign-in creates the initial `superadmin` account and runs the initial app data seeding.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - The public authentication submit action is now managed through TanStack Form with a feature-local auth schema and form-level error rendering.
-- Better Auth uses the app-local D1 schema under `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
+- Better Auth uses the shared `@repo/db-schema` schema re-exported through `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
 - Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
 - The media-library search/filter, tag-edit, and upload flows are now managed through TanStack Form with feature-local schemas reused by the route search contract where applicable.
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in.

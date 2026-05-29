@@ -14,14 +14,14 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 ## Repository Snapshot
 
 - Package manager: Bun (`1.3.13` via `packageManager`)
-- Workspace globs: `packages/*` and `apps/*` (the `packages/` directory is currently empty)
+- Workspace globs: `packages/*` and `apps/*`
 - Task runner: Turbo (`turbo.json`)
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Workspace scripts currently cover `dev`, `build`, `check`, and `fix` (no test task)
 - Change workflow: OpenSpec under `openspec/`
 - Current maintained runtime surfaces: `apps/web-cms` and `apps/web-landing`
-- There are currently no maintained workspace packages under `packages/`
+- Current maintained workspace packages: `packages/db-schema`
 
 ## Commands
 
@@ -46,7 +46,8 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - `graphify-out/`: local graphify knowledge-graph outputs for repository exploration workflows when generated
 - `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance
 - `.codex/skills/`: repository-local Codex skill assets
-- `packages/`: workspace package root, currently empty
+- `packages/`: workspace package root
+- `packages/db-schema`: shared Drizzle schema package consumed by `apps/web-cms`
 
 ### apps/web-cms
 
@@ -56,8 +57,8 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Dashboard landing page content for `/dashboard` lives under `src/features/dashboard-home/`
 - Dashboard media-library route and feature code live under `src/routes/dashboard.media.tsx` and `src/features/dashboard-media-library/`
 - Current server integrations live under `src/integrations/`
-- Auth is backed by Better Auth plus the app-local D1/Drizzle integration under `src/integrations/db`
-- The app-owned D1 schema, Drizzle client helper, Drizzle config, and checked-in migrations live under `src/integrations/db/`
+- Auth is backed by Better Auth plus the `web-cms` D1/Drizzle integration under `src/integrations/db`
+- The shared schema source for `web-cms` lives in `packages/db-schema`, while the app-owned Drizzle client helper, Drizzle config, and checked-in migrations remain under `src/integrations/db/`
 - App-owned Cloudflare R2 client helpers, constants, and repository utilities live under `src/integrations/r2/`
 - Current public auth UI routes are `/` and `/login` via `src/routes/_auth*`
 - Current authenticated dashboard routes are `/dashboard` and `/dashboard/media`
@@ -95,9 +96,9 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 ## Current Constraints To Remember
 
 - The repository currently has two maintained app implementations (`apps/web-cms` and `apps/web-landing`)
-- The D1 schema, Drizzle client helper, and checked-in migrations are owned directly by `apps/web-cms`
+- The shared D1 schema source is owned by `packages/db-schema`, while the Drizzle client helper and checked-in migrations remain owned by `apps/web-cms`
 - The current R2 client and repository helpers are owned directly by `apps/web-cms`
-- `packages/` is currently empty and not a source of maintained runtime code, exports, or workspace scripts
+- `packages/db-schema` is currently the only maintained workspace package under `packages/`
 - The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
 - The web app already includes a protected dashboard media library backed by app-local D1 metadata and R2 object storage
 - The landing app already includes cookie-based `next-intl` localization for `en` and `id` without locale-prefixed routing

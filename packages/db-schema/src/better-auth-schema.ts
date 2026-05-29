@@ -1,7 +1,7 @@
 import { relations, sql } from "drizzle-orm";
 import { index, int, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
-import { COLUMN_ALIASES, TABLE_ALIASES } from "#/integrations/db/constants";
+import { COLUMN_ALIASES, TABLE_ALIASES } from "./constants";
 
 const DEFAULT_CURRENT_MILLISECONDS = sql`(cast(unixepoch('subsecond') * 1000 as integer))`;
 
@@ -21,9 +21,6 @@ const BETTER_AUTH_COMMON_FIELDS = {
         .$onUpdate(() => DEFAULT_CURRENT_MILLISECONDS),
 } as const;
 
-/**
- * better auth tables
- */
 export const users = sqliteTable(
     TABLE_ALIASES.USERS,
     {
@@ -114,9 +111,6 @@ export const verification = sqliteTable(
     (table) => [index("verification_identifier_idx").on(table.identifier)]
 );
 
-/**
- * relations
- */
 export const userRelations = relations(users, ({ many }) => ({
     accounts: many(accounts),
     sessions: many(sessions),

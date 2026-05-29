@@ -1,22 +1,11 @@
-/**
- * application-specific tables
- */
-
 import { relations, sql } from "drizzle-orm";
 import { index, int, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
 
-import { COLUMN_ALIASES } from "#/integrations/db/constants";
-import { users } from "#/integrations/db/schema/better-auth-schema";
-
-/**
- * common constants
- */
+import { users } from "./better-auth-schema";
+import { COLUMN_ALIASES } from "./constants";
 
 const DEFAULT_CURRENT_SECONDS = sql`(cast(unixepoch('subsecond') as integer))`;
 
-/**
- * common columns
- */
 const COMMON_COLUMNS = {
     createdAt: int("created_at", { mode: "timestamp" }).notNull().default(DEFAULT_CURRENT_SECONDS),
     updatedAt: int("updated_at", { mode: "timestamp" })
@@ -29,10 +18,6 @@ const COMMON_AUTHORED_COLUMNS = {
     updatedBy: text("updated_by").references(() => users.id, { onDelete: "set null" }),
 } as const;
 
-/**
- * application-specific tables
- */
-
 export const tags = sqliteTable(
     "tags",
     {
@@ -43,13 +28,7 @@ export const tags = sqliteTable(
         name: text("name", { length: 100 }).notNull().unique(),
         slug: text("slug").notNull().unique(),
     },
-    (table) => [
-        /**
-         * indexes
-         */
-        index("idx_tags_name").on(table.name),
-        index("idx_tags_slug").on(table.slug),
-    ]
+    (table) => [index("idx_tags_name").on(table.name), index("idx_tags_slug").on(table.slug)]
 );
 
 export const mimeTypes = sqliteTable(
@@ -65,12 +44,7 @@ export const mimeTypes = sqliteTable(
         description: text("description"),
     },
 
-    (table) => [
-        /**
-         * indexes
-         */
-        index("idx_mime_types_mime_type").on(table.mimeType),
-    ]
+    (table) => [index("idx_mime_types_mime_type").on(table.mimeType)]
 );
 
 export const medias = sqliteTable(
@@ -80,39 +54,20 @@ export const medias = sqliteTable(
         ...COMMON_AUTHORED_COLUMNS,
 
         id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
-
-        /**
-         * foreign keys
-         */
         mimeTypeId: int("mime_type_id")
             .notNull()
             .references(() => mimeTypes.id),
-
-        /**
-         * general fields
-         */
         name: text("name"),
         description: text("description"),
         originalFilename: text("original_filename"),
         storageKey: text("storage_key").notNull().unique(),
         sizeInBytes: int("size_in_bytes").notNull(),
-
-        /**
-         * image-kind specific fields
-         */
         width: int("width"),
         height: int("height"),
         imageAltText: text("image_alt_text"),
-
-        /**
-         * playable-kind specific fields
-         */
         durationSeconds: int("duration_seconds"),
     } as const,
     (table) => [
-        /**
-         * indexes
-         */
         index("idx_medias_created_at").on(table.createdAt),
         index("idx_medias_mime_type_id").on(table.mimeTypeId),
         index("idx_medias_name").on(table.name),
@@ -133,9 +88,6 @@ export const mediaTags = sqliteTable(
             .references(() => tags.id, { onDelete: "cascade" }),
     },
     (table) => [
-        /**
-         * indexes
-         */
         index("idx_media_tags_media_id").on(table.mediaId),
         index("idx_media_tags_tag_id").on(table.tagId),
         uniqueIndex("media_tags_media_id_tag_id_unique").on(table.mediaId, table.tagId),

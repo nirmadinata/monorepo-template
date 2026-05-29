@@ -1,6 +1,5 @@
+import * as schema from "@repo/db-schema";
 import { drizzle } from "drizzle-orm/d1";
-
-import * as schema from "./schema";
 
 function createDB(db: D1Database) {
     return drizzle(db, {
