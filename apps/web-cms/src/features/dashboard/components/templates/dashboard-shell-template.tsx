@@ -84,6 +84,32 @@ const dashboardCommandNavigationGroups: readonly DashboardCommandNavigationGroup
         }),
     }));
 
+function shouldPinSidebarFromClick(target: EventTarget | null) {
+    if (!(target instanceof HTMLElement)) {
+        return false;
+    }
+
+    if (
+        target.closest(
+            [
+                '[data-sidebar="menu"]',
+                '[data-sidebar="menu-item"]',
+                '[data-sidebar="menu-button"]',
+                "a",
+                "button",
+                "input",
+                "select",
+                "textarea",
+                '[role="button"]',
+            ].join(", ")
+        )
+    ) {
+        return false;
+    }
+
+    return Boolean(target.closest('[data-slot="sidebar-inner"]'));
+}
+
 function DashboardSidebarBrand() {
     return (
         <Link className="no-underline" to="/dashboard">
@@ -276,6 +302,18 @@ export function DashboardShellTemplate({ children, user }: DashboardShellTemplat
             open={isSidebarOpen}
         >
             <div
+                onClickCapture={(event) => {
+                    if (!isSidebarOpen || isSidebarPinnedOpen) {
+                        return;
+                    }
+
+                    if (!shouldPinSidebarFromClick(event.target)) {
+                        return;
+                    }
+
+                    setIsSidebarHovering(false);
+                    setIsSidebarPinnedOpen(true);
+                }}
                 onMouseEnter={() => {
                     if (!isSidebarPinnedOpen) {
                         setIsSidebarHovering(true);
