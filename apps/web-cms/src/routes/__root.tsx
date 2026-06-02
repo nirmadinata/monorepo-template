@@ -1,11 +1,15 @@
 import { TanStackDevtools } from "@tanstack/react-devtools";
 import type { QueryClient } from "@tanstack/react-query";
-import { HeadContent, Scripts, createRootRouteWithContext } from "@tanstack/react-router";
+import {
+    ClientOnly,
+    HeadContent,
+    Scripts,
+    createRootRouteWithContext,
+} from "@tanstack/react-router";
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import { AppThemeProvider } from "#/components/theme-provider";
 import { Toaster } from "#/components/ui/sonner";
-import { useMounted } from "#/hooks/use-mounted";
 import TanStackQueryDevtools from "#/integrations/tanstack-query/devtools";
 
 import appCss from "#/styles.css?url";
@@ -43,16 +47,6 @@ function RootNotFound() {
     return <p className="px-4 py-6 text-sm text-muted-foreground sm:px-6 lg:px-8">Not found.</p>;
 }
 
-function ClientMounted({ children }: { children: React.ReactNode }) {
-    const isMounted = useMounted();
-
-    if (!isMounted) {
-        return null;
-    }
-
-    return children;
-}
-
 function RootDocument({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" suppressHydrationWarning>
@@ -62,9 +56,9 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             <body>
                 <AppThemeProvider>
                     {children}
-                    <ClientMounted>
+                    <ClientOnly>
                         <Toaster position="top-right" richColors />
-                    </ClientMounted>
+                    </ClientOnly>
                     <TanStackDevtools
                         config={{
                             position: "bottom-right",

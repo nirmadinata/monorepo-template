@@ -1,9 +1,21 @@
-import { Link, useMatchRoute } from "@tanstack/react-router";
-import { ChevronRightIcon } from "lucide-react";
-import { useState } from "react";
+import { Link, useMatchRoute, useNavigate } from "@tanstack/react-router";
+import { ChevronRightIcon, SearchIcon } from "lucide-react";
+import { Fragment, useEffect, useState } from "react";
 
 import { ThemeToggle } from "#/components/theme-toggle";
+import { Button } from "#/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "#/components/ui/collapsible";
+import {
+    Command,
+    CommandDialog,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandSeparator,
+} from "#/components/ui/command";
+import { Kbd } from "#/components/ui/kbd";
 import {
     Sidebar,
     SidebarContent,
@@ -33,6 +45,44 @@ import { DashboardAccountMenu } from "../molecules/dashboard-account-menu";
 type DashboardNavigationLinkItem = Extract<DashboardNavigationItem, { kind: "link" }>;
 
 type DashboardNavigationParentItem = Extract<DashboardNavigationItem, { kind: "parent" }>;
+
+interface DashboardCommandNavigationItem {
+    icon: DashboardNavigationLinkItem["icon"];
+    keywords: readonly string[];
+    label: string;
+    parentLabel?: string;
+    to: DashboardNavigationLinkItem["to"];
+}
+
+interface DashboardCommandNavigationGroup {
+    items: readonly DashboardCommandNavigationItem[];
+    label: DashboardNavigationGroup["label"];
+}
+
+const dashboardCommandNavigationGroups: readonly DashboardCommandNavigationGroup[] =
+    dashboardNavigationGroups.map((group) => ({
+        label: group.label,
+        items: group.items.flatMap((item) => {
+            if (item.kind === "link") {
+                return [
+                    {
+                        icon: item.icon,
+                        keywords: [group.label, item.label],
+                        label: item.label,
+                        to: item.to,
+                    },
+                ];
+            }
+
+            return item.children.map((child) => ({
+                icon: item.icon,
+                keywords: [group.label, item.label, child.label],
+                label: child.label,
+                parentLabel: item.label,
+                to: child.to,
+            }));
+        }),
+    }));
 
 function DashboardSidebarBrand() {
     return (
@@ -121,16 +171,98 @@ function DashboardSidebarNavigation({ groups }: { groups: readonly DashboardNavi
     ));
 }
 
+function DashboardSidebarCommandMenu({
+    groups,
+    onOpenChange,
+    open,
+}: {
+    groups: readonly DashboardCommandNavigationGroup[];
+    onOpenChange: (open: boolean) => void;
+    open: boolean;
+}) {
+    const navigate = useNavigate();
+
+    return (
+        <CommandDialog
+            description="Search dashboard destinations from the sidebar menu."
+            onOpenChange={onOpenChange}
+            open={open}
+            title="Navigate Dashboard"
+        >
+            <Command>
+                <CommandInput placeholder="Search sidebar destinations..." />
+                <CommandList>
+                    <CommandEmpty>No matching dashboard destination found.</CommandEmpty>
+
+                    {groups.map((group, index) => (
+                        <Fragment key={group.label}>
+                            {index > 0 ? <CommandSeparator /> : null}
+
+                            <CommandGroup heading={group.label}>
+                                {group.items.map((item) => {
+                                    const Icon = item.icon;
+
+                                    return (
+                                        <CommandItem
+                                            key={`${group.label}-${item.parentLabel ?? item.label}-${item.label}`}
+                                            keywords={[...item.keywords]}
+                                            onSelect={() => {
+                                                onOpenChange(false);
+                                                void navigate({ to: item.to });
+                                            }}
+                                            value={`${group.label} ${item.parentLabel ?? ""} ${item.label}`}
+                                        >
+                                            <Icon />
+
+                                            <div className="flex min-w-0 flex-col gap-0.5">
+                                                <span className="truncate">{item.label}</span>
+
+                                                {item.parentLabel ? (
+                                                    <span className="truncate text-xs text-muted-foreground">
+                                                        {item.parentLabel}
+                                                    </span>
+                                                ) : null}
+                                            </div>
+                                        </CommandItem>
+                                    );
+                                })}
+                            </CommandGroup>
+                        </Fragment>
+                    ))}
+                </CommandList>
+            </Command>
+        </CommandDialog>
+    );
+}
+
 interface DashboardShellTemplateProps {
     children: React.ReactNode;
     user: DashboardSession["user"];
 }
 
 export function DashboardShellTemplate({ children, user }: DashboardShellTemplateProps) {
+    const [isCommandOpen, setIsCommandOpen] = useState(false);
     const [isSidebarPinnedOpen, setIsSidebarPinnedOpen] = useState(false);
     const [isSidebarHovering, setIsSidebarHovering] = useState(false);
 
     const isSidebarOpen = isSidebarPinnedOpen || isSidebarHovering;
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key.toLowerCase() !== "k" || (!event.metaKey && !event.ctrlKey)) {
+                return;
+            }
+
+            event.preventDefault();
+            setIsCommandOpen((open) => !open);
+        };
+
+        window.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown);
+        };
+    }, []);
 
     return (
         <SidebarProvider
@@ -179,6 +311,20 @@ export function DashboardShellTemplate({ children, user }: DashboardShellTemplat
                     <div className="flex h-16 items-center justify-between gap-3 px-4 sm:px-6 lg:px-8">
                         <div className="flex min-w-0 items-center gap-3">
                             <SidebarTrigger />
+
+                            <Button
+                                className="min-w-0 justify-between gap-2 text-muted-foreground sm:min-w-72"
+                                onClick={() => setIsCommandOpen(true)}
+                                type="button"
+                                variant="outline"
+                            >
+                                <span className="flex min-w-0 items-center gap-2 truncate">
+                                    <SearchIcon data-icon="inline-start" />
+                                    <span className="truncate">Search sidebar menu...</span>
+                                </span>
+
+                                <Kbd className="hidden sm:inline-flex">⌘K</Kbd>
+                            </Button>
                         </div>
 
                         <div className="flex items-center gap-2">
@@ -186,6 +332,12 @@ export function DashboardShellTemplate({ children, user }: DashboardShellTemplat
                         </div>
                     </div>
                 </header>
+
+                <DashboardSidebarCommandMenu
+                    groups={dashboardCommandNavigationGroups}
+                    onOpenChange={setIsCommandOpen}
+                    open={isCommandOpen}
+                />
 
                 {children}
             </SidebarInset>
