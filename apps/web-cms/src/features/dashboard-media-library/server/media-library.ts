@@ -1,6 +1,6 @@
 import { createServerFn, createServerOnlyFn } from "@tanstack/react-start";
 import { and, asc, desc, eq, inArray, like } from "drizzle-orm";
-import { z } from "zod";
+import * as v from "valibot";
 
 import { getWorkerEnv } from "#/integrations/appenv/worker";
 import { getCurrentSession } from "#/integrations/auth";
@@ -11,6 +11,7 @@ import { storageRepository } from "#/integrations/r2/repository";
 import { mediaLibrarySearchSchema as mediaLibraryPageInputSchema } from "../lib/form-schema";
 import {
     MEDIA_LIBRARY_FILTER_KIND_VALUES,
+    MEDIA_LIBRARY_KIND_ENUM,
     formatBytes,
     getMaxUploadSizeForMimeType,
     getMediaKindForMimeType,
@@ -20,36 +21,40 @@ import {
     slugifyTagName,
 } from "../lib/media-library";
 
-const uploadIntentInputSchema = z.object({
-    fileName: z.string().trim().min(1).max(255),
-    fileSize: z.number().int().positive(),
-    mimeType: z.string().trim().min(1),
+const uploadIntentInputSchema = v.object({
+    fileName: v.pipe(v.string(), v.trim(), v.nonEmpty(), v.maxLength(255)),
+    fileSize: v.pipe(
+        v.number(),
+        v.integer(),
+        v.check((input) => input > 0, "")
+    ),
+    mimeType: v.pipe(v.string(), v.trim(), v.nonEmpty()),
 });
 
-const finalizeUploadInputSchema = z.object({
-    description: z.string().trim().max(500).optional().default(""),
-    durationSeconds: z.number().int().nonnegative().nullable().optional(),
-    height: z.number().int().nonnegative().nullable().optional(),
-    imageAltText: z.string().trim().max(255).optional().default(""),
-    mimeType: z.string().trim().min(1),
-    name: z.string().trim().max(255).optional().default(""),
-    originalFilename: z.string().trim().min(1).max(255),
-    sizeInBytes: z.number().int().positive(),
-    storageKey: z.string().trim().min(1),
-    tagNames: z.array(z.string().trim()).default([]),
-    width: z.number().int().nonnegative().nullable().optional(),
+const finalizeUploadInputSchema = v.object({
+    description: v.optional(v.pipe(v.string(), v.trim(), v.maxLength(500)), ""),
+    durationSeconds: v.optional(v.nullable(v.pipe(v.number(), v.integer(), v.minValue(0)))),
+    height: v.optional(v.nullable(v.pipe(v.number(), v.integer(), v.minValue(0)))),
+    imageAltText: v.optional(v.pipe(v.string(), v.trim(), v.maxLength(255)), ""),
+    mimeType: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+    name: v.optional(v.pipe(v.string(), v.trim(), v.maxLength(255)), ""),
+    originalFilename: v.pipe(v.string(), v.trim(), v.nonEmpty(), v.maxLength(255)),
+    sizeInBytes: v.pipe(v.number(), v.integer(), v.minValue(1)),
+    storageKey: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+    tagNames: v.optional(v.array(v.pipe(v.string(), v.trim())), []),
+    width: v.optional(v.nullable(v.pipe(v.number(), v.integer(), v.minValue(0)))),
 });
 
-const updateMediaTagsInputSchema = z.object({
-    mediaId: z.number().int().positive(),
-    tagNames: z.array(z.string().trim()).default([]),
+const updateMediaTagsInputSchema = v.object({
+    mediaId: v.pipe(v.number(), v.integer(), v.minValue(1)),
+    tagNames: v.optional(v.array(v.pipe(v.string(), v.trim())), []),
 });
 
-const deleteMediaInputSchema = z.object({
-    mediaId: z.number().int().positive(),
+const deleteMediaInputSchema = v.object({
+    mediaId: v.pipe(v.number(), v.integer(), v.minValue(1)),
 });
 
-type MediaLibraryPageInput = z.infer<typeof mediaLibraryPageInputSchema>;
+type MediaLibraryPageInput = v.InferOutput<typeof mediaLibraryPageInputSchema>;
 
 function normalizeOptionalText(value?: string | null) {
     const normalized = value?.trim();
@@ -91,7 +96,7 @@ const listAvailableTags = createServerOnlyFn(async () => {
 
 const resolveMimeTypeIdsForKind = createServerOnlyFn(
     async (kind: MediaLibraryPageInput["kind"]) => {
-        if (kind === "all") {
+        if (!kind || kind === MEDIA_LIBRARY_KIND_ENUM.ALL) {
             return null;
         }
 

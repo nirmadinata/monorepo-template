@@ -1,5 +1,7 @@
 import {
+    ALLOWED_IMAGE_MIME_TYPE_ENUM,
     ALLOWED_IMAGE_MIME_TYPES,
+    ALLOWED_VIDEO_MIME_TYPE_ENUM,
     ALLOWED_VIDEO_MIME_TYPES,
     MAX_FILE_SIZE,
     MAX_VIDEO_FILE_SIZE,
@@ -8,53 +10,64 @@ import type { ALLOWED_MEDIA_MIME_TYPES } from "#/integrations/r2/constants";
 
 export const MEDIA_LIBRARY_PAGE_SIZE = 12;
 
-export const MEDIA_LIBRARY_KIND_VALUES = ["image", "video"] as const;
+export const MEDIA_LIBRARY_KIND_ENUM = {
+    IMAGE: "image",
+    VIDEO: "video",
+    ALL: "all",
+} as const;
+export const MEDIA_LIBRARY_KIND_VALUES = [
+    MEDIA_LIBRARY_KIND_ENUM.IMAGE,
+    MEDIA_LIBRARY_KIND_ENUM.VIDEO,
+] as const;
 
 export type MediaLibraryKind = (typeof MEDIA_LIBRARY_KIND_VALUES)[number];
 
-export const MEDIA_LIBRARY_FILTER_KIND_VALUES = ["all", ...MEDIA_LIBRARY_KIND_VALUES] as const;
+export const MEDIA_LIBRARY_FILTER_KIND_VALUES = [
+    MEDIA_LIBRARY_KIND_ENUM.ALL,
+    ...MEDIA_LIBRARY_KIND_VALUES,
+] as const;
 
 export type MediaLibraryFilterKind = (typeof MEDIA_LIBRARY_FILTER_KIND_VALUES)[number];
 
 export const SEEDED_MEDIA_MIME_TYPES = [
     {
-        kind: "image",
-        mimeType: "image/jpeg",
+        kind: MEDIA_LIBRARY_KIND_ENUM.IMAGE,
+        mimeType: ALLOWED_IMAGE_MIME_TYPE_ENUM.JPEG,
         title: "JPEG image",
     },
     {
-        kind: "image",
-        mimeType: "image/png",
+        kind: MEDIA_LIBRARY_KIND_ENUM.IMAGE,
+        mimeType: ALLOWED_IMAGE_MIME_TYPE_ENUM.PNG,
         title: "PNG image",
     },
     {
-        kind: "image",
-        mimeType: "image/gif",
+        kind: MEDIA_LIBRARY_KIND_ENUM.IMAGE,
+        mimeType: ALLOWED_IMAGE_MIME_TYPE_ENUM.GIF,
         title: "GIF image",
     },
     {
-        kind: "image",
-        mimeType: "image/webp",
+        kind: MEDIA_LIBRARY_KIND_ENUM.IMAGE,
+        mimeType: ALLOWED_IMAGE_MIME_TYPE_ENUM.WEBP,
         title: "WebP image",
     },
     {
-        kind: "image",
-        mimeType: "image/svg+xml",
+        kind: MEDIA_LIBRARY_KIND_ENUM.IMAGE,
+        mimeType: ALLOWED_IMAGE_MIME_TYPE_ENUM.SVG,
         title: "SVG image",
     },
     {
-        kind: "video",
-        mimeType: "video/mp4",
+        kind: MEDIA_LIBRARY_KIND_ENUM.VIDEO,
+        mimeType: ALLOWED_VIDEO_MIME_TYPE_ENUM.MP4,
         title: "MP4 video",
     },
     {
-        kind: "video",
-        mimeType: "video/webm",
+        kind: MEDIA_LIBRARY_KIND_ENUM.VIDEO,
+        mimeType: ALLOWED_VIDEO_MIME_TYPE_ENUM.WEBM,
         title: "WebM video",
     },
     {
-        kind: "video",
-        mimeType: "video/quicktime",
+        kind: MEDIA_LIBRARY_KIND_ENUM.VIDEO,
+        mimeType: ALLOWED_VIDEO_MIME_TYPE_ENUM.QUICKTIME,
         title: "QuickTime video",
     },
 ] as const satisfies readonly {

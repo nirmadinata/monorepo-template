@@ -1,4 +1,4 @@
-import { z } from "zod";
+import * as v from "valibot";
 
 import {
     MEDIA_LIBRARY_FILTER_KIND_VALUES,
@@ -6,45 +6,56 @@ import {
     normalizeTagNames,
 } from "./media-library";
 
-export const mediaLibrarySearchSchema = z.object({
-    kind: z.enum(MEDIA_LIBRARY_FILTER_KIND_VALUES).optional().default("all"),
-    page: z.coerce.number().int().min(1).optional().default(1),
-    pageSize: z.coerce.number().int().min(1).max(50).optional().default(MEDIA_LIBRARY_PAGE_SIZE),
-    search: z.string().trim().max(100).optional().default(""),
-    tag: z.string().trim().max(100).optional().default(""),
+export const mediaLibrarySearchSchema = v.object({
+    kind: v.optional(v.picklist(MEDIA_LIBRARY_FILTER_KIND_VALUES, "all")),
+    page: v.optional(v.pipe(v.number(), v.integer(), v.minValue(1)), 1),
+    pageSize: v.optional(
+        v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(50)),
+        MEDIA_LIBRARY_PAGE_SIZE
+    ),
+    search: v.optional(v.pipe(v.string(), v.trim(), v.maxLength(100)), ""),
+    tag: v.optional(v.pipe(v.string(), v.trim(), v.maxLength(100)), ""),
 });
 
-export const mediaLibrarySearchFormSchema = z.object({
-    kind: z.enum(MEDIA_LIBRARY_FILTER_KIND_VALUES),
-    page: z.number().int().min(1),
-    pageSize: z.number().int().min(1).max(50),
-    search: z.string().trim().max(100),
-    tag: z.string().trim().max(100),
+export const mediaLibrarySearchFormSchema = v.object({
+    kind: v.picklist(MEDIA_LIBRARY_FILTER_KIND_VALUES),
+    page: v.pipe(v.number(), v.integer(), v.minValue(1)),
+    pageSize: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(50)),
+    search: v.pipe(v.string(), v.trim(), v.maxLength(100)),
+    tag: v.pipe(v.string(), v.trim(), v.maxLength(100)),
 });
 
-export const mediaTagEditSchema = z.object({
-    mediaId: z.number().int().positive(),
-    tagDraft: z.string().default(""),
+export const mediaTagEditSchema = v.object({
+    mediaId: v.pipe(
+        v.number(),
+        v.integer(),
+        v.check((val) => val > 0, "Media ID must be a positive integer.")
+    ),
+    tagDraft: v.optional(v.string(), ""),
 });
 
-export const mediaTagEditFormSchema = z.object({
-    mediaId: z.number().int().positive(),
-    tagDraft: z.string(),
+export const mediaTagEditFormSchema = v.object({
+    mediaId: v.pipe(
+        v.number(),
+        v.integer(),
+        v.check((val) => val > 0, "Media ID must be a positive integer.")
+    ),
+    tagDraft: v.string(),
 });
 
-export const mediaUploadSubmissionSchema = z.object({
-    files: z.array(z.file()).min(1, "Select at least one file to upload."),
+export const mediaUploadSubmissionSchema = v.object({
+    files: v.pipe(v.array(v.file()), v.minLength(1, "Select at least one file to upload.")),
 });
 
-export const MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES: z.infer<
+export const MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES: v.InferOutput<
     typeof mediaUploadSubmissionSchema
 > = {
     files: [],
 };
 
-export type MediaLibrarySearchValues = z.infer<typeof mediaLibrarySearchSchema>;
-export type MediaTagEditValues = z.infer<typeof mediaTagEditSchema>;
-export type MediaUploadSubmissionValues = z.infer<typeof mediaUploadSubmissionSchema>;
+export type MediaLibrarySearchValues = v.InferOutput<typeof mediaLibrarySearchSchema>;
+export type MediaTagEditValues = v.InferOutput<typeof mediaTagEditSchema>;
+export type MediaUploadSubmissionValues = v.InferOutput<typeof mediaUploadSubmissionSchema>;
 
 export function parseTagDraft(tagDraft: string) {
     return normalizeTagNames(tagDraft.split(/[\n,]+/));

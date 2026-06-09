@@ -1,7 +1,7 @@
-import { z } from "zod";
+import * as v from "valibot";
 
-export const googleAuthSubmissionSchema = z.object({
-    intent: z.enum(["sign-in", "sign-up"]),
+export const googleAuthSubmissionSchema = v.object({
+    intent: v.picklist(["sign-in", "sign-up"]),
 });
 
-export type GoogleAuthSubmission = z.infer<typeof googleAuthSubmissionSchema>;
+export type GoogleAuthSubmission = v.InferOutput<typeof googleAuthSubmissionSchema>;

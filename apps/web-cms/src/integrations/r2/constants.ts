@@ -12,18 +12,34 @@ export const MAX_VIDEO_FILE_SIZE = 100 * 1024 * 1024;
 /**
  * Allowed image MIME types
  */
+export const ALLOWED_IMAGE_MIME_TYPE_ENUM = {
+    JPEG: "image/jpeg",
+    PNG: "image/png",
+    GIF: "image/gif",
+    WEBP: "image/webp",
+    SVG: "image/svg+xml",
+} as const;
 export const ALLOWED_IMAGE_MIME_TYPES = [
-    "image/jpeg",
-    "image/png",
-    "image/gif",
-    "image/webp",
-    "image/svg+xml",
+    ALLOWED_IMAGE_MIME_TYPE_ENUM.JPEG,
+    ALLOWED_IMAGE_MIME_TYPE_ENUM.PNG,
+    ALLOWED_IMAGE_MIME_TYPE_ENUM.GIF,
+    ALLOWED_IMAGE_MIME_TYPE_ENUM.WEBP,
+    ALLOWED_IMAGE_MIME_TYPE_ENUM.SVG,
 ] as const;
 
 /**
  * Allowed video MIME types
  */
-export const ALLOWED_VIDEO_MIME_TYPES = ["video/mp4", "video/webm", "video/quicktime"] as const;
+export const ALLOWED_VIDEO_MIME_TYPE_ENUM = {
+    MP4: "video/mp4",
+    WEBM: "video/webm",
+    QUICKTIME: "video/quicktime",
+} as const;
+export const ALLOWED_VIDEO_MIME_TYPES = [
+    ALLOWED_VIDEO_MIME_TYPE_ENUM.MP4,
+    ALLOWED_VIDEO_MIME_TYPE_ENUM.WEBM,
+    ALLOWED_VIDEO_MIME_TYPE_ENUM.QUICKTIME,
+] as const;
 
 /**
  * Allowed PDF MIME type
