@@ -1,5 +1,5 @@
 import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod";
+import * as v from "valibot";
 
 export const appenv = createEnv({
     clientPrefix: "VITE_",
@@ -10,24 +10,20 @@ export const appenv = createEnv({
     },
 
     client: {
-        VITE_APP_TITLE: z.string().min(1).optional(),
+        VITE_APP_TITLE: v.optional(v.pipe(v.string(), v.nonEmpty()), "Web CMS"),
     },
 
     server: {
-        BUCKET_NAME: z.string().min(1),
-        R2_ACCOUNT_ID: z.string().min(1),
-        R2_ACCESS_KEY_ID: z.string().min(1),
-        R2_SECRET_ACCESS_KEY: z.string().min(1),
+        BUCKET_NAME: v.pipe(v.string(), v.nonEmpty()),
+        R2_ACCOUNT_ID: v.pipe(v.string(), v.nonEmpty()),
+        R2_ACCESS_KEY_ID: v.pipe(v.string(), v.nonEmpty()),
+        R2_SECRET_ACCESS_KEY: v.pipe(v.string(), v.nonEmpty()),
 
-        BETTER_AUTH_SECRET: z.string().min(32),
-        BETTER_AUTH_TRUSTED_ORIGINS: z.string().optional(),
-        BETTER_AUTH_URL: z.url(),
+        BETTER_AUTH_SECRET: v.pipe(v.string(), v.nonEmpty(), v.minLength(32)),
+        BETTER_AUTH_TRUSTED_ORIGINS: v.optional(v.pipe(v.string(), v.nonEmpty())),
+        BETTER_AUTH_URL: v.pipe(v.string(), v.url()),
 
-        GOOGLE_CLIENT_ID: z.string().min(1),
-        GOOGLE_CLIENT_SECRET: z.string().min(1),
-
-        PUBLIC_API_DESCRIPTION: z.string().min(1).default("Public API foundation for the web CMS."),
-        PUBLIC_API_TITLE: z.string().min(1).default("Web CMS Public API"),
-        PUBLIC_API_VERSION: z.string().min(1).default("0.1.0"),
+        GOOGLE_CLIENT_ID: v.pipe(v.string(), v.nonEmpty()),
+        GOOGLE_CLIENT_SECRET: v.pipe(v.string(), v.nonEmpty()),
     },
 });
