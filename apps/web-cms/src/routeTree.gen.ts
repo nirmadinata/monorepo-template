@@ -15,7 +15,6 @@ import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
 import { Route as AuthIndexRouteImport } from './routes/_auth.index'
 import { Route as DashboardMediaRouteImport } from './routes/dashboard.media'
 import { Route as AuthLoginRouteImport } from './routes/_auth.login'
-import { Route as ApiPublicSplatRouteImport } from './routes/api/public/$'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const DashboardRoute = DashboardRouteImport.update({
@@ -47,11 +46,6 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/login',
   getParentRoute: () => AuthRoute,
 } as any)
-const ApiPublicSplatRoute = ApiPublicSplatRouteImport.update({
-  id: '/api/public/$',
-  path: '/api/public/$',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -65,7 +59,6 @@ export interface FileRoutesByFullPath {
   '/dashboard/media': typeof DashboardMediaRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
@@ -73,7 +66,6 @@ export interface FileRoutesByTo {
   '/': typeof AuthIndexRoute
   '/dashboard': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -84,7 +76,6 @@ export interface FileRoutesById {
   '/_auth/': typeof AuthIndexRoute
   '/dashboard/': typeof DashboardIndexRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
-  '/api/public/$': typeof ApiPublicSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -95,15 +86,8 @@ export interface FileRouteTypes {
     | '/dashboard/media'
     | '/dashboard/'
     | '/api/auth/$'
-    | '/api/public/$'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/login'
-    | '/dashboard/media'
-    | '/'
-    | '/dashboard'
-    | '/api/auth/$'
-    | '/api/public/$'
+  to: '/login' | '/dashboard/media' | '/' | '/dashboard' | '/api/auth/$'
   id:
     | '__root__'
     | '/_auth'
@@ -113,14 +97,12 @@ export interface FileRouteTypes {
     | '/_auth/'
     | '/dashboard/'
     | '/api/auth/$'
-    | '/api/public/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
   DashboardRoute: typeof DashboardRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
-  ApiPublicSplatRoute: typeof ApiPublicSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -167,13 +149,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRoute
     }
-    '/api/public/$': {
-      id: '/api/public/$'
-      path: '/api/public/$'
-      fullPath: '/api/public/$'
-      preLoaderRoute: typeof ApiPublicSplatRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -214,7 +189,6 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
   DashboardRoute: DashboardRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
-  ApiPublicSplatRoute: ApiPublicSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

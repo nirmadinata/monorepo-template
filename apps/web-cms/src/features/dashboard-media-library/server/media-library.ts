@@ -425,14 +425,14 @@ const getMediaById = createServerOnlyFn(async (mediaId: number) => {
 });
 
 export const getMediaLibraryPage = createServerFn({ method: "GET" })
-    .inputValidator(mediaLibraryPageInputSchema)
+    .validator(mediaLibraryPageInputSchema)
     .handler(async ({ data }) => {
         await requireMediaSession();
         return buildMediaPage(data);
     });
 
 export const requestMediaUploadIntent = createServerFn({ method: "POST" })
-    .inputValidator(uploadIntentInputSchema)
+    .validator(uploadIntentInputSchema)
     .handler(async ({ data }) => {
         await requireMediaSession();
 
@@ -476,7 +476,7 @@ export const requestMediaUploadIntent = createServerFn({ method: "POST" })
     });
 
 export const finalizeMediaUpload = createServerFn({ method: "POST" })
-    .inputValidator(finalizeUploadInputSchema)
+    .validator(finalizeUploadInputSchema)
     .handler(async ({ data }) => {
         const session = await requireMediaSession();
         const db = await getMediaLibraryDB();
@@ -541,7 +541,7 @@ export const finalizeMediaUpload = createServerFn({ method: "POST" })
     });
 
 export const updateMediaTags = createServerFn({ method: "POST" })
-    .inputValidator(updateMediaTagsInputSchema)
+    .validator(updateMediaTagsInputSchema)
     .handler(async ({ data }) => {
         const session = await requireMediaSession();
         const db = await getMediaLibraryDB();
@@ -574,7 +574,7 @@ export const updateMediaTags = createServerFn({ method: "POST" })
     });
 
 export const deleteMediaAsset = createServerFn({ method: "POST" })
-    .inputValidator(deleteMediaInputSchema)
+    .validator(deleteMediaInputSchema)
     .handler(async ({ data }) => {
         await requireMediaSession();
         const db = await getMediaLibraryDB();
