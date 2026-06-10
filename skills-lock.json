@@ -114,6 +114,12 @@
       "skillPath": "skills/shadcn/SKILL.md",
       "computedHash": "ac9d0d69caac7de1d1e5647f3db3bcd2f13af355d6b3a78780fbf7fc80e8dca0"
     },
+    "two-factor-authentication-best-practices": {
+      "source": "better-auth/skills",
+      "sourceType": "github",
+      "skillPath": "better-auth/twoFactor/SKILL.md",
+      "computedHash": "7e297aaf887e11fdc03e52bdbf44974e161e8f7c393170ced7dc66cace4f6d46"
+    },
     "ultracite": {
       "source": "haydenbleasel/ultracite",
       "sourceType": "github",
