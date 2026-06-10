@@ -228,6 +228,7 @@ function SidebarContent({ onNavigate }: NavigationListProps) {
                     {shellNavigation.map((item, index) => (
                         <li key={item.href}>
                             <a
+                                aria-label={`${t(item.labelKey)}: ${t(item.descriptionKey)}`}
                                 className="group block rounded-3xl border border-slate-200 bg-white px-4 py-4 transition hover:border-sky-300 hover:bg-sky-50/40"
                                 href={item.href}
                                 onClick={onNavigate}

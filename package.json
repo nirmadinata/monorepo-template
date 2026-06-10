@@ -14,8 +14,8 @@
     },
     "devDependencies": {
         "@types/bun": "latest",
-        "oxfmt": "^0.48.0",
-        "oxlint": "^1.62.0",
+        "oxfmt": "^0.54.0",
+        "oxlint": "^1.69.0",
         "oxlint-tailwindcss": "^0.8.0",
         "turbo": "^2.9.17",
         "ultracite": "7.6.3"

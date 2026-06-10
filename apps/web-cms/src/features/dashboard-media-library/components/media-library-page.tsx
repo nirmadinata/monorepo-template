@@ -69,6 +69,7 @@ export function MediaLibraryPage({ data }: MediaLibraryPageProps) {
             }
             fileInput={
                 <input
+                    aria-label="Upload media files"
                     ref={fileInputRef}
                     accept="image/jpeg,image/png,image/gif,image/webp,image/svg+xml,video/mp4,video/webm,video/quicktime"
                     className="sr-only"
