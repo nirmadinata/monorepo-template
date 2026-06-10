@@ -4,26 +4,28 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 ## App Purpose
 
-`apps/web-cms` is the repository's maintained TanStack Start app. Today it runs on Cloudflare Workers, serves the dashboard UI, handles Better Auth routes, and exposes the public API foundation.
+`apps/web-cms` is the repository's maintained TanStack Start app. Today it runs on Cloudflare Workers, serves the public authentication UI and protected dashboard UI, and handles Better Auth routes.
 
 ## Current App Surface
 
 - Package name: `web-cms`
 - Runtime: TanStack Start on Vite with `@cloudflare/vite-plugin`
 - Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
+- Current public auth UI routes: `/` and `/login`
 - Current dashboard routes: `/dashboard` and `/dashboard/media`
+- Current server route surface: `/api/auth/*`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
 - App theming is handled through `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`
 - App-owned database integration: `src/integrations/db`, backed by shared schema source from `packages/db-schema`
 - App-owned object storage integration: `src/integrations/r2`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
-- Typed environment parsing lives under `src/integrations/appenv/`; `appenv` currently requires the Better Auth, Google OAuth, public API, `BUCKET_NAME`, and R2 S3 credential values, and also supports optional client-side `VITE_APP_TITLE`
+- Typed environment parsing lives under `src/integrations/appenv/`; `appenv` currently requires the Better Auth, Google OAuth, `BUCKET_NAME`, and R2 S3 credential values, and also supports optional client-side `VITE_APP_TITLE`
 - Human-readable app guide: `README.md`
 
 ## Source Map
 
-- `src/routes/`: file-based TanStack Router routes, including `/`, `/login`, `/dashboard`, `/dashboard/media`, `/api/auth/$`, and `/api/public/$`
+- `src/routes/`: file-based TanStack Router routes, including `/`, `/login`, `/dashboard`, `/dashboard/media`, and `/api/auth/$`
 - `src/features/dashboard-authentication/`: public auth pages, Google sign-in client actions, and feature-local auth UI split across `components/atoms`, `components/organisms`, `components/templates`, and route-facing page/layout entry files
 - `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, dashboard account menu, and dashboard session loader, with shell UI split across `components/molecules`, `components/templates`, and the stable `dashboard-shell.tsx` entrypoint
 - `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell, with the route-facing page entrypoint delegating to a feature-local template
@@ -31,7 +33,6 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/*/hooks/`: feature-local hooks that keep component logic separate from component view files
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, trusted-origin parsing, and bootstrap-user preparation
 - `src/integrations/app/`: app-level server-only bootstrap helpers such as first-signup data seeding
-- `src/integrations/api/`: Hono OpenAPI app and public API routes, including the system route and Scalar docs
 - `src/integrations/db/`: app-owned Drizzle D1 client helper, Drizzle config, checked-in migrations under `migrations/`, and app-facing `getDB()`/`dbSchema` exports backed by `@repo/db-schema`
 - `src/integrations/r2/`: Cloudflare R2 S3 client setup, app constants, shared types, and server-only repository helpers for presigned URLs and object access
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
@@ -66,7 +67,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
 - The media-library search/filter, tag-edit, and upload flows are now managed through TanStack Form with feature-local schemas reused by the route search contract where applicable.
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in.
-- The public API docs are served from `/api/public/`, with OpenAPI JSON at `/api/public/openapi.json`.
+- No maintained `/api/public/*` route or `src/integrations/api/` module exists in this app today.
 
 ## graphify
 

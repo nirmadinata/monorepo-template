@@ -1,6 +1,6 @@
 # AI Agent Quick Start
 
-This repository is a Bun-based template monorepo with two maintained runtime apps today: `apps/web-cms` and `apps/web-landing`.
+This repository is a Bun-based template monorepo with two maintained runtime apps and one maintained workspace package today: `apps/web-cms`, `apps/web-landing`, and `packages/db-schema`.
 
 ## Read This First
 
@@ -15,7 +15,7 @@ This repository is a Bun-based template monorepo with two maintained runtime app
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Change workflow: OpenSpec under `openspec/`
 - Maintained apps: `apps/web-cms`, `apps/web-landing`
-- Maintained packages under `packages/`: none
+- Maintained packages under `packages/`: `packages/db-schema`
 - Repository-local Opencode config: `.opencode/opencode.json` loads `.opencode/plugins/graphify.js`
 
 ## Current Runtime Surfaces
@@ -26,7 +26,6 @@ This repository is a Bun-based template monorepo with two maintained runtime app
 - Protected dashboard shell at `/dashboard`
 - Protected media-library route at `/dashboard/media`
 - Better Auth API route at `/api/auth/*`
-- Public API foundation at `/api/public/*`
 
 Core implementation locations:
 
@@ -35,10 +34,21 @@ Core implementation locations:
 - `src/features/dashboard-home/`
 - `src/features/dashboard-media-library/`
 - `src/integrations/auth/`
-- `src/integrations/api/`
 - `src/integrations/db/`
 - `src/integrations/r2/`
 - `src/integrations/appenv/`
+
+### `packages/db-schema`
+
+- Shared Drizzle schema package consumed by `apps/web-cms`
+- Exports Better Auth schema tables plus CMS media-library tables
+
+Core implementation locations:
+
+- `src/better-auth-schema.ts`
+- `src/application-specific-schema.ts`
+- `src/constants.ts`
+- `src/index.ts`
 
 ### `apps/web-landing`
 
@@ -97,7 +107,7 @@ From `apps/web-landing/`:
 ## High-Signal Pitfalls
 
 - Document what exists today, not future architecture
-- `packages/` is currently empty; do not document runtime code there
+- `packages/db-schema` is the only maintained workspace package today
 - `apps/web-cms/src/routeTree.gen.ts` is generated output
 - `apps/web-landing` keeps locale selection in the `NEXT_LOCALE` cookie and does not use locale-prefixed routes
 - Authentication UI lives under `src/features/dashboard-authentication/`, while bootstrap/session server helpers live under `src/integrations/auth/`

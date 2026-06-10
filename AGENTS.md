@@ -62,7 +62,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - App-owned Cloudflare R2 client helpers, constants, and repository utilities live under `src/integrations/r2/`
 - Current public auth UI routes are `/` and `/login` via `src/routes/_auth*`
 - Current authenticated dashboard routes are `/dashboard` and `/dashboard/media`
-- Public API foundation is mounted under `/api/public/*` using Hono, `@hono/zod-openapi`, and Scalar
+- Current server route surface includes Better Auth under `/api/auth/*` via `src/routes/api/auth/$.ts`
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
 - See `apps/web-cms/AGENTS.md` before editing app-specific code
 
@@ -99,7 +99,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - The shared D1 schema source is owned by `packages/db-schema`, while the Drizzle client helper and checked-in migrations remain owned by `apps/web-cms`
 - The current R2 client and repository helpers are owned directly by `apps/web-cms`
 - `packages/db-schema` is currently the only maintained workspace package under `packages/`
-- The web app already includes dashboard authentication, a protected dashboard route, and public/auth API routes
+- The web app already includes dashboard authentication, a protected dashboard route, and the Better Auth API route
 - The web app already includes a protected dashboard media library backed by app-local D1 metadata and R2 object storage
 - The landing app already includes cookie-based `next-intl` localization for `en` and `id` without locale-prefixed routing
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed

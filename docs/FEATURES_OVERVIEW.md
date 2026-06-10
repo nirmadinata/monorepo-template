@@ -1,14 +1,14 @@
 # Features Overview
 
-This repository currently maintains two runtime apps and no maintained workspace packages.
+This repository currently maintains two runtime apps and one maintained workspace package.
 
 ## Workspace Summary
 
 | Surface             | Location                                                           | Current purpose                                                                                                                                             |
 | ------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Maintained app      | `apps/web-cms`                                                     | TanStack Start app on Cloudflare Workers with auth UI, protected dashboard shell, dashboard media library, Better Auth API route, and public API foundation |
+| Maintained app      | `apps/web-cms`                                                     | TanStack Start app on Cloudflare Workers with auth UI, protected dashboard shell, dashboard media library, and Better Auth API route                         |
 | Maintained app      | `apps/web-landing`                                                 | Next.js App Router landing page on OpenNext Cloudflare with cookie-based `next-intl` localization for `en` and `id`                                         |
-| Maintained packages | `packages/`                                                        | None today                                                                                                                                                  |
+| Maintained package  | `packages/db-schema`                                               | Shared Drizzle schema package for Better Auth and CMS media-library tables consumed by `apps/web-cms`                                                       |
 | Change workflow     | `openspec/`                                                        | Proposal, design, spec, task, apply, and archive workflow                                                                                                   |
 | Human-readable docs | `docs/`                                                            | Curated project docs for humans and AI agents                                                                                                               |
 | Agent tooling       | `.opencode/`, `.agents/`, `.github/skills/`, `.claude/`, `.codex/` | Local command, prompt, skill, and Opencode plugin surfaces                                                                                                  |
@@ -45,12 +45,6 @@ This repository currently maintains two runtime apps and no maintained workspace
 - Code: `src/integrations/auth/`
 - Purpose: Google-only Better Auth server/client setup, bootstrap-state lookup, and current-session helpers
 
-### Public API Foundation
-
-- Route surface: `/api/public/*`
-- Code: `src/integrations/api/`
-- Purpose: shared Hono OpenAPI app with a system route, OpenAPI JSON, and Scalar docs
-
 ### Data Access, Storage, And Bindings
 
 - Code: `src/integrations/db/`, `src/integrations/r2/`, and `src/integrations/appenv/`
@@ -80,6 +74,14 @@ This repository currently maintains two runtime apps and no maintained workspace
 - Code: `next.config.ts`, `open-next.config.ts`, `wrangler.jsonc`, and `cloudflare-env.d.ts`
 - Purpose: Next.js to Cloudflare build/deploy integration plus typed Worker bindings for static assets, images, and self-reference
 
+## `packages/db-schema` Runtime Map
+
+### Shared CMS Schema Package
+
+- Package: `@repo/db-schema`
+- Code: `src/better-auth-schema.ts`, `src/application-specific-schema.ts`, `src/constants.ts`, and `src/index.ts`
+- Purpose: shared Drizzle table definitions and exports for Better Auth plus CMS tag, mime-type, media, and media-tag tables consumed by `apps/web-cms`
+
 ## Documentation Surfaces
 
 - `AGENTS.md`: canonical agent-facing repo guide
@@ -97,4 +99,4 @@ This repository currently maintains two runtime apps and no maintained workspace
 
 ## What Does Not Exist Today
 
-- No maintained runtime packages under `packages/`
+- No maintained `/api/public/*` route or `src/integrations/api/` module under `apps/web-cms`
