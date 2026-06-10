@@ -1,10 +1,11 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
 import type { SecondaryStorage } from "better-auth";
 import { betterAuth } from "better-auth/minimal";
-import { openAPI } from "better-auth/plugins";
+import { admin as adminPlugin, openAPI } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
 
 import { appenv } from "#/integrations/appenv";
+import { ac, ROLES, ROLES_ENUM } from "#/integrations/auth/permissions";
 import {
     BOOTSTRAP_ADMIN_ROLE,
     getAuthAdapter,
@@ -62,7 +63,16 @@ const createAuth = createServerOnlyFn(({ db, secondaryStorage }: AuthParam) => {
         emailAndPassword: {
             enabled: false,
         },
-        plugins: [openAPI(), tanstackStartCookies()],
+        plugins: [
+            adminPlugin({
+                ac,
+                roles: ROLES,
+                defaultRole: ROLES_ENUM.ADMIN,
+                adminRoles: [ROLES_ENUM.ADMIN, ROLES_ENUM.SUPERADMIN],
+            }),
+            openAPI(),
+            tanstackStartCookies(),
+        ],
         secret: appenv.BETTER_AUTH_SECRET,
         socialProviders: {
             google: {
@@ -101,5 +111,6 @@ export const getAuth = createServerOnlyFn((params: AuthParam) => {
     return authSingleton;
 });
 
-export type AuthSession = ReturnType<typeof getAuth>["$Infer"]["Session"];
+export type AppAuth = ReturnType<typeof getAuth>;
+export type AuthSession = AppAuth["$Infer"]["Session"];
 export type AuthUser = AuthSession["user"];
