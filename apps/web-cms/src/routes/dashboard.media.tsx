@@ -1,4 +1,5 @@
 import { createFileRoute, getRouteApi } from "@tanstack/react-router";
+import * as v from "valibot";
 
 import { MediaLibraryPage } from "#/features/dashboard-media-library/components/media-library-page";
 import { mediaLibrarySearchSchema } from "#/features/dashboard-media-library/lib/form-schema";
@@ -8,7 +9,7 @@ export const Route = createFileRoute("/dashboard/media")({
     validateSearch: mediaLibrarySearchSchema,
     loader: async ({ location }) =>
         getMediaLibraryPage({
-            data: mediaLibrarySearchSchema.parse(location.search),
+            data: v.parse(mediaLibrarySearchSchema, location.search),
         }),
     component: DashboardMediaRoute,
 });

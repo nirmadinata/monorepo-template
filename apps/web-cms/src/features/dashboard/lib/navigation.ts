@@ -16,13 +16,13 @@ interface DashboardNavigationLinkItem {
     isActive?: boolean;
     kind: "link";
     label: string;
-    to: "/dashboard" | "/dashboard/media";
+    to: "/dashboard" | "/dashboard/media" | "/dashboard/posts";
 }
 
 interface DashboardNavigationParentChild {
     isActive?: boolean;
     label: string;
-    to: "/dashboard" | "/dashboard/media";
+    to: "/dashboard" | "/dashboard/media" | "/dashboard/posts";
 }
 
 interface DashboardNavigationParentItem {
@@ -62,7 +62,7 @@ export const dashboardNavigationGroups: readonly DashboardNavigationGroup[] = [
                     {
                         isActive: true,
                         label: "All posts",
-                        to: "/dashboard",
+                        to: "/dashboard/posts",
                     },
                     { label: "Draft queue", to: "/dashboard" },
                     { label: "Publishing calendar", to: "/dashboard" },

@@ -2,6 +2,7 @@ import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
+import * as v from "valibot";
 
 import { runFormSubmission } from "#/lib/forms";
 
@@ -20,7 +21,7 @@ export function useMediaLibraryPage(data: MediaLibraryPageData) {
     const [uploads, setUploads] = useState<UploadProgressItem[]>([]);
 
     const filterForm = useForm({
-        defaultValues: mediaLibrarySearchSchema.parse(data.filters),
+        defaultValues: v.parse(mediaLibrarySearchSchema, data.filters),
         async onSubmit({ value }) {
             await navigate({
                 to: "/dashboard/media",
@@ -149,7 +150,7 @@ export function useMediaLibraryPage(data: MediaLibraryPageData) {
     );
 
     useEffect(() => {
-        filterForm.reset(mediaLibrarySearchSchema.parse(data.filters));
+        filterForm.reset(v.parse(mediaLibrarySearchSchema, data.filters));
     }, [data.filters, filterForm]);
 
     async function reloadPage() {
