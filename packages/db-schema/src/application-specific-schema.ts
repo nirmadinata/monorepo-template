@@ -94,6 +94,68 @@ export const mediaTags = sqliteTable(
     ]
 );
 
+export const posts = sqliteTable(
+    "posts",
+    {
+        ...COMMON_COLUMNS,
+        ...COMMON_AUTHORED_COLUMNS,
+
+        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
+        slug: text("slug").notNull().unique(),
+        cover_image_id: int("cover_image_id").references(() => medias.id),
+
+        title: text("title").notNull(),
+        excerpt: text("excerpt").notNull(),
+        content_key: text("content_key").notNull().unique(),
+
+        status: text("status", { enum: ["draft", "published", "unpublished"] })
+            .notNull()
+            .default("draft"),
+        publishedAt: int("first_published_at", { mode: "timestamp" }),
+    },
+    (table) => [index("idx_posts_slug").on(table.slug), index("idx_posts_status").on(table.status)]
+);
+
+export const postEditors = sqliteTable(
+    "post_editors",
+    {
+        ...COMMON_COLUMNS,
+
+        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
+        postId: int("post_id")
+            .notNull()
+            .references(() => posts.id, { onDelete: "cascade" }),
+        editorId: text("editor_id")
+            .notNull()
+            .references(() => users.id, { onDelete: "cascade" }),
+    },
+    (table) => [
+        index("idx_post_editors_post_id").on(table.postId),
+        index("idx_post_editors_editor_id").on(table.editorId),
+        uniqueIndex("post_editors_post_id_editor_id_unique").on(table.postId, table.editorId),
+    ]
+);
+
+export const postTags = sqliteTable(
+    "post_tags",
+    {
+        ...COMMON_COLUMNS,
+
+        id: int(COLUMN_ALIASES.COMMON_COLUMNS.ID).primaryKey({ autoIncrement: true }),
+        postId: int("post_id")
+            .notNull()
+            .references(() => posts.id, { onDelete: "cascade" }),
+        tagId: int("tag_id")
+            .notNull()
+            .references(() => tags.id, { onDelete: "cascade" }),
+    },
+    (table) => [
+        index("idx_post_tags_post_id").on(table.postId),
+        index("idx_post_tags_tag_id").on(table.tagId),
+        uniqueIndex("post_tags_post_id_tag_id_unique").on(table.postId, table.tagId),
+    ]
+);
+
 export const tagRelations = relations(tags, ({ many }) => ({
     mediaTags: many(mediaTags),
 }));
@@ -110,4 +172,19 @@ export const mediaRelations = relations(medias, ({ one, many }) => ({
 export const mediaTagRelations = relations(mediaTags, ({ one }) => ({
     media: one(medias, { fields: [mediaTags.mediaId], references: [medias.id] }),
     tag: one(tags, { fields: [mediaTags.tagId], references: [tags.id] }),
+}));
+
+export const postRelations = relations(posts, ({ one, many }) => ({
+    coverImage: one(medias, { fields: [posts.cover_image_id], references: [medias.id] }),
+    tags: many(postTags),
+}));
+
+export const postTagRelations = relations(postTags, ({ one }) => ({
+    post: one(posts, { fields: [postTags.postId], references: [posts.id] }),
+    tag: one(tags, { fields: [postTags.tagId], references: [tags.id] }),
+}));
+
+export const postEditorRelations = relations(postEditors, ({ one }) => ({
+    post: one(posts, { fields: [postEditors.postId], references: [posts.id] }),
+    editor: one(users, { fields: [postEditors.editorId], references: [users.id] }),
 }));

@@ -52,6 +52,54 @@ CREATE TABLE `mime_types` (
 --> statement-breakpoint
 CREATE UNIQUE INDEX `mime_types_mime_type_unique` ON `mime_types` (`mime_type`);--> statement-breakpoint
 CREATE INDEX `idx_mime_types_mime_type` ON `mime_types` (`mime_type`);--> statement-breakpoint
+CREATE TABLE `post_editors` (
+	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
+	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`post_id` integer NOT NULL,
+	`editor_id` text NOT NULL,
+	FOREIGN KEY (`post_id`) REFERENCES `posts`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`editor_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `idx_post_editors_post_id` ON `post_editors` (`post_id`);--> statement-breakpoint
+CREATE INDEX `idx_post_editors_editor_id` ON `post_editors` (`editor_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `post_editors_post_id_editor_id_unique` ON `post_editors` (`post_id`,`editor_id`);--> statement-breakpoint
+CREATE TABLE `post_tags` (
+	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
+	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`post_id` integer NOT NULL,
+	`tag_id` integer NOT NULL,
+	FOREIGN KEY (`post_id`) REFERENCES `posts`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`tag_id`) REFERENCES `tags`(`id`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
+CREATE INDEX `idx_post_tags_post_id` ON `post_tags` (`post_id`);--> statement-breakpoint
+CREATE INDEX `idx_post_tags_tag_id` ON `post_tags` (`tag_id`);--> statement-breakpoint
+CREATE UNIQUE INDEX `post_tags_post_id_tag_id_unique` ON `post_tags` (`post_id`,`tag_id`);--> statement-breakpoint
+CREATE TABLE `posts` (
+	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
+	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
+	`created_by` text,
+	`updated_by` text,
+	`id` integer PRIMARY KEY AUTOINCREMENT NOT NULL,
+	`slug` text NOT NULL,
+	`cover_image_id` integer,
+	`title` text NOT NULL,
+	`excerpt` text NOT NULL,
+	`content_key` text NOT NULL,
+	`status` text DEFAULT 'draft' NOT NULL,
+	`first_published_at` integer,
+	FOREIGN KEY (`created_by`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE set null,
+	FOREIGN KEY (`updated_by`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE set null,
+	FOREIGN KEY (`cover_image_id`) REFERENCES `medias`(`id`) ON UPDATE no action ON DELETE no action
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `posts_slug_unique` ON `posts` (`slug`);--> statement-breakpoint
+CREATE UNIQUE INDEX `posts_content_key_unique` ON `posts` (`content_key`);--> statement-breakpoint
+CREATE INDEX `idx_posts_slug` ON `posts` (`slug`);--> statement-breakpoint
+CREATE INDEX `idx_posts_status` ON `posts` (`status`);--> statement-breakpoint
 CREATE TABLE `tags` (
 	`created_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)) NOT NULL,
 	`updated_at` integer DEFAULT (cast(unixepoch('subsecond') as integer)),
