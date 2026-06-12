@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { deleteMediaAsset } from "../server/media-library";
+import { deleteMediaAsset } from "#/features/dashboard-media-library/server/functions";
 
 interface UseMediaDeleteActionOptions {
     mediaId: number;

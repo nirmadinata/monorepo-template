@@ -1,4 +1,4 @@
-import type { getMediaLibraryPage } from "../server/media-library";
+import type { getMediaLibraryPage } from "../server/functions";
 
 export type MediaLibraryPageData = Awaited<ReturnType<typeof getMediaLibraryPage>>;
 

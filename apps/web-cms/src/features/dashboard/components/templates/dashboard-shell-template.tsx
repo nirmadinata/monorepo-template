@@ -323,7 +323,11 @@ export function DashboardShellTemplate({ children, user }: DashboardShellTemplat
                     setIsSidebarHovering(false);
                 }}
             >
-                <Sidebar collapsible="icon" variant="inset" className="border-r border-sidebar-border">
+                <Sidebar
+                    collapsible="icon"
+                    variant="inset"
+                    className="border-r border-sidebar-border"
+                >
                     <SidebarHeader className="gap-3 p-3">
                         <DashboardSidebarBrand />
                     </SidebarHeader>

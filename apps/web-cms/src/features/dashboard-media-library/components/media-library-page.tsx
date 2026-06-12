@@ -5,16 +5,15 @@ import { Button } from "#/components/ui/button";
 import { FieldError } from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
 import { NativeSelect, NativeSelectOption } from "#/components/ui/native-select";
+import { MediaLibraryEmptyState } from "#/features/dashboard-media-library/components/organisms/media-library-empty-state";
+import { MediaLibraryFilters } from "#/features/dashboard-media-library/components/organisms/media-library-filters";
+import { MediaPagination } from "#/features/dashboard-media-library/components/organisms/media-pagination";
+import { MediaTable } from "#/features/dashboard-media-library/components/organisms/media-table";
+import { UploadProgressCard } from "#/features/dashboard-media-library/components/organisms/upload-progress-card";
+import { MediaLibraryPageTemplate } from "#/features/dashboard-media-library/components/templates/media-library-page-template";
+import { useMediaLibraryPage } from "#/features/dashboard-media-library/hooks/use-media-library-page";
+import type { getMediaLibraryPage } from "#/features/dashboard-media-library/server/functions";
 import { getManagedFieldProps, submitForm } from "#/lib/forms";
-
-import { useMediaLibraryPage } from "../hooks/use-media-library-page";
-import type { getMediaLibraryPage } from "../server/media-library";
-import { MediaLibraryEmptyState } from "./organisms/media-library-empty-state";
-import { MediaLibraryFilters } from "./organisms/media-library-filters";
-import { MediaPagination } from "./organisms/media-pagination";
-import { MediaTable } from "./organisms/media-table";
-import { UploadProgressCard } from "./organisms/upload-progress-card";
-import { MediaLibraryPageTemplate } from "./templates/media-library-page-template";
 
 interface MediaLibraryPageProps {
     data: Awaited<ReturnType<typeof getMediaLibraryPage>>;

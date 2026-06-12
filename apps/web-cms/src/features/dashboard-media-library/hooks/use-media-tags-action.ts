@@ -2,12 +2,13 @@ import { useForm } from "@tanstack/react-form";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import { mediaTagEditFormSchema, parseTagDraft } from "../lib/form-schema";
-import { updateMediaTags } from "../server/media-library";
+import { MEDIA_TAG_EDIT_FORM_SCHEMA } from "#/features/dashboard-media-library/lib/form-schema";
+import { parseTagDraft } from "#/features/dashboard-media-library/lib/utils";
+import { updateMediaTags } from "#/features/dashboard-media-library/server/functions";
 
 interface UseMediaTagsActionOptions {
     mediaId: number;
-    onUpdated: () => Promise<void>;
+    onUpdated(): Promise<void>;
     tagNames: string[];
 }
 
@@ -31,7 +32,7 @@ export function useMediaTagsAction({ mediaId, onUpdated, tagNames }: UseMediaTag
             await onUpdated();
         },
         validators: {
-            onSubmit: mediaTagEditFormSchema,
+            onSubmit: MEDIA_TAG_EDIT_FORM_SCHEMA,
         },
     });
 

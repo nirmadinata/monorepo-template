@@ -4,16 +4,20 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import * as v from "valibot";
 
-import { runFormSubmission } from "#/lib/forms";
-
-import type { MediaLibraryPageData, UploadProgressItem } from "../components/types";
+import type {
+    MediaLibraryPageData,
+    UploadProgressItem,
+} from "#/features/dashboard-media-library/components/types";
 import {
     MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES,
-    mediaLibrarySearchFormSchema,
-    mediaLibrarySearchSchema,
-    mediaUploadSubmissionSchema,
-} from "../lib/form-schema";
-import { finalizeMediaUpload, requestMediaUploadIntent } from "../server/media-library";
+    MEDIA_LIBRARY_SEARCH_SCHEMA,
+    MEDIA_UPLOAD_SUBMISSION_SCHEMA,
+} from "#/features/dashboard-media-library/lib/form-schema";
+import {
+    finalizeMediaUpload,
+    requestMediaUploadIntent,
+} from "#/features/dashboard-media-library/server/functions";
+import { runFormSubmission } from "#/lib/forms";
 
 export function useMediaLibraryPage(data: MediaLibraryPageData) {
     const navigate = useNavigate({ from: "/dashboard/media" });
@@ -21,29 +25,26 @@ export function useMediaLibraryPage(data: MediaLibraryPageData) {
     const [uploads, setUploads] = useState<UploadProgressItem[]>([]);
 
     const filterForm = useForm({
-        defaultValues: v.parse(mediaLibrarySearchSchema, data.filters),
+        defaultValues: data.filters as v.InferInput<typeof MEDIA_LIBRARY_SEARCH_SCHEMA>,
         async onSubmit({ value }) {
             await navigate({
                 to: "/dashboard/media",
                 search: (previous) => ({
                     ...previous,
-                    kind: value.kind,
+                    ...value,
                     page: 1,
-                    pageSize: value.pageSize,
-                    search: value.search,
-                    tag: value.tag,
                 }),
                 reloadDocument: true,
             });
         },
         validators: {
-            onSubmit: mediaLibrarySearchFormSchema,
+            onSubmit: MEDIA_LIBRARY_SEARCH_SCHEMA,
         },
     });
 
     const uploadForm = useForm({
         validators: {
-            onSubmit: mediaUploadSubmissionSchema,
+            onSubmit: MEDIA_UPLOAD_SUBMISSION_SCHEMA,
         },
         defaultValues: MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES,
         async onSubmit({ value, formApi }) {
@@ -150,7 +151,7 @@ export function useMediaLibraryPage(data: MediaLibraryPageData) {
     );
 
     useEffect(() => {
-        filterForm.reset(v.parse(mediaLibrarySearchSchema, data.filters));
+        filterForm.reset(v.parse(MEDIA_LIBRARY_SEARCH_SCHEMA, data.filters));
     }, [data.filters, filterForm]);
 
     async function reloadPage() {
