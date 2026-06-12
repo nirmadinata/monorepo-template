@@ -11,7 +11,8 @@ import { MediaPagination } from "#/features/dashboard-media-library/components/o
 import { MediaTable } from "#/features/dashboard-media-library/components/organisms/media-table";
 import { UploadProgressCard } from "#/features/dashboard-media-library/components/organisms/upload-progress-card";
 import { MediaLibraryPageTemplate } from "#/features/dashboard-media-library/components/templates/media-library-page-template";
-import { useMediaLibraryPage } from "#/features/dashboard-media-library/hooks/use-media-library-page";
+import { useMediaLibraryFilter } from "#/features/dashboard-media-library/hooks/use-media-library-filter";
+import { useMediaUpload } from "#/features/dashboard-media-library/hooks/use-media-upload";
 import type { getMediaLibraryPage } from "#/features/dashboard-media-library/server/functions";
 import { getManagedFieldProps, submitForm } from "#/lib/forms";
 
@@ -20,15 +21,10 @@ interface MediaLibraryPageProps {
 }
 
 export function MediaLibraryPage({ data }: MediaLibraryPageProps) {
-    const {
-        fileInputRef,
-        filterForm,
-        handleFilesSelected,
+    const { filterForm, reloadPage, tagOptions } = useMediaLibraryFilter(data);
+    const { fileInputRef, handleFilesSelected, uploadForm, uploads } = useMediaUpload({
         reloadPage,
-        tagOptions,
-        uploadForm,
-        uploads,
-    } = useMediaLibraryPage(data);
+    });
     const hasPartialPreviewFailure = data.items.some((item) => item.previewError);
 
     function renderUploadAction() {
