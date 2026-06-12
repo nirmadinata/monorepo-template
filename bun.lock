@@ -36,6 +36,7 @@
         "@tanstack/react-router-ssr-query": "latest",
         "@tanstack/react-start": "latest",
         "@tanstack/react-table": "latest",
+        "@tanstack/valibot-adapter": "^1.167.0",
         "ahooks": "^3.9.7",
         "better-auth": "^1.6.13",
         "class-variance-authority": "^0.7.1",
@@ -1112,6 +1113,8 @@
     "@tanstack/store": ["@tanstack/store@0.11.0", "", {}, "sha512-WlzzCt3xi0G6pCAJu1U+2jiECwabETDpQDi3hfkFZvJii9AuZqEKbOiVarX1/bWhTNjU486yQtJCCasi/0q+Cw=="],
 
     "@tanstack/table-core": ["@tanstack/table-core@8.21.3", "", {}, "sha512-ldZXEhOBb8Is7xLs01fR3YEc3DERiz5silj8tnGkFZytt1abEvl/GhUmCE0PMLaMPTa3Jk4HbKmRlHmu+gCftg=="],
+
+    "@tanstack/valibot-adapter": ["@tanstack/valibot-adapter@1.167.0", "", { "peerDependencies": { "@tanstack/react-router": ">=1.43.2", "valibot": "^1.0.0 || ^1.0.0-beta.5 || ^1.0.0-rc" } }, "sha512-W/sN+BnRrMeW3QEtSBf6hUhNFaa/QMs4XnPgSnme5RFt+hDRTQYs/K9aW+TOy92u8VsnQ82uJ2HX/vmntTeqIQ=="],
 
     "@tanstack/virtual-file-routes": ["@tanstack/virtual-file-routes@1.162.0", "", {}, "sha512-uhOeFyxLcU41HzvrxsGpiWdcMbScY1EDgbZ5K7DVRMYInbLYWAC0EA/kx9wXAoSM8q82bUG2hRl8+EAjE6XAbA=="],
 

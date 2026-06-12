@@ -2,12 +2,18 @@ import * as v from "valibot";
 
 import {
     MEDIA_LIBRARY_FILTER_KIND_VALUES,
+    MEDIA_LIBRARY_KIND_ENUM,
     MEDIA_LIBRARY_PAGE_SIZE,
     normalizeTagNames,
 } from "./media-library";
 
 export const mediaLibrarySearchSchema = v.object({
-    kind: v.optional(v.picklist(MEDIA_LIBRARY_FILTER_KIND_VALUES, "all")),
+    kind: v.optional(
+        v.fallback(
+            v.picklist(MEDIA_LIBRARY_FILTER_KIND_VALUES, MEDIA_LIBRARY_KIND_ENUM.ALL),
+            MEDIA_LIBRARY_KIND_ENUM.ALL
+        )
+    ),
     page: v.optional(v.pipe(v.number(), v.integer(), v.minValue(1)), 1),
     pageSize: v.optional(
         v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(50)),
@@ -18,7 +24,10 @@ export const mediaLibrarySearchSchema = v.object({
 });
 
 export const mediaLibrarySearchFormSchema = v.object({
-    kind: v.picklist(MEDIA_LIBRARY_FILTER_KIND_VALUES),
+    kind: v.optional(
+        v.fallback(v.picklist(MEDIA_LIBRARY_FILTER_KIND_VALUES), MEDIA_LIBRARY_KIND_ENUM.ALL),
+        MEDIA_LIBRARY_KIND_ENUM.ALL
+    ),
     page: v.pipe(v.number(), v.integer(), v.minValue(1)),
     pageSize: v.pipe(v.number(), v.integer(), v.minValue(1), v.maxValue(50)),
     search: v.pipe(v.string(), v.trim(), v.maxLength(100)),

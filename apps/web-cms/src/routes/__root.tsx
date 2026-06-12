@@ -14,35 +14,6 @@ import TanStackQueryDevtools from "#/integrations/tanstack-query/devtools";
 
 import appCss from "#/styles.css?url";
 
-interface MyRouterContext {
-    queryClient: QueryClient;
-}
-
-export const Route = createRootRouteWithContext<MyRouterContext>()({
-    head: () => ({
-        links: [
-            {
-                href: appCss,
-                rel: "stylesheet",
-            },
-        ],
-        meta: [
-            {
-                charSet: "utf-8",
-            },
-            {
-                content: "width=device-width, initial-scale=1",
-                name: "viewport",
-            },
-            {
-                title: "TanStack Start Starter",
-            },
-        ],
-    }),
-    notFoundComponent: RootNotFound,
-    shellComponent: RootDocument,
-});
-
 function RootNotFound() {
     return <p className="px-4 py-6 text-sm text-muted-foreground sm:px-6 lg:px-8">Not found.</p>;
 }
@@ -77,3 +48,32 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         </html>
     );
 }
+
+interface MyRouterContext {
+    queryClient: QueryClient;
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
+    head: () => ({
+        links: [
+            {
+                href: appCss,
+                rel: "stylesheet",
+            },
+        ],
+        meta: [
+            {
+                charSet: "utf-8",
+            },
+            {
+                content: "width=device-width, initial-scale=1",
+                name: "viewport",
+            },
+            {
+                title: "TanStack Start Starter",
+            },
+        ],
+    }),
+    notFoundComponent: RootNotFound,
+    shellComponent: RootDocument,
+});
