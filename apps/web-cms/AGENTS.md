@@ -12,7 +12,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Runtime: TanStack Start on Vite with `@cloudflare/vite-plugin`
 - Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
 - Current public auth UI routes: `/` and `/login`
-- Current dashboard routes: `/dashboard` and `/dashboard/media`
+- Current dashboard routes: `/dashboard`, `/dashboard/media`, and `/dashboard/posts`
 - Current server route surface: `/api/auth/*`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
@@ -25,11 +25,12 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 ## Source Map
 
-- `src/routes/`: file-based TanStack Router routes, including `/`, `/login`, `/dashboard`, `/dashboard/media`, and `/api/auth/$`
+- `src/routes/`: file-based TanStack Router routes, including `/`, `/login`, `/dashboard`, `/dashboard/media`, `/dashboard/posts`, and `/api/auth/$`
 - `src/features/dashboard-authentication/`: public auth pages, Google sign-in client actions, and feature-local auth UI split across `components/atoms`, `components/organisms`, `components/templates`, and route-facing page/layout entry files
 - `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, dashboard account menu, and dashboard session loader, with shell UI split across `components/molecules`, `components/templates`, and the stable `dashboard-shell.tsx` entrypoint
 - `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell, with the route-facing page entrypoint delegating to a feature-local template
 - `src/features/dashboard-media-library/`: authenticated media-library page, TanStack Form-managed upload/filter/tag-edit flows, upload/list/delete server flows, and media-specific helpers, with page UI split across feature-local atomic component layers plus the stable `media-library-page.tsx` entrypoint
+- `src/features/dashboard-post-list/`: authenticated post-list page with TanStack Form-managed search/filter/pagination flows, server-side post listing and delete flows, with page UI split across feature-local atomic component layers plus the stable `post-list-page.tsx` entrypoint
 - `src/features/*/hooks/`: feature-local hooks that keep component logic separate from component view files
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, trusted-origin parsing, and bootstrap-user preparation
 - `src/integrations/app/`: app-level server-only bootstrap helpers such as first-signup data seeding
@@ -54,9 +55,10 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - The protected dashboard route redirects unauthenticated users to `/login` through `src/features/dashboard/server/get-dashboard-session.ts`.
 - The authenticated dashboard shell now renders the theme toggle and a `Cmd/Ctrl+K` command palette trigger in the header, a user account dropdown in the sidebar footer, and desktop sidebar behavior that hover-expands in icon-collapse mode and pins open when the non-menu sidebar layout is clicked, with current-user data threaded from the `/dashboard` route loader into the shell.
-- Dashboard navigation is still mostly static mock CMS navigation, but `src/features/dashboard/lib/navigation.ts` now includes a concrete `/dashboard/media` entry.
+- Dashboard navigation is still mostly static mock CMS navigation, but `src/features/dashboard/lib/navigation.ts` now includes concrete `/dashboard/media` and `/dashboard/posts` entries.
 - `src/features/dashboard-home/` currently owns the dashboard landing page content for `/dashboard/` while the shared shell remains reusable for additional dashboard routes.
 - `src/features/dashboard-media-library/` owns the `/dashboard/media` route's upload, paginated list, signed preview, tag-filter, tag-edit, and delete flows, backed by D1 metadata plus R2 object storage.
+- `src/features/dashboard-post-list/` owns the `/dashboard/posts` route's paginated list, signed cover-image preview, search, status filter, and delete flows, backed by D1 metadata (plus related media/mime-type joins) and R2 object storage for cover images.
 - Feature-owned UI under `src/features/*/components/` now follows an atomic-design convention where route-facing `*-page.tsx` or layout entry files stay stable and delegate into only the needed `atoms`, `molecules`, `organisms`, and `templates` subfolders for that feature.
 - The first successful bootstrap signup seeds app-owned lookup data, including the media library's supported `mime_types` rows, from the app's allowed image and video MIME constants.
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.

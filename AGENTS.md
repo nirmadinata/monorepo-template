@@ -56,12 +56,13 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Authenticated dashboard shell code lives under `src/features/dashboard/`
 - Dashboard landing page content for `/dashboard` lives under `src/features/dashboard-home/`
 - Dashboard media-library route and feature code live under `src/routes/dashboard.media.tsx` and `src/features/dashboard-media-library/`
+- Dashboard post-list route and feature code live under `src/routes/dashboard.posts.tsx` and `src/features/dashboard-post-list/`
 - Current server integrations live under `src/integrations/`
 - Auth is backed by Better Auth plus the `web-cms` D1/Drizzle integration under `src/integrations/db`
 - The shared schema source for `web-cms` lives in `packages/db-schema`, while the app-owned Drizzle client helper, Drizzle config, and checked-in migrations remain under `src/integrations/db/`
 - App-owned Cloudflare R2 client helpers, constants, and repository utilities live under `src/integrations/r2/`
 - Current public auth UI routes are `/` and `/login` via `src/routes/_auth*`
-- Current authenticated dashboard routes are `/dashboard` and `/dashboard/media`
+- Current authenticated dashboard routes are `/dashboard`, `/dashboard/media`, and `/dashboard/posts`
 - Current server route surface includes Better Auth under `/api/auth/*` via `src/routes/api/auth/$.ts`
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
 - See `apps/web-cms/AGENTS.md` before editing app-specific code
@@ -100,6 +101,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - The current R2 client and repository helpers are owned directly by `apps/web-cms`
 - `packages/db-schema` is currently the only maintained workspace package under `packages/`
 - The web app already includes dashboard authentication, a protected dashboard route, and the Better Auth API route
+- The web app already includes a protected dashboard post list backed by app-local D1 metadata and R2 object storage with filtering, pagination, and delete support
 - The web app already includes a protected dashboard media library backed by app-local D1 metadata and R2 object storage
 - The landing app already includes cookie-based `next-intl` localization for `en` and `id` without locale-prefixed routing
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
