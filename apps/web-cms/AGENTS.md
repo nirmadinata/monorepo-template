@@ -39,6 +39,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
 - `src/components/`: shared app components such as theming and reusable UI primitives
+- `src/hooks/`: app-local client hooks such as `use-mobile.ts` and `use-mounted.ts` used by shadcn-style primitives
 - `src/lib/forms.ts`: app-local TanStack Form helpers for shared field props and submission error mapping
 - `vite.config.ts`: TanStack Start, Cloudflare, Tailwind, devtools, and React Compiler plugin setup
 - `wrangler.jsonc`: Worker entrypoint plus `MAIN_DB`, `MAIN_KV`, and `MAIN_R2` bindings
@@ -65,7 +66,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - The first successful Google bootstrap sign-in creates the initial `superadmin` account and runs the initial app data seeding.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - The public authentication submit action is now managed through TanStack Form with a feature-local auth schema and form-level error rendering.
-- Better Auth uses the shared `@repo/db-schema` schema re-exported through `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts.
+- Better Auth uses the shared `@repo/db-schema` schema re-exported through `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts; email and password is disabled and the `/sign-in/email` plus `/sign-up/email` paths are turned off so the public auth UI relies on Google sign-in only.
 - Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
 - The media-library search/filter, tag-edit, and upload flows are now managed through TanStack Form with feature-local schemas reused by the route search contract where applicable.
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in.

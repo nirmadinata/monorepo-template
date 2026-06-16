@@ -19,6 +19,7 @@ const config = defineConfig({
         babel({ presets: [reactCompilerPreset()] }),
     ],
     resolve: {
+        conditions: ["browser", "module", "import", "development"],
         dedupe: ["react", "react-dom"],
         tsconfigPaths: true,
     },
