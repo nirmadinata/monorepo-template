@@ -17,6 +17,7 @@ export default defineConfig({
             rules: {
                 "no-head-element": "off",
                 "no-img-element": "off",
+                "react/react-compiler": "error",
             },
         },
     ],
@@ -28,7 +29,7 @@ export default defineConfig({
         "require-await": "off",
         "no-abusive-eslint-disable": "off",
         "no-empty-interface": "off",
-        "tailwindcss/enforce-canonical": ["error"],
-        "tailwindcss/enforce-sort-order": ["error"],
+        "tailwindcss/enforce-canonical": "error",
+        "tailwindcss/enforce-sort-order": "error",
     },
 });
