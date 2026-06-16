@@ -14,6 +14,7 @@ interface UsePostTableParams {
     onDeleted: () => Promise<void>;
 }
 
+// oxlint-disable-next-line react/react-compiler
 export function usePostTable({ items, onDeleted }: UsePostTableParams) {
     const columns = useMemo<ColumnDef<PostListPageData["items"][number]>[]>(
         () => [

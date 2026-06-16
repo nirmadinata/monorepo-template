@@ -37,9 +37,9 @@ export function sanitizeStorageKeySegment(value: string) {
     const normalized = value
         .trim()
         .toLowerCase()
-        .replaceAll(/[^a-z0-9.-]+/g, "-")
-        .replaceAll(/-+/g, "-")
-        .replaceAll(/^-|-$/g, "");
+        .replaceAll(/[^a-z0-9.-]+/gu, "-")
+        .replaceAll(/-+/gu, "-")
+        .replaceAll(/^-|-$/gu, "");
 
     return normalized || "file";
 }
@@ -48,9 +48,9 @@ export function slugifyTagName(value: string) {
     const normalized = value
         .trim()
         .toLowerCase()
-        .replaceAll(/[^a-z0-9]+/g, "-")
-        .replaceAll(/-+/g, "-")
-        .replaceAll(/^-|-$/g, "");
+        .replaceAll(/[^a-z0-9]+/gu, "-")
+        .replaceAll(/-+/gu, "-")
+        .replaceAll(/^-|-$/gu, "");
 
     return normalized || `tag-${crypto.randomUUID().slice(0, 8)}`;
 }
@@ -78,5 +78,5 @@ export function formatBytes(sizeInBytes: number) {
 }
 
 export function parseTagDraft(tagDraft: string) {
-    return normalizeTagNames(tagDraft.split(/[\n,]+/));
+    return normalizeTagNames(tagDraft.split(/[\n,]+/u));
 }

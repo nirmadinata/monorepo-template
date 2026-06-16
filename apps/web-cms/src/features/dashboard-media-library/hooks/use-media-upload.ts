@@ -37,6 +37,7 @@ export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
             );
 
             try {
+                // oxlint-disable no-await-in-loop
                 for (const [index, file] of value.files.entries()) {
                     const intent = await requestMediaUploadIntent({
                         data: {
@@ -98,6 +99,7 @@ export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
                         )
                     );
                 }
+                // oxlint-enable no-await-in-loop
 
                 toast.success(
                     value.files.length === 1 ? "Media uploaded." : "Media uploads completed."

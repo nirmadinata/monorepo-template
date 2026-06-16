@@ -28,7 +28,7 @@ function getDisplayName(user: DashboardSession["user"]) {
     }
 
     return localPart
-        .split(/[._-]+/)
+        .split(/[._-]+/u)
         .filter(Boolean)
         .map((segment) => segment[0]?.toUpperCase() + segment.slice(1))
         .join(" ");
@@ -36,7 +36,7 @@ function getDisplayName(user: DashboardSession["user"]) {
 
 function getAvatarFallbackLabel(displayName: string) {
     const initials = displayName
-        .split(/\s+/)
+        .split(/\s+/u)
         .filter(Boolean)
         .map((segment) => segment[0]?.toUpperCase())
         .slice(0, 2)

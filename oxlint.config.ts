@@ -17,7 +17,7 @@ export default defineConfig({
             rules: {
                 "no-head-element": "off",
                 "no-img-element": "off",
-                "react/react-compiler": "error",
+                "react/react-compiler": ["error", { reportAllBailouts: false }],
             },
         },
     ],
@@ -31,5 +31,19 @@ export default defineConfig({
         "no-empty-interface": "off",
         "tailwindcss/enforce-canonical": "error",
         "tailwindcss/enforce-sort-order": "error",
+    },
+    settings: {
+        tailwindcss: {
+            entryPoint: [
+                {
+                    files: "apps/web-cms/**",
+                    use: "apps/web-cms/src/styles.css",
+                },
+                {
+                    files: "apps/web-landing/**",
+                    use: "apps/web-landing/src/app/globals.css",
+                },
+            ],
+        },
     },
 });

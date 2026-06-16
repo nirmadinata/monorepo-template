@@ -8,7 +8,7 @@ import { updateMediaTags } from "#/features/dashboard-media-library/server/funct
 
 interface UseMediaTagsActionOptions {
     mediaId: number;
-    onUpdated(): Promise<void>;
+    onUpdated: () => Promise<void>;
     tagNames: string[];
 }
 

@@ -20,6 +20,7 @@ interface UseMediaTableParams {
     onDeleted: () => Promise<void>;
 }
 
+// oxlint-disable-next-line react/react-compiler
 export function useMediaTable({ items, onDeleted }: UseMediaTableParams) {
     const columns = useMemo<ColumnDef<MediaItem>[]>(
         () => [

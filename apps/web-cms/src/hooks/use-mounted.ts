@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
+
+const subscribe = () => () => {
+    // No-op unsubscribe: the mounted snapshot is static for the component lifetime.
+};
 
 export function useMounted() {
-    const [isMounted, setIsMounted] = useState(false);
-
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    return isMounted;
+    return useSyncExternalStore(
+        subscribe,
+        () => true,
+        () => false
+    );
 }

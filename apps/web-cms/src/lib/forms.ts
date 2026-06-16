@@ -74,7 +74,7 @@ export function extractFormErrorItems(errors?: readonly unknown[]): AppFormError
 }
 
 export function getFormFieldErrorId(name: string) {
-    return `${name.replaceAll(/[^a-zA-Z0-9_-]+/g, "-")}-error`;
+    return `${name.replaceAll(/[^a-zA-Z0-9_-]+/gu, "-")}-error`;
 }
 
 export function getManagedFieldProps<

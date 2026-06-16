@@ -17,7 +17,9 @@ interface MediaTableProps {
     onDeleted: () => Promise<void>;
 }
 
-export function MediaTable({ items = [], onDeleted }: MediaTableProps) {
+const EMPTY_ITEMS: MediaTableProps["items"] = [];
+
+export function MediaTable({ items = EMPTY_ITEMS, onDeleted }: MediaTableProps) {
     const table = useMediaTable({ items, onDeleted });
 
     return (
