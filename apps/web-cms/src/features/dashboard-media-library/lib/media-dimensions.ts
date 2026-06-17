@@ -66,10 +66,10 @@ const readVideoDimensions = createClientOnlyFn(async (file: File) => {
         const video = document.createElement("video");
         video.preload = "metadata";
 
-        type VideoMetadata = {
+        interface VideoMetadata {
             height: number;
             width: number;
-        };
+        }
 
         // oxlint-disable-next-line promise/avoid-new
         const result = await new Promise<VideoMetadata | null>((resolve) => {

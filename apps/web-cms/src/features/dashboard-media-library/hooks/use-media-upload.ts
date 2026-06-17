@@ -1,5 +1,5 @@
 import { useForm } from "@tanstack/react-form";
-import { useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import type { UploadProgressItem } from "#/features/dashboard-media-library/components/types";
@@ -7,20 +7,30 @@ import {
     MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES,
     MEDIA_UPLOAD_SUBMISSION_SCHEMA,
 } from "#/features/dashboard-media-library/lib/form-schema";
-import { readMediaDimensions } from "#/features/dashboard-media-library/lib/media-dimensions";
-import {
-    finalizeMediaUpload,
-    requestMediaUploadIntent,
-} from "#/features/dashboard-media-library/server/functions";
+import { uploadMediaFile } from "#/features/dashboard-media-library/lib/upload-media";
+import { createMediaUploadProgressUpdater } from "#/features/dashboard-media-library/lib/upload-progress";
 import { runFormSubmission } from "#/lib/forms";
 
 interface UseMediaUploadProps {
     reloadPage: () => Promise<void>;
 }
 
+const UPLOAD_CLEAR_DELAY_MS = 1000;
+
 export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
     const fileInputRef = useRef<HTMLInputElement | null>(null);
+    const clearUploadsTimeoutRef = useRef<number | null>(null);
     const [uploads, setUploads] = useState<UploadProgressItem[]>([]);
+    const progress = useMemo(() => createMediaUploadProgressUpdater(setUploads), []);
+
+    useEffect(
+        () => () => {
+            if (clearUploadsTimeoutRef.current !== null) {
+                window.clearTimeout(clearUploadsTimeoutRef.current);
+            }
+        },
+        []
+    );
 
     const uploadForm = useForm({
         validators: {
@@ -28,80 +38,12 @@ export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
         },
         defaultValues: MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES,
         async onSubmit({ value, formApi }) {
-            setUploads(
-                value.files.map((file) => ({
-                    fileName: file.name,
-                    id: `${file.name}-${file.size}-${crypto.randomUUID()}`,
-                    progress: 0,
-                    status: "uploading",
-                }))
-            );
-
             try {
+                progress.start(value.files);
+
                 // oxlint-disable no-await-in-loop
                 for (const [index, file] of value.files.entries()) {
-                    const [intent, dimensions] = await Promise.all([
-                        requestMediaUploadIntent({
-                            data: {
-                                fileName: file.name,
-                                fileSize: file.size,
-                                mimeType: file.type,
-                            },
-                        }),
-                        readMediaDimensions(file).catch(() => null),
-                    ]);
-
-                    setUploads((current) =>
-                        current.map((item, idx) =>
-                            idx === index ? { ...item, progress: 10 } : item
-                        )
-                    );
-
-                    const uploadResponse = await fetch(intent.uploadUrl, {
-                        method: "PUT",
-                        headers: {
-                            "Content-Type": file.type,
-                        },
-                        body: file,
-                    });
-
-                    if (!uploadResponse.ok) {
-                        throw new Error(`Upload failed for ${file.name}.`);
-                    }
-
-                    setUploads((current) =>
-                        current.map((item, itemIndex) =>
-                            itemIndex === index ? { ...item, progress: 80 } : item
-                        )
-                    );
-
-                    await finalizeMediaUpload({
-                        data: {
-                            description: "",
-                            durationSeconds: null,
-                            height: dimensions?.height ?? null,
-                            imageAltText: "",
-                            mimeType: file.type,
-                            name: "",
-                            originalFilename: file.name,
-                            sizeInBytes: file.size,
-                            storageKey: intent.storageKey,
-                            tagNames: [],
-                            width: dimensions?.width ?? null,
-                        },
-                    });
-
-                    setUploads((current) =>
-                        current.map((item, itemIndex) =>
-                            itemIndex === index
-                                ? {
-                                      ...item,
-                                      progress: 100,
-                                      status: "done",
-                                  }
-                                : item
-                        )
-                    );
+                    await uploadMediaFile(file, index, progress);
                 }
                 // oxlint-enable no-await-in-loop
 
@@ -117,9 +59,9 @@ export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
 
                 await reloadPage();
             } finally {
-                window.setTimeout(() => {
-                    setUploads([]);
-                }, 1000);
+                clearUploadsTimeoutRef.current = window.setTimeout(() => {
+                    progress.clear();
+                }, UPLOAD_CLEAR_DELAY_MS);
             }
         },
     });

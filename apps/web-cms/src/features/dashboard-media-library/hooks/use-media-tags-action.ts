@@ -1,5 +1,5 @@
 import { useForm } from "@tanstack/react-form";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 import { MEDIA_TAG_EDIT_FORM_SCHEMA } from "#/features/dashboard-media-library/lib/form-schema";
@@ -14,6 +14,8 @@ interface UseMediaTagsActionOptions {
 
 export function useMediaTagsAction({ mediaId, onUpdated, tagNames }: UseMediaTagsActionOptions) {
     const [isOpen, setIsOpen] = useState(false);
+    const lastSyncedTagNames = useRef(tagNames);
+
     const form = useForm({
         defaultValues: {
             mediaId,
@@ -43,10 +45,15 @@ export function useMediaTagsAction({ mediaId, onUpdated, tagNames }: UseMediaTag
             return;
         }
 
+        if (lastSyncedTagNames.current === tagNames) {
+            return;
+        }
+
         form.reset({
             mediaId,
             tagDraft: tagNames.join(", "),
         });
+        lastSyncedTagNames.current = tagNames;
     }, [form, isOpen, mediaId, tagNames]);
 
     return {

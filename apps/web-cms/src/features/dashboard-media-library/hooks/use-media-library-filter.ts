@@ -1,13 +1,16 @@
 import { useForm } from "@tanstack/react-form";
 import { useNavigate } from "@tanstack/react-router";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import * as v from "valibot";
 
 import type { MediaLibraryPageData } from "#/features/dashboard-media-library/components/types";
 import { MEDIA_LIBRARY_SEARCH_SCHEMA } from "#/features/dashboard-media-library/lib/form-schema";
 
+import { useMediaTagOptions } from "./use-media-tag-options";
+
 export function useMediaLibraryFilter(data: MediaLibraryPageData) {
     const navigate = useNavigate({ from: "/dashboard/media" });
+    const tagOptions = useMediaTagOptions(data);
 
     const filterForm = useForm({
         defaultValues: data.filters as v.InferInput<typeof MEDIA_LIBRARY_SEARCH_SCHEMA>,
@@ -26,17 +29,6 @@ export function useMediaLibraryFilter(data: MediaLibraryPageData) {
             onSubmit: MEDIA_LIBRARY_SEARCH_SCHEMA,
         },
     });
-
-    const tagOptions = useMemo(
-        () => [
-            { label: "All tags", value: "" },
-            ...data.availableTags.map((tag) => ({
-                label: tag.name,
-                value: tag.slug,
-            })),
-        ],
-        [data.availableTags]
-    );
 
     useEffect(() => {
         filterForm.reset(v.parse(MEDIA_LIBRARY_SEARCH_SCHEMA, data.filters));

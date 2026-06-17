@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
+import { toToastErrorMessage } from "#/features/dashboard-media-library/lib/toast-error";
 import { deleteMediaAsset } from "#/features/dashboard-media-library/server/functions";
 
 interface UseMediaDeleteActionOptions {
@@ -19,11 +20,7 @@ export function useMediaDeleteAction({ mediaId, onDeleted }: UseMediaDeleteActio
             toast.success("Media deleted.");
             await onDeleted();
         } catch (error) {
-            toast.error(
-                error instanceof Error
-                    ? error.message
-                    : "Unable to delete this media asset right now."
-            );
+            toast.error(toToastErrorMessage(error, "Unable to delete this media asset right now."));
         } finally {
             setIsDeleting(false);
         }
