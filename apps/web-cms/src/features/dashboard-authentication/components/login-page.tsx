@@ -1,16 +1,13 @@
-import { dashboardAuthenticationPaths } from "../lib/util";
-import { GoogleAuthPage } from "./organisms/google-auth-page";
+import { GoogleAuthForm } from "./organisms/google-auth-form";
 
 export function LoginPage() {
     return (
-        <GoogleAuthPage
-            actionLabel="Sign in with Google"
-            description="Return with the Google account already linked to this workspace."
-            footerHref={dashboardAuthenticationPaths.welcome}
-            footerLabel=""
-            footerPrompt="Login to get into dashboard"
-            intent="sign-in"
-            title="Welcome back"
-        />
+        <div className="flex flex-col items-center gap-3 text-center">
+            <h1 className="text-xl font-medium">Sign in</h1>
+            <p className="text-sm text-muted-foreground">
+                Continue with the Google account linked to this workspace.
+            </p>
+            <GoogleAuthForm actionLabel="Sign in with Google" intent="sign-in" />
+        </div>
     );
 }

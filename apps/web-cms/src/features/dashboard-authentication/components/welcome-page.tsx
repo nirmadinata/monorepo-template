@@ -1,16 +1,13 @@
-import { dashboardAuthenticationPaths } from "../lib/util";
-import { GoogleAuthPage } from "./organisms/google-auth-page";
+import { GoogleAuthForm } from "./organisms/google-auth-form";
 
 export function WelcomePage() {
     return (
-        <GoogleAuthPage
-            actionLabel="Sign up with Google"
-            description="This will setup your instance and create the first account with superadmin privileges."
-            footerHref={dashboardAuthenticationPaths.login}
-            footerLabel="Go to sign in"
-            footerPrompt="Already have an approved account?"
-            intent="sign-up"
-            title="Create your first account"
-        />
+        <div className="flex flex-col items-center gap-3 text-center">
+            <h1 className="text-xl font-medium">Create your first account</h1>
+            <p className="text-sm text-muted-foreground">
+                Sign up with Google to bootstrap this instance and create the first superadmin.
+            </p>
+            <GoogleAuthForm actionLabel="Sign up with Google" intent="sign-up" />
+        </div>
     );
 }
