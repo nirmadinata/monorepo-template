@@ -105,7 +105,7 @@ export const posts = sqliteTable(
         cover_image_id: int("cover_image_id").references(() => medias.id),
 
         title: text("title").notNull(),
-        excerpt: text("excerpt").notNull(),
+        excerpt: text("excerpt", { length: 160 }).notNull(),
         content_key: text("content_key").notNull().unique(),
 
         status: text("status", { enum: ["draft", "published", "unpublished"] })
