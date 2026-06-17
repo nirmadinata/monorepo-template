@@ -7,6 +7,7 @@ import {
     MEDIA_UPLOAD_SUBMISSION_FORM_DEFAULT_VALUES,
     MEDIA_UPLOAD_SUBMISSION_SCHEMA,
 } from "#/features/dashboard-media-library/lib/form-schema";
+import { readMediaDimensions } from "#/features/dashboard-media-library/lib/media-dimensions";
 import {
     finalizeMediaUpload,
     requestMediaUploadIntent,
@@ -39,13 +40,16 @@ export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
             try {
                 // oxlint-disable no-await-in-loop
                 for (const [index, file] of value.files.entries()) {
-                    const intent = await requestMediaUploadIntent({
-                        data: {
-                            fileName: file.name,
-                            fileSize: file.size,
-                            mimeType: file.type,
-                        },
-                    });
+                    const [intent, dimensions] = await Promise.all([
+                        requestMediaUploadIntent({
+                            data: {
+                                fileName: file.name,
+                                fileSize: file.size,
+                                mimeType: file.type,
+                            },
+                        }),
+                        readMediaDimensions(file).catch(() => null),
+                    ]);
 
                     setUploads((current) =>
                         current.map((item, idx) =>
@@ -75,7 +79,7 @@ export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
                         data: {
                             description: "",
                             durationSeconds: null,
-                            height: null,
+                            height: dimensions?.height ?? null,
                             imageAltText: "",
                             mimeType: file.type,
                             name: "",
@@ -83,7 +87,7 @@ export function useMediaUpload({ reloadPage }: UseMediaUploadProps) {
                             sizeInBytes: file.size,
                             storageKey: intent.storageKey,
                             tagNames: [],
-                            width: null,
+                            width: dimensions?.width ?? null,
                         },
                     });
 
