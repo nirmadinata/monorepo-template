@@ -1,17 +1,14 @@
 import { createClientOnlyFn } from "@tanstack/react-start";
 
-import {
-    ALLOWED_IMAGE_MIME_TYPES,
-    ALLOWED_VIDEO_MIME_TYPES,
-} from "#/features/dashboard-media-library/lib/constants";
+import { IMAGE_MIME_TYPES, VIDEO_MIME_TYPES } from "#/integrations/app/media-mime-types";
 
 export interface MediaDimensions {
     height: number;
     width: number;
 }
 
-const IMAGE_MIME_TYPE_SET = new Set<string>(ALLOWED_IMAGE_MIME_TYPES);
-const VIDEO_MIME_TYPE_SET = new Set<string>(ALLOWED_VIDEO_MIME_TYPES);
+const IMAGE_MIME_TYPE_SET = new Set<string>(IMAGE_MIME_TYPES);
+const VIDEO_MIME_TYPE_SET = new Set<string>(VIDEO_MIME_TYPES);
 
 export const readMediaDimensions = createClientOnlyFn(async (file: File) => {
     if (IMAGE_MIME_TYPE_SET.has(file.type)) {

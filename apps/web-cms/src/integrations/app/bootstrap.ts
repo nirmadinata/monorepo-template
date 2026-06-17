@@ -1,6 +1,6 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
 
-import { SEEDED_MEDIA_MIME_TYPES } from "#/features/dashboard-media-library/lib/constants";
+import { SEEDED_MEDIA_MIME_TYPES } from "#/integrations/app/media-mime-types";
 import { dbSchema, getDB } from "#/integrations/db";
 
 export const seedAppForFirstUserSignup = createServerOnlyFn(

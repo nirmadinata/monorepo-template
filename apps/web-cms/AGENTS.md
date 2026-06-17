@@ -33,7 +33,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard-post-list/`: authenticated post-list page with TanStack Form-managed search/filter/pagination flows, server-side post listing and delete flows, with page UI split across feature-local atomic component layers plus the stable `post-list-page.tsx` entrypoint
 - `src/features/*/hooks/`: feature-local hooks that keep component logic separate from component view files
 - `src/integrations/auth/`: Better Auth server/client setup, adapter wiring, bootstrap-state and current-session server helpers, trusted-origin parsing, and bootstrap-user preparation
-- `src/integrations/app/`: app-level server-only bootstrap helpers such as first-signup data seeding
+- `src/integrations/app/`: app-level server-only bootstrap helpers and canonical app-level data such as first-signup data seeding and the media mime type registry
 - `src/integrations/db/`: app-owned Drizzle D1 client helper, Drizzle config, checked-in migrations under `migrations/`, and app-facing `getDB()`/`dbSchema` exports backed by `@repo/db-schema`
 - `src/integrations/r2/`: Cloudflare R2 S3 client setup, app constants, shared types, and server-only repository helpers for presigned URLs and object access
 - `src/integrations/appenv/`: typed environment parsing and Cloudflare worker binding access
@@ -61,7 +61,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard-media-library/` owns the `/dashboard/media` route's upload, paginated list, signed preview, tag-filter, tag-edit, and delete flows, backed by D1 metadata plus R2 object storage.
 - `src/features/dashboard-post-list/` owns the `/dashboard/posts` route's paginated list, signed cover-image preview, search, status filter, and delete flows, backed by D1 metadata (plus related media/mime-type joins) and R2 object storage for cover images.
 - Feature-owned UI under `src/features/*/components/` now follows an atomic-design convention where route-facing `*-page.tsx` or layout entry files stay stable and delegate into only the needed `atoms`, `molecules`, `organisms`, and `templates` subfolders for that feature.
-- The first successful bootstrap signup seeds app-owned lookup data, including the media library's supported `mime_types` rows, from the app's allowed image and video MIME constants.
+- The first successful bootstrap signup seeds app-owned lookup data, including the media library's supported `mime_types` rows, from the app-level media mime type registry under `src/integrations/app/media-mime-types.ts`.
 - Public auth route behavior depends on whether the database already has users; `/` stays open only during bootstrap and otherwise redirects to `/login`.
 - The first successful Google bootstrap sign-in creates the initial `superadmin` account and runs the initial app data seeding.
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.

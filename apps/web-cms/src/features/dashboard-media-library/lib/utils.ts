@@ -1,32 +1,31 @@
-import type {
-    ALLOWED_MEDIA_MIME_TYPES,
-    MediaLibraryKind,
-} from "#/features/dashboard-media-library/lib/constants";
 import {
-    ALLOWED_IMAGE_MIME_TYPES,
-    ALLOWED_VIDEO_MIME_TYPES,
     MAX_FILE_SIZE,
     MAX_VIDEO_FILE_SIZE,
+} from "#/features/dashboard-media-library/lib/constants";
+import {
+    IMAGE_MIME_TYPES,
     SEEDED_MEDIA_KIND_BY_MIME_TYPE,
     SEEDED_MEDIA_MIME_TYPE_SET,
-} from "#/features/dashboard-media-library/lib/constants";
+    VIDEO_MIME_TYPES,
+} from "#/integrations/app/media-mime-types";
+import type { MEDIA_MIME_TYPES, MediaKind } from "#/integrations/app/media-mime-types";
 
 export function isSupportedMediaMimeType(
     value: string
-): value is (typeof ALLOWED_MEDIA_MIME_TYPES)[number] {
+): value is (typeof MEDIA_MIME_TYPES)[number] {
     return SEEDED_MEDIA_MIME_TYPE_SET.has(value);
 }
 
-export function getMediaKindForMimeType(mimeType: string): MediaLibraryKind | null {
+export function getMediaKindForMimeType(mimeType: string): MediaKind | null {
     return SEEDED_MEDIA_KIND_BY_MIME_TYPE.get(mimeType) ?? null;
 }
 
 export function getMaxUploadSizeForMimeType(mimeType: string) {
-    if ((ALLOWED_IMAGE_MIME_TYPES as readonly string[]).includes(mimeType)) {
+    if ((IMAGE_MIME_TYPES as readonly string[]).includes(mimeType)) {
         return MAX_FILE_SIZE;
     }
 
-    if ((ALLOWED_VIDEO_MIME_TYPES as readonly string[]).includes(mimeType)) {
+    if ((VIDEO_MIME_TYPES as readonly string[]).includes(mimeType)) {
         return MAX_VIDEO_FILE_SIZE;
     }
 
