@@ -50,7 +50,7 @@ const createAuth = createServerOnlyFn(({ db, secondaryStorage }: AuthParam) => {
                             return;
                         }
 
-                        if ((user.role as string | null | undefined) !== BOOTSTRAP_ADMIN_ROLE) {
+                        if ((user.role as string) !== BOOTSTRAP_ADMIN_ROLE) {
                             return;
                         }
 
@@ -59,9 +59,10 @@ const createAuth = createServerOnlyFn(({ db, secondaryStorage }: AuthParam) => {
                 },
             },
         },
-        disabledPaths: ["/sign-in/email", "/sign-up/email"],
         emailAndPassword: {
-            enabled: false,
+            enabled: true,
+            minPasswordLength: 8,
+            maxPasswordLength: 256,
         },
         plugins: [
             adminPlugin({

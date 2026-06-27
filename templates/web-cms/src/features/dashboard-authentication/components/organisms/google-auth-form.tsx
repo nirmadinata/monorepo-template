@@ -10,9 +10,10 @@ import { GoogleMark } from "../atoms/google-mark";
 interface GoogleAuthFormProps {
     actionLabel: string;
     intent: DashboardAuthenticationIntent;
+    variant?: "default" | "outline";
 }
 
-export function GoogleAuthForm({ actionLabel, intent }: GoogleAuthFormProps) {
+export function GoogleAuthForm({ actionLabel, intent, variant = "outline" }: GoogleAuthFormProps) {
     const form = useGoogleAuthForm(intent);
 
     return (
@@ -30,7 +31,7 @@ export function GoogleAuthForm({ actionLabel, intent }: GoogleAuthFormProps) {
             >
                 {({ errors, isSubmitting }) => (
                     <>
-                        <Button disabled={isSubmitting} size="lg" type="submit">
+                        <Button disabled={isSubmitting} size="lg" type="submit" variant={variant}>
                             {isSubmitting ? (
                                 <Spinner data-icon="inline-start" />
                             ) : (

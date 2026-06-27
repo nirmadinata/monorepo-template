@@ -109,7 +109,7 @@ export function createMediaTableColumns({
                         <MediaDeleteAction
                             mediaId={row.original.id}
                             mediaName={displayName}
-                            onDeleted={onAfterChange}
+                            onDeleted={onDeleted}
                         />
                     </div>
                 );
