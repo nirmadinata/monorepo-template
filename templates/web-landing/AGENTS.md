@@ -1,10 +1,10 @@
-# apps/web-landing AGENTS Guide
+# templates/web-landing AGENTS Guide
 
-Read the root `AGENTS.md` before working in this app. This file adds app-specific context for `apps/web-landing`.
+Read the root `AGENTS.md` before working in this app. This file adds app-specific context for `templates/web-landing`.
 
 ## App Purpose
 
-`apps/web-landing` is a maintained Next.js App Router landing page that runs through OpenNext on Cloudflare Workers. Today it serves a single public landing page inside a shared responsive public shell with cookie-based `next-intl` localization for English and Indonesian.
+`templates/web-landing` is a maintained Next.js App Router landing page that runs through OpenNext on Cloudflare Workers. Today it serves a single public landing page inside a shared responsive public shell with cookie-based `next-intl` localization for English and Indonesian.
 
 ## Current App Surface
 

@@ -1,10 +1,10 @@
-# apps/web-cms AGENTS Guide
+# templates/web-cms AGENTS Guide
 
-Read the root `AGENTS.md` before working in this app. This file adds app-specific context for `apps/web-cms`.
+Read the root `AGENTS.md` before working in this app. This file adds app-specific context for `templates/web-cms`.
 
 ## App Purpose
 
-`apps/web-cms` is the repository's maintained TanStack Start app. Today it runs on Cloudflare Workers, serves the public authentication UI and protected dashboard UI, and handles Better Auth routes.
+`templates/web-cms` is the repository's maintained TanStack Start app. Today it runs on Cloudflare Workers, serves the public authentication UI and protected dashboard UI, and handles Better Auth routes.
 
 ## Current App Surface
 

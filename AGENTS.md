@@ -14,13 +14,13 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 ## Repository Snapshot
 
 - Package manager: Bun (`1.3.13` via `packageManager`)
-- Workspace globs: `packages/*` and `apps/*`
+- Workspace globs: `packages/*`, `apps/*`, and `templates/*`
 - Task runner: Turbo (`turbo.json`)
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Workspace scripts currently cover `dev`, `build`, `check`, and `fix` (no test task)
 - Change workflow: OpenSpec under `openspec/`
-- Current maintained runtime surfaces: `apps/web-cms` and `apps/web-landing`
+- Current maintained runtime surfaces: `templates/web-cms` and `templates/web-landing`
 - Current maintained workspace packages: `packages/db-schema`
 
 ## Commands
@@ -49,9 +49,9 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance
 - `.codex/skills/`: repository-local Codex skill assets
 - `packages/`: workspace package root
-- `packages/db-schema`: shared Drizzle schema package consumed by `apps/web-cms`
+- `packages/db-schema`: shared Drizzle schema package consumed by `templates/web-cms`
 
-### apps/web-cms
+### templates/web-cms
 
 - TanStack Start app targeting Cloudflare Workers via `@cloudflare/vite-plugin`
 - Dashboard authentication UI code lives under `src/features/dashboard-authentication/`
@@ -67,9 +67,9 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Current authenticated dashboard routes are `/dashboard`, `/dashboard/media`, and `/dashboard/posts`
 - Current server route surface includes Better Auth under `/api/auth/*` via `src/routes/api/auth/$.ts`
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
-- See `apps/web-cms/AGENTS.md` before editing app-specific code
+- See `templates/web-cms/AGENTS.md` before editing app-specific code
 
-### apps/web-landing
+### templates/web-landing
 
 - Next.js App Router app targeting Cloudflare Workers through OpenNext
 - Current public landing route lives at `/` via `src/app/page.tsx`
@@ -78,7 +78,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Locale switching uses an app-owned server action in `src/app/actions.ts` plus UI in `src/components/language-switcher.tsx`
 - Current supported locales are `en` and `id`, persisted through the `NEXT_LOCALE` cookie without locale-prefixed routing
 - Worker entrypoint and bindings live in `wrangler.jsonc`
-- See `apps/web-landing/AGENTS.md` before editing app-specific code
+- See `templates/web-landing/AGENTS.md` before editing app-specific code
 
 ## OpenSpec Expectations
 
@@ -98,9 +98,9 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 
 ## Current Constraints To Remember
 
-- The repository currently has two maintained app implementations (`apps/web-cms` and `apps/web-landing`)
-- The shared D1 schema source is owned by `packages/db-schema`, while the Drizzle client helper and checked-in migrations remain owned by `apps/web-cms`
-- The current R2 client and repository helpers are owned directly by `apps/web-cms`
+- The repository currently has two maintained app implementations (`templates/web-cms` and `templates/web-landing`)
+- The shared D1 schema source is owned by `packages/db-schema`, while the Drizzle client helper and checked-in migrations remain owned by `templates/web-cms`
+- The current R2 client and repository helpers are owned directly by `templates/web-cms`
 - `packages/db-schema` is currently the only maintained workspace package under `packages/`
 - The web app already includes dashboard authentication, a protected dashboard route, and the Better Auth API route
 - The web app already includes a protected dashboard post list backed by app-local D1 metadata and R2 object storage with filtering, pagination, and delete support

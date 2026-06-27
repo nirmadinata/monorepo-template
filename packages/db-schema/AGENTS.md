@@ -11,7 +11,7 @@ Read the root `AGENTS.md` before working in this package.
 - Package name: `@repo/db-schema`
 - Runtime surface: ESM TypeScript source exported directly from `src/index.ts`
 - Current responsibilities: shared table aliases, column aliases, Better Auth tables, CMS media-library tables, and CMS post-management tables for the `web-cms` app
-- Current consumer: `apps/web-cms`
+- Current consumer: `templates/web-cms`
 
 ## Source Map
 

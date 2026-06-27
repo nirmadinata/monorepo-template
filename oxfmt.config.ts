@@ -2,11 +2,11 @@
 import { defineConfig } from "oxfmt";
 import ultracite from "ultracite/oxfmt";
 
-import oxignore from "./oxignore.json" with { type: "json" };
+import ignorePatterns from "./oxignore.json" with { type: "json" };
 
 export default defineConfig({
     ...ultracite,
-    ignorePatterns: Array.from(oxignore),
+    ignorePatterns,
     tabWidth: 4,
     printWidth: 100,
 });

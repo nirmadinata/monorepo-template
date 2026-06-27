@@ -5,15 +5,15 @@ import next from "ultracite/oxlint/next";
 import react from "ultracite/oxlint/react";
 import remix from "ultracite/oxlint/remix";
 
-import oxignore from "./oxignore.json" with { type: "json" };
+import ignorePatterns from "./oxignore.json" with { type: "json" };
 
 export default defineConfig({
     extends: [core, react, next, remix],
     jsPlugins: ["oxlint-tailwindcss"],
-    ignorePatterns: Array.from(oxignore),
+    ignorePatterns,
     overrides: [
         {
-            files: ["apps/web-cms/**/*.{ts,tsx}"],
+            files: ["templates/web-cms/**/*.{ts,tsx}"],
             rules: {
                 "no-head-element": "off",
                 "no-img-element": "off",
@@ -36,12 +36,12 @@ export default defineConfig({
         tailwindcss: {
             entryPoint: [
                 {
-                    files: "apps/web-cms/**",
-                    use: "apps/web-cms/src/styles.css",
+                    files: "templates/web-cms/**",
+                    use: "templates/web-cms/src/styles.css",
                 },
                 {
-                    files: "apps/web-landing/**",
-                    use: "apps/web-landing/src/app/globals.css",
+                    files: "templates/web-landing/**",
+                    use: "templates/web-landing/src/app/globals.css",
                 },
             ],
         },
