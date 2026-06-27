@@ -9,20 +9,21 @@ import {
 } from "lucide-react";
 import type { ComponentType } from "react";
 
-export const DASHBOARD_BRAND_NAME = "Mock CMS";
+import type { DashboardNavigationRoute } from "./constants";
+import { DASHBOARD_NAV_PATHS } from "./constants";
 
 interface DashboardNavigationLinkItem {
     icon: ComponentType<{ className?: string }>;
     isActive?: boolean;
     kind: "link";
     label: string;
-    to: "/dashboard" | "/dashboard/media" | "/dashboard/posts";
+    to: DashboardNavigationRoute;
 }
 
 interface DashboardNavigationParentChild {
     isActive?: boolean;
     label: string;
-    to: "/dashboard" | "/dashboard/media" | "/dashboard/posts";
+    to: DashboardNavigationRoute;
 }
 
 interface DashboardNavigationParentItem {
@@ -49,23 +50,23 @@ export const dashboardNavigationGroups: readonly DashboardNavigationGroup[] = [
                 isActive: true,
                 kind: "link",
                 label: "Overview",
-                to: "/dashboard",
+                to: DASHBOARD_NAV_PATHS.dashboard,
             },
             {
                 icon: ImagesIcon,
                 kind: "link",
                 label: "Media Manager",
-                to: "/dashboard/media",
+                to: DASHBOARD_NAV_PATHS.media,
             },
             {
                 children: [
                     {
                         isActive: true,
                         label: "All posts",
-                        to: "/dashboard/posts",
+                        to: DASHBOARD_NAV_PATHS.posts,
                     },
-                    { label: "Draft queue", to: "/dashboard" },
-                    { label: "Publishing calendar", to: "/dashboard" },
+                    { label: "Draft queue", to: DASHBOARD_NAV_PATHS.dashboard },
+                    { label: "Publishing calendar", to: DASHBOARD_NAV_PATHS.dashboard },
                 ],
                 defaultOpen: true,
                 icon: PenSquareIcon,
@@ -79,8 +80,8 @@ export const dashboardNavigationGroups: readonly DashboardNavigationGroup[] = [
         items: [
             {
                 children: [
-                    { label: "Editorial playbooks", to: "/dashboard" },
-                    { label: "Campaign folders", to: "/dashboard" },
+                    { label: "Editorial playbooks", to: DASHBOARD_NAV_PATHS.dashboard },
+                    { label: "Campaign folders", to: DASHBOARD_NAV_PATHS.dashboard },
                 ],
                 icon: FolderKanbanIcon,
                 kind: "parent",
@@ -90,18 +91,18 @@ export const dashboardNavigationGroups: readonly DashboardNavigationGroup[] = [
                 icon: BookOpenIcon,
                 kind: "link",
                 label: "Guidelines",
-                to: "/dashboard",
+                to: DASHBOARD_NAV_PATHS.dashboard,
             },
             {
                 icon: UsersIcon,
                 kind: "link",
                 label: "Contributors",
-                to: "/dashboard",
+                to: DASHBOARD_NAV_PATHS.dashboard,
             },
             {
                 children: [
-                    { label: "Theme settings", to: "/dashboard" },
-                    { label: "Access policies", to: "/dashboard" },
+                    { label: "Theme settings", to: DASHBOARD_NAV_PATHS.dashboard },
+                    { label: "Access policies", to: DASHBOARD_NAV_PATHS.dashboard },
                 ],
                 icon: Settings2Icon,
                 kind: "parent",

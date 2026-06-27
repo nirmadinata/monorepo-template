@@ -3,7 +3,7 @@ import { toast } from "sonner";
 
 import { authClient } from "#/integrations/auth/client";
 
-const DEFAULT_SIGN_OUT_ERROR_MESSAGE = "Unable to sign out right now.";
+import { DASHBOARD_PATHS, DEFAULT_SIGN_OUT_ERROR_MESSAGE } from "../lib/constants";
 
 export function useDashboardSignOut() {
     const [isSigningOut, setIsSigningOut] = useState(false);
@@ -24,7 +24,7 @@ export function useDashboardSignOut() {
                 return;
             }
 
-            window.location.assign("/login");
+            window.location.assign(DASHBOARD_PATHS.login);
         } catch (error) {
             toast.error(error instanceof Error ? error.message : DEFAULT_SIGN_OUT_ERROR_MESSAGE);
         } finally {

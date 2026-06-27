@@ -37,7 +37,12 @@ import {
     SidebarTrigger,
 } from "#/components/ui/sidebar";
 
-import { DASHBOARD_BRAND_NAME, dashboardNavigationGroups } from "../../lib/navigation";
+import {
+    DASHBOARD_BRAND_NAME,
+    DASHBOARD_COMMAND_PALETTE,
+    DASHBOARD_NAV_PATHS,
+} from "../../lib/constants";
+import { dashboardNavigationGroups } from "../../lib/navigation";
 import type { DashboardNavigationGroup, DashboardNavigationItem } from "../../lib/navigation";
 import type { DashboardSession } from "../../server/get-dashboard-session";
 import { DashboardAccountMenu } from "../molecules/dashboard-account-menu";
@@ -112,7 +117,7 @@ function shouldPinSidebarFromClick(target: EventTarget | null) {
 
 function DashboardSidebarBrand() {
     return (
-        <Link className="no-underline" to="/dashboard">
+        <Link className="no-underline" to={DASHBOARD_NAV_PATHS.dashboard}>
             <div className="flex items-center justify-center gap-3 overflow-hidden rounded-xl border border-sidebar-border/70 bg-sidebar-accent/50 px-3 py-3 text-sidebar-foreground transition-colors hover:bg-sidebar-accent">
                 <div className="min-w-0 group-data-[collapsible=icon]:hidden">
                     <p className="truncate text-sm font-semibold tracking-tight">
@@ -210,15 +215,15 @@ function DashboardSidebarCommandMenu({
 
     return (
         <CommandDialog
-            description="Search dashboard destinations from the sidebar menu."
+            description={DASHBOARD_COMMAND_PALETTE.description}
             onOpenChange={onOpenChange}
             open={open}
-            title="Navigate Dashboard"
+            title={DASHBOARD_COMMAND_PALETTE.title}
         >
             <Command>
-                <CommandInput placeholder="Search sidebar destinations..." />
+                <CommandInput placeholder={DASHBOARD_COMMAND_PALETTE.inputPlaceholder} />
                 <CommandList>
-                    <CommandEmpty>No matching dashboard destination found.</CommandEmpty>
+                    <CommandEmpty>{DASHBOARD_COMMAND_PALETTE.emptyText}</CommandEmpty>
 
                     {groups.map((group, index) => (
                         <Fragment key={group.label}>
@@ -362,7 +367,9 @@ export function DashboardShellTemplate({ children, user }: DashboardShellTemplat
                             >
                                 <span className="flex min-w-0 items-center gap-2 truncate">
                                     <SearchIcon data-icon="inline-start" />
-                                    <span className="truncate">Search sidebar menu...</span>
+                                    <span className="truncate">
+                                        {DASHBOARD_COMMAND_PALETTE.triggerPlaceholder}
+                                    </span>
                                 </span>
 
                                 <Kbd className="hidden sm:inline-flex">⌘K</Kbd>

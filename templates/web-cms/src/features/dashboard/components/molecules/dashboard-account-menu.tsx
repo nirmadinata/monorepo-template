@@ -12,6 +12,7 @@ import { useSidebar } from "#/components/ui/sidebar";
 import { cn } from "#/lib/utils";
 
 import { useDashboardSignOut } from "../../hooks/use-dashboard-sign-out";
+import { DASHBOARD_ACCOUNT } from "../../lib/constants";
 import type { DashboardSession } from "../../server/get-dashboard-session";
 
 function getDisplayName(user: DashboardSession["user"]) {
@@ -24,7 +25,7 @@ function getDisplayName(user: DashboardSession["user"]) {
     const localPart = user.email.split("@")[0]?.trim();
 
     if (!localPart) {
-        return "Dashboard User";
+        return DASHBOARD_ACCOUNT.defaultDisplayName;
     }
 
     return localPart
@@ -42,7 +43,7 @@ function getAvatarFallbackLabel(displayName: string) {
         .slice(0, 2)
         .join("");
 
-    return initials || "DU";
+    return initials || DASHBOARD_ACCOUNT.defaultAvatarFallback;
 }
 
 interface DashboardAccountMenuProps {
@@ -59,7 +60,7 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger
-                aria-label={`${displayName} account menu`}
+                aria-label={DASHBOARD_ACCOUNT.getAriaLabel(displayName)}
                 className={cn(
                     "items-center rounded-xl border border-sidebar-border/70 bg-sidebar-accent/40 text-sidebar-foreground shadow-none transition-colors outline-none hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-sidebar-ring aria-expanded:bg-sidebar-accent",
                     isCompact
@@ -92,7 +93,7 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
                 <DropdownMenuGroup>
                     <DropdownMenuItem disabled>
                         <UserIcon />
-                        Profile
+                        {DASHBOARD_ACCOUNT.labels.profile}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                         disabled={isSigningOut}
@@ -102,7 +103,9 @@ export function DashboardAccountMenu({ user }: DashboardAccountMenuProps) {
                         variant="destructive"
                     >
                         <LogOutIcon />
-                        {isSigningOut ? "Signing out..." : "Sign out"}
+                        {isSigningOut
+                            ? DASHBOARD_ACCOUNT.labels.signingOut
+                            : DASHBOARD_ACCOUNT.labels.signOut}
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
             </DropdownMenuContent>
