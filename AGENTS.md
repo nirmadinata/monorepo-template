@@ -43,7 +43,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.github/prompts/` and `.github/hooks/`: repository-local GitHub Copilot prompt and hook configuration
 - `.opencode/`: repository-local Opencode config and assets: `command/` holds the `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, `skills/` holds experimental OpenSpec workflow skills, `plugins/graphify.js` is wired through `.opencode/opencode.json`, and the root `opencode.json` registers MCP servers (currently `better-auth`)
-- `.commandcode/`: repository-local CommandCode assets: `commands/` mirrors the Opencode command set, `skills/` symlinks the canonical `.agents/skills/` skills, and `taste/taste.md` records learned project preferences
+- `.commandcode/`: repository-local CommandCode assets: `commands/` includes the `/sync-agents` command, `skills/` symlinks the canonical `.agents/skills/` skills, and `taste/taste.md` records learned project preferences
 - `mcp.json`: standalone MCP server registry consumed alongside `opencode.json`
 - `graphify-out/`: local graphify knowledge-graph outputs for repository exploration workflows when generated
 - `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance
