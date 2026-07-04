@@ -2,9 +2,9 @@ import { createServerOnlyFn } from "@tanstack/react-start";
 import { APIError } from "better-auth/api";
 import { eq } from "drizzle-orm";
 
-import { getDB } from "#/integrations/clients/db";
-import { BOOTSTRAP_ADMIN_ROLE } from "#/integrations/constants/auth";
-import { schema } from "#/integrations/db";
+import { schema } from "../db";
+import { getDB } from "../db/clients";
+import { BOOTSTRAP_ADMIN_ROLE } from "./constants";
 
 export const authSchema = {
     account: schema.accounts,

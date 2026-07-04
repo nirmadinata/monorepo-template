@@ -10,6 +10,11 @@ const passwordField = v.pipe(
     v.regex(/[^A-Za-z0-9]/u, "Password must include at least one symbol.")
 );
 
+export const emailSignInSchema = v.object({
+    email: emailField,
+    password: passwordField,
+});
+
 export const emailSignUpSchema = v.pipe(
     v.object({
         email: emailField,
@@ -25,15 +30,3 @@ export const emailSignUpSchema = v.pipe(
         ["confirmPassword"]
     )
 );
-
-export const emailSignInSchema = v.object({
-    email: emailField,
-    password: passwordField,
-    confirmPassword: v.optional(v.string()),
-});
-
-export interface EmailPasswordFormValues {
-    email: string;
-    password: string;
-    confirmPassword: string;
-}

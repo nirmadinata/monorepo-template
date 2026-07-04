@@ -21,21 +21,6 @@ const BETTER_AUTH_COMMON_FIELDS = {
         .$onUpdate(() => DEFAULT_CURRENT_MILLISECONDS),
 } as const;
 
-const DEFAULT_CURRENT_SECONDS = sql`(cast(unixepoch('subsecond') as integer))`;
-
-const _COMMON_COLUMNS = {
-    id: int("id").primaryKey({ autoIncrement: true }),
-    createdAt: int("created_at", { mode: "timestamp" }).notNull().default(DEFAULT_CURRENT_SECONDS),
-    updatedAt: int("updated_at", { mode: "timestamp" })
-        .default(DEFAULT_CURRENT_SECONDS)
-        .$onUpdate(() => DEFAULT_CURRENT_SECONDS),
-} as const;
-
-const _COMMON_AUTHORED_COLUMNS = {
-    createdBy: text("created_by").references(() => users.id, { onDelete: "set null" }),
-    updatedBy: text("updated_by").references(() => users.id, { onDelete: "set null" }),
-} as const;
-
 export const users = sqliteTable(
     TABLE_ALIASES.USERS,
     {

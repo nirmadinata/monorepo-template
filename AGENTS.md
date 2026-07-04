@@ -18,7 +18,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Task runner: Turbo (`turbo.json`)
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
-- Workspace scripts currently cover `dev`, `build`, `check`, and `fix` (no test task)
+- Workspace scripts currently cover `dev`, `build`, `check`, `fix`, `typecheck`, and `skills-update` (no test task)
 - Change workflow: OpenSpec under `openspec/`
 - Current maintained runtime surfaces: `templates/web-cms` and `templates/web-landing`
 - Current maintained workspace packages: `packages/db-schema`
@@ -57,14 +57,12 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Dashboard authentication UI code lives under `src/features/dashboard-authentication/`
 - Authenticated dashboard shell code lives under `src/features/dashboard/`
 - Dashboard landing page content for `/dashboard` lives under `src/features/dashboard-home/`
-- Dashboard media-library route and feature code live under `src/routes/dashboard.media.tsx` and `src/features/dashboard-media-library/`
-- Dashboard post-list route and feature code live under `src/routes/dashboard.posts.tsx` and `src/features/dashboard-post-list/`
 - Current server integrations live under `src/integrations/`
-- Auth is backed by Better Auth plus the `web-cms` D1/Drizzle integration under `src/integrations/db`
+- Auth is backed by Better Auth under `src/integrations/auth/` plus the `web-cms` D1/Drizzle integration under `src/integrations/db`
 - The shared schema source for `web-cms` lives in `packages/db-schema`, while the app-owned Drizzle client helper, Drizzle config, and checked-in migrations remain under `src/integrations/db/`
 - App-owned Cloudflare R2 client helpers, constants, and repository utilities live under `src/integrations/r2/`
 - Current public auth UI routes are `/` and `/login` via `src/routes/_auth*`
-- Current authenticated dashboard routes are `/dashboard`, `/dashboard/media`, and `/dashboard/posts`
+- Current authenticated dashboard routes are `/dashboard` via `src/routes/dashboard.tsx` and `src/routes/dashboard.index.tsx`
 - Current server route surface includes Better Auth under `/api/auth/*` via `src/routes/api/auth/$.ts`
 - Shared UI primitives are configured through `components.json` and live under `src/components/ui/`
 - See `templates/web-cms/AGENTS.md` before editing app-specific code

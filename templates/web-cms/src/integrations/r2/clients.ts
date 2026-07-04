@@ -1,7 +1,7 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
 import { S3mini } from "s3mini";
 
-import { appenv } from "#/integrations/lib/env";
+import { appenv } from "../env/util";
 
 export const getR2Client = createServerOnlyFn(
     () =>

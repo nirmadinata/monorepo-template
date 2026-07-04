@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 
-import { getAuth } from "#/integrations/clients/auth-server";
-import { getAuthSecondaryStorage } from "#/integrations/lib/auth/adapter";
-import { getWorkerEnv } from "#/integrations/workers/env";
+import { getAuth } from "#/integrations/auth/clients";
+import { getAuthSecondaryStorage } from "#/integrations/auth/repository";
+import { getWorkerEnv } from "#/integrations/workers/clients";
 
 export const Route = createFileRoute("/api/auth/$")({
     server: {

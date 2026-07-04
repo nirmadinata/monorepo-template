@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { LoginPage } from "#/features/dashboard-authentication/components/login-page";
-import { getBootstrapState, getCurrentSession } from "#/integrations/lib/auth/server";
+import { getBootstrapState, getCurrentSession } from "#/integrations/auth/clients";
 
 function LoginRoute() {
     return <LoginPage />;

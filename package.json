@@ -12,7 +12,11 @@
         "dev": "turbo run dev",
         "check": "bun --bun ultracite check",
         "fix": "bun --bun ultracite fix",
-        "skills-update": "skills update"
+        "skills-update": "skills update",
+        "typecheck": "turbo run typecheck"
+    },
+    "dependencies": {
+        "@cloudflare/vite-plugin": "^1.43.0"
     },
     "devDependencies": {
         "@types/bun": "latest",

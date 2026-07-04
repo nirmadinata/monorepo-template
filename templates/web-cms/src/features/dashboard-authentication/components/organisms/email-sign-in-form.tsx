@@ -5,31 +5,21 @@ import { Input } from "#/components/ui/input";
 import { Spinner } from "#/components/ui/spinner";
 import { getManagedFieldProps, submitForm } from "#/lib/forms";
 
-import { useEmailPasswordForm } from "../../hooks/use-email-password-form";
-import type { DashboardAuthenticationIntent } from "../../lib/util";
+import { useEmailSignInForm } from "../../hooks/use-email-sign-in-form";
 
-interface EmailPasswordFormProps {
-    intent: DashboardAuthenticationIntent;
-}
-
-export function EmailPasswordForm({ intent }: EmailPasswordFormProps) {
-    const form = useEmailPasswordForm(intent);
-    const isSignUp = intent === "sign-up";
+export function EmailSignInForm() {
+    const form = useEmailSignInForm();
 
     return (
         <form
             className="w-full max-w-sm"
             onSubmit={(event) => {
-                void submitForm(
-                    event,
-                    form,
-                    isSignUp ? "Unable to create account." : "Unable to sign in."
-                );
+                void submitForm(event, form, "Unable to sign in.");
             }}
         >
             <Card>
                 <CardHeader>
-                    <CardTitle>{isSignUp ? "Create account" : "Welcome back"}</CardTitle>
+                    <CardTitle>Welcome back</CardTitle>
                 </CardHeader>
                 <CardContent className="flex flex-col gap-4">
                     <form.Field name="email">
@@ -58,15 +48,11 @@ export function EmailPasswordForm({ intent }: EmailPasswordFormProps) {
                                 <FieldContent>
                                     <Input
                                         {...getManagedFieldProps(field)}
-                                        autoComplete={
-                                            isSignUp ? "new-password" : "current-password"
-                                        }
+                                        autoComplete="current-password"
                                         onChange={(event) =>
                                             field.handleChange(event.currentTarget.value)
                                         }
-                                        placeholder={
-                                            isSignUp ? "Create a password" : "Your password"
-                                        }
+                                        placeholder="Your password"
                                         type="password"
                                     />
                                     <FieldError errors={field.state.meta.errors} />
@@ -74,27 +60,6 @@ export function EmailPasswordForm({ intent }: EmailPasswordFormProps) {
                             </Field>
                         )}
                     </form.Field>
-                    {isSignUp && (
-                        <form.Field name="confirmPassword">
-                            {(field) => (
-                                <Field>
-                                    <FieldTitle>Confirm password</FieldTitle>
-                                    <FieldContent>
-                                        <Input
-                                            {...getManagedFieldProps(field)}
-                                            autoComplete="new-password"
-                                            onChange={(event) =>
-                                                field.handleChange(event.currentTarget.value)
-                                            }
-                                            placeholder="Confirm your password"
-                                            type="password"
-                                        />
-                                        <FieldError errors={field.state.meta.errors} />
-                                    </FieldContent>
-                                </Field>
-                            )}
-                        </form.Field>
-                    )}
                     <form.Subscribe
                         selector={(state) => ({
                             errors: state.errors,
@@ -110,7 +75,7 @@ export function EmailPasswordForm({ intent }: EmailPasswordFormProps) {
                                     type="submit"
                                 >
                                     {isSubmitting && <Spinner data-icon="inline-start" />}
-                                    {isSignUp ? "Create account" : "Sign in"}
+                                    Sign in
                                 </Button>
                                 <FieldError errors={errors} />
                             </>

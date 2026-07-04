@@ -1,15 +1,33 @@
 import { createServerOnlyFn } from "@tanstack/react-start";
 
-import { PRESIGNED_URL_EXPIRATION } from "#/integrations/constants/r2";
-import type {
-    GeneratePresignedDownloadUrlOptions,
+import type { R2Client } from "./clients";
+import { PRESIGNED_URL_EXPIRATION } from "./constants";
+
+// oxlint-disable-next-line typescript/no-explicit-any
+export type IStorageRepository = Record<string, (client: R2Client, ...args: any[]) => Promise<any>>;
+
+export interface GeneratePresignedUploadUrlOptions {
+    key: string;
+    contentType: string;
+    contentLength?: number;
+    expiresIn?: number;
+}
+
+export type GeneratePresignedDownloadUrlOptions = Omit<
     GeneratePresignedUploadUrlOptions,
-    UploadTextContentOptions,
-    IStorageRepository,
-    GetTextContentOptions,
-    DeleteTextContentOptions,
-    R2Client,
-} from "#/integrations/lib/r2/types";
+    "contentType"
+>;
+
+export interface UploadTextContentOptions {
+    key: string;
+    content: string;
+}
+
+export interface GetTextContentOptions {
+    key: string;
+}
+
+export type DeleteTextContentOptions = GetTextContentOptions;
 
 export const storageRepository = {
     generatePresignedUploadUrl: createServerOnlyFn(

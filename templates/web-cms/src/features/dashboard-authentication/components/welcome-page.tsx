@@ -1,4 +1,4 @@
-import { EmailPasswordForm } from "./organisms/email-password-form";
+import { EmailSignUpForm } from "./organisms/email-sign-up-form";
 import { GoogleAuthForm } from "./organisms/google-auth-form";
 
 export function WelcomePage() {
@@ -10,7 +10,7 @@ export function WelcomePage() {
                     Sign up with email and password to bootstrap this instance.
                 </p>
             </div>
-            <EmailPasswordForm intent="sign-up" />
+            <EmailSignUpForm />
             <div className="flex w-full max-w-sm items-center gap-3">
                 <div className="h-px flex-1 bg-border" />
                 <span className="text-xs text-muted-foreground">or continue with</span>

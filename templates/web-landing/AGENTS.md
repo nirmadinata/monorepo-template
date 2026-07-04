@@ -10,7 +10,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - Package name: `web-landing`
 - Runtime: Next.js 16 App Router with OpenNext Cloudflare integration
-- Build and local scripts: `dev`, `build`, `start`, `deploy`, `upload`, `preview`, `cf-typegen`
+- Build and local scripts: `dev`, `build`, `start`, `deploy`, `upload`, `preview`, `cf-typegen`, `typecheck`
 - Current route surface: `/` plus the framework not-found page
 - Styling: Tailwind CSS v4 via `src/app/globals.css`
 - Localization: `next-intl` with a cookie-based locale strategy, stable URLs, default `en`, and supported locales `en` and `id`

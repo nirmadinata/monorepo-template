@@ -10,17 +10,17 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - Package name: `web-cms`
 - Runtime: TanStack Start on Vite with `@cloudflare/vite-plugin`
-- Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`
+- Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`, `typecheck`
 - Current public auth UI routes: `/` and `/login`
-- Current dashboard routes: `/dashboard`
+- Current dashboard routes: `/dashboard`, `/dashboard/`
 - Current server route surface: `/api/auth/*`
 - Styling: Tailwind CSS v4 from `src/styles.css`
 - UI primitives: shadcn-style components configured by `components.json` and stored under `src/components/ui/`
 - App theming is handled through `src/components/theme-provider.tsx` and `src/components/theme-toggle.tsx`
 - App-owned database integration: `src/integrations/db`, backed by shared schema source from `packages/db-schema`
-- App-owned object storage integration: `src/integrations/lib/r2` and `src/integrations/clients/r2`
+- App-owned object storage integration: `src/integrations/r2/`
 - Worker bindings in `wrangler.jsonc`: `MAIN_DB`, `MAIN_KV`, and `MAIN_R2`
-- Typed environment parsing lives under `src/integrations/lib/env.ts`; `appenv` currently requires the Better Auth, Google OAuth, `BUCKET_NAME`, and R2 S3 credential values, and also supports optional client-side `VITE_APP_TITLE`
+- Typed environment parsing lives under `src/integrations/env/util.ts`; `appenv` currently requires the Better Auth, Google OAuth, `BUCKET_NAME`, and R2 S3 credential values, and also supports optional client-side `VITE_APP_TITLE`
 - Human-readable app guide: `README.md`
 
 ## Source Map
@@ -30,12 +30,10 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/features/dashboard/`: authenticated dashboard shell, dashboard navigation, dashboard account menu, and dashboard session loader, with centralized constants and navigation config in `lib/`, shell UI split across `components/molecules`, `components/templates`, and the stable `components/dashboard-shell.tsx` entrypoint
 - `src/features/dashboard-home/`: dashboard landing page content rendered inside the authenticated shell, with the route-facing page entrypoint delegating to a feature-local template
 - `src/features/*/hooks/`: feature-local hooks that keep component logic separate from component view files
-- `src/integrations/constants/`: auth constants (roles, permissions, bootstrap admin role) and R2 constants (presigned URL expiration)
-- `src/integrations/clients/`: Better Auth browser client and server-side auth singleton, D1 database client (`getDB`), and R2 S3 client
-- `src/integrations/lib/auth/`: auth adapter, bootstrap helpers (first-user signup assertion, trusted origin parsing, existing-user check), and server functions (session retrieval, bootstrap state)
-- `src/integrations/lib/r2/`: R2 storage repository helpers for presigned URLs and object access, plus shared storage types
-- `src/integrations/lib/env.ts`: typed environment parsing and validation for both client and server variables
-- `src/integrations/workers/env.ts`: Cloudflare Worker binding accessors
+- `src/integrations/auth/`: Better Auth browser client, server-side auth singleton, auth constants (roles, permissions, bootstrap admin role), auth adapter and secondary storage, bootstrap helpers (first-user signup assertion, trusted origin parsing, existing-user check), and server functions (session retrieval, bootstrap state)
+- `src/integrations/r2/`: R2 S3 client, constants (presigned URL expiration), and storage repository helpers for presigned URLs and object access
+- `src/integrations/env/util.ts`: typed environment parsing and validation for both client and server variables
+- `src/integrations/workers/clients.ts`: Cloudflare Worker binding accessors
 - `src/integrations/db/`: Drizzle config, checked-in migrations under `migrations/`, and `dbSchema` re-export backed by `@repo/db-schema`
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
 - `src/components/`: shared app components such as theming and reusable UI primitives
@@ -65,7 +63,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `/login` redirects authenticated users to `/dashboard` before rendering the login page.
 - The public authentication submit action is managed through TanStack Form with a feature-local auth schema and form-level error rendering.
 - Better Auth uses the shared `@repo/db-schema` schema re-exported through `src/integrations/db`, Google as the configured social provider, and Cloudflare KV as secondary storage in worker contexts; email/password sign-up and sign-in are enabled with client-side password validation (min 8 chars, 1 uppercase, 1 lowercase, 1 symbol), and the public auth UI presents email/password forms above Google OAuth on both the welcome and login pages.
-- Cloudflare R2 access is wrapped through the app-local `src/integrations/clients/r2.ts` and `src/integrations/lib/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
+- Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in.
 - No maintained `/api/public/*` route or `src/integrations/api/` module exists in this app today.
 

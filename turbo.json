@@ -8,6 +8,9 @@
         "build": {
             "cache": true,
             "outputs": ["dist", "out", ".next"]
+        },
+        "typecheck": {
+            "cache": true
         }
     }
 }

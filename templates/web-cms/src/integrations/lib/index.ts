@@ -1,1 +1,0 @@
-export { appenv } from "./env";

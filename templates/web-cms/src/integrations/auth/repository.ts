@@ -2,8 +2,8 @@ import { drizzleAdapter } from "@better-auth/drizzle-adapter";
 import { createServerOnlyFn } from "@tanstack/react-start";
 import type { SecondaryStorage } from "better-auth";
 
-import { getDB } from "#/integrations/clients/db";
-import { authSchema } from "#/integrations/lib/auth/bootstrap";
+import { getDB } from "../db/clients";
+import { authSchema } from "./util";
 
 export const createAuthSecondaryStorage = createServerOnlyFn(
     (storage: KVNamespace) =>

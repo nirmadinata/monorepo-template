@@ -1,4 +1,4 @@
-import { EmailPasswordForm } from "./organisms/email-password-form";
+import { EmailSignInForm } from "./organisms/email-sign-in-form";
 import { GoogleAuthForm } from "./organisms/google-auth-form";
 
 export function LoginPage() {
@@ -10,7 +10,7 @@ export function LoginPage() {
                     Sign in with your email and password.
                 </p>
             </div>
-            <EmailPasswordForm intent="sign-in" />
+            <EmailSignInForm />
             <div className="flex w-full max-w-sm items-center gap-3">
                 <div className="h-px flex-1 bg-border" />
                 <span className="text-xs text-muted-foreground">or continue with</span>

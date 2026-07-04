@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { getAuthClient } from "#/integrations/clients/auth";
+import { getAuthClient } from "#/integrations/auth/clients";
 
 import { DASHBOARD_PATHS, DEFAULT_SIGN_OUT_ERROR_MESSAGE } from "../lib/constants";
 
