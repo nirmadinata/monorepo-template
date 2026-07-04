@@ -103,8 +103,6 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - The current R2 client and repository helpers are owned directly by `templates/web-cms`
 - `packages/db-schema` is currently the only maintained workspace package under `packages/`
 - The web app already includes dashboard authentication, a protected dashboard route, and the Better Auth API route
-- The web app already includes a protected dashboard post list backed by app-local D1 metadata and R2 object storage with filtering, pagination, and delete support
-- The web app already includes a protected dashboard media library backed by app-local D1 metadata and R2 object storage
 - The landing app already includes cookie-based `next-intl` localization for `en` and `id` without locale-prefixed routing
 - Validation commands may cover the whole workspace, so prefer the narrowest useful check for the files you changed
 

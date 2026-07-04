@@ -1,0 +1,1 @@
+export const PRESIGNED_URL_EXPIRATION = 3600;

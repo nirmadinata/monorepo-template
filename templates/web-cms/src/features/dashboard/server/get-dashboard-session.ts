@@ -1,6 +1,6 @@
 import { redirect } from "@tanstack/react-router";
 
-import { getCurrentSession } from "#/integrations/auth";
+import { getCurrentSession } from "#/integrations/lib/auth/server";
 
 import { DASHBOARD_PATHS } from "../lib/constants";
 

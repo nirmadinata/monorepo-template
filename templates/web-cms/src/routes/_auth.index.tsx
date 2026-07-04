@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
 import { WelcomePage } from "#/features/dashboard-authentication/components/welcome-page";
-import { getBootstrapState } from "#/integrations/auth";
+import { getBootstrapState } from "#/integrations/lib/auth/server";
 
 function WelcomeRoute() {
     return <WelcomePage />;

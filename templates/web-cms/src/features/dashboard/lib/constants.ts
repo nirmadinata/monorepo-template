@@ -1,7 +1,5 @@
 export const DASHBOARD_NAV_PATHS = {
     dashboard: "/dashboard",
-    media: "/dashboard/media",
-    posts: "/dashboard/posts",
 } as const;
 
 export const DASHBOARD_PATHS = {

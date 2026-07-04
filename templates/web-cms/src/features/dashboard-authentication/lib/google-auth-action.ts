@@ -1,6 +1,6 @@
 import { createClientOnlyFn } from "@tanstack/react-start";
 
-import { authClient } from "#/integrations/auth/client";
+import { authClient } from "#/integrations/clients/auth";
 
 import { getGoogleAuthRequest } from "./util";
 import type { DashboardAuthenticationIntent } from "./util";

@@ -1,6 +1,6 @@
 import { createClientOnlyFn } from "@tanstack/react-start";
 
-import { authClient } from "#/integrations/auth/client";
+import { authClient } from "#/integrations/clients/auth";
 
 export const runEmailSignUp = createClientOnlyFn(
     async (params: { email: string; password: string }) => {

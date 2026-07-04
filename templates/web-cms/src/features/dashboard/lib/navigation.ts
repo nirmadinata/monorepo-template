@@ -1,9 +1,7 @@
 import {
     BookOpenIcon,
     FolderKanbanIcon,
-    ImagesIcon,
     LayoutDashboardIcon,
-    PenSquareIcon,
     Settings2Icon,
     UsersIcon,
 } from "lucide-react";
@@ -53,23 +51,11 @@ export const dashboardNavigationGroups: readonly DashboardNavigationGroup[] = [
                 to: DASHBOARD_NAV_PATHS.dashboard,
             },
             {
-                icon: ImagesIcon,
-                kind: "link",
-                label: "Media Manager",
-                to: DASHBOARD_NAV_PATHS.media,
-            },
-            {
                 children: [
-                    {
-                        isActive: true,
-                        label: "All posts",
-                        to: DASHBOARD_NAV_PATHS.posts,
-                    },
                     { label: "Draft queue", to: DASHBOARD_NAV_PATHS.dashboard },
                     { label: "Publishing calendar", to: DASHBOARD_NAV_PATHS.dashboard },
                 ],
-                defaultOpen: true,
-                icon: PenSquareIcon,
+                icon: BookOpenIcon,
                 kind: "parent",
                 label: "Content",
             },
