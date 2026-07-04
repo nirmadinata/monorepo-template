@@ -1,10 +1,10 @@
 import { createClientOnlyFn } from "@tanstack/react-start";
 
-import { authClient } from "#/integrations/clients/auth";
+import { getAuthClient } from "#/integrations/clients/auth";
 
 export const runEmailSignUp = createClientOnlyFn(
     async (params: { email: string; password: string }) => {
-        const result = await authClient.signUp.email({
+        const result = await getAuthClient().signUp.email({
             email: params.email,
             password: params.password,
             name: params.email.split("@")[0],
@@ -19,7 +19,7 @@ export const runEmailSignUp = createClientOnlyFn(
 
 export const runEmailSignIn = createClientOnlyFn(
     async (params: { email: string; password: string }) => {
-        const result = await authClient.signIn.email({
+        const result = await getAuthClient().signIn.email({
             email: params.email,
             password: params.password,
             callbackURL: "/dashboard",

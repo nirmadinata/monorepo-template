@@ -1,6 +1,6 @@
 import { createClientOnlyFn } from "@tanstack/react-start";
 
-import { authClient } from "#/integrations/clients/auth";
+import { getAuthClient } from "#/integrations/clients/auth";
 
 import { getGoogleAuthRequest } from "./util";
 import type { DashboardAuthenticationIntent } from "./util";
@@ -9,7 +9,7 @@ const DEFAULT_ERROR_MESSAGE = "Unable to start Google authentication.";
 
 export const runGoogleAuthAction = createClientOnlyFn(
     async (intent: DashboardAuthenticationIntent) => {
-        const result = await authClient.signIn.social({
+        const result = await getAuthClient().signIn.social({
             provider: "google",
             ...getGoogleAuthRequest(intent),
         });

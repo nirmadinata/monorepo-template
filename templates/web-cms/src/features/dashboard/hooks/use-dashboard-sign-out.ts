@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { authClient } from "#/integrations/clients/auth";
+import { getAuthClient } from "#/integrations/clients/auth";
 
 import { DASHBOARD_PATHS, DEFAULT_SIGN_OUT_ERROR_MESSAGE } from "../lib/constants";
 
@@ -16,7 +16,7 @@ export function useDashboardSignOut() {
         setIsSigningOut(true);
 
         try {
-            const result = await authClient.signOut();
+            const result = await getAuthClient().signOut();
 
             if (result?.error) {
                 toast.error(result.error.message || DEFAULT_SIGN_OUT_ERROR_MESSAGE);

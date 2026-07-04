@@ -4,13 +4,13 @@ import { eq } from "drizzle-orm";
 
 import { getDB } from "#/integrations/clients/db";
 import { BOOTSTRAP_ADMIN_ROLE } from "#/integrations/constants/auth";
-import { dbSchema } from "#/integrations/db";
+import { schema } from "#/integrations/db";
 
 export const authSchema = {
-    account: dbSchema.accounts,
-    session: dbSchema.sessions,
-    user: dbSchema.users,
-    verification: dbSchema.verification,
+    account: schema.accounts,
+    session: schema.sessions,
+    user: schema.users,
+    verification: schema.verification,
 };
 
 export function parseTrustedOrigins(value?: string) {
@@ -48,8 +48,8 @@ export async function prepareBootstrapUser<TUser extends object>(
 
 export const hasExistingUsers = createServerOnlyFn(async (db: D1Database) => {
     const existingUsers = await getDB(db).$count(
-        dbSchema.users,
-        eq(dbSchema.users.id, dbSchema.users.id)
+        schema.users,
+        eq(schema.users.id, schema.users.id)
     );
 
     return existingUsers > 0;
