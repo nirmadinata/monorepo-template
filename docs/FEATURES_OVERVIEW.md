@@ -4,14 +4,14 @@ This repository currently maintains two runtime apps and one maintained workspac
 
 ## Workspace Summary
 
-| Surface             | Location                                                           | Current purpose                                                                                                                      |
-| ------------------- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
-| Maintained app      | `apps/web-cms`                                                     | TanStack Start app on Cloudflare Workers with auth UI, protected dashboard shell, dashboard media library, and Better Auth API route |
-| Maintained app      | `apps/web-landing`                                                 | Next.js App Router landing page on OpenNext Cloudflare with cookie-based `next-intl` localization for `en` and `id`                  |
-| Maintained package  | `packages/db-schema`                                               | Shared Drizzle schema package for Better Auth and CMS media-library tables consumed by `apps/web-cms`                                |
-| Change workflow     | `openspec/`                                                        | Proposal, design, spec, task, apply, and archive workflow                                                                            |
-| Human-readable docs | `docs/`                                                            | Curated project docs for humans and AI agents                                                                                        |
-| Agent tooling       | `.opencode/`, `.agents/`, `.github/skills/`, `.claude/`, `.codex/` | Local command, prompt, skill, and Opencode plugin surfaces                                                                           |
+| Surface | Location | Current purpose |
+| --- | --- | --- |
+| Maintained app | `apps/web-cms` | TanStack Start app on Cloudflare Workers with auth UI, protected dashboard shell, dashboard media library, and Better Auth API route |
+| Maintained app | `apps/web-landing` | Next.js App Router landing page on OpenNext Cloudflare with cookie-based `next-intl` localization for `en` and `id` |
+| Maintained package | `packages/db-schema` | Shared Drizzle schema package for Better Auth and CMS media-library tables consumed by `apps/web-cms` |
+| Change workflow | `openspec/` | Proposal, design, spec, task, apply, and archive workflow |
+| Human-readable docs | `docs/` | Curated project docs for humans and AI agents |
+| Agent tooling | `.opencode/`, `.agents/`, `.github/skills/`, `.claude/`, `.codex/` | Local command, prompt, skill, and Opencode plugin surfaces |
 
 ## `apps/web-cms` Runtime Map
 
