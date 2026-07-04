@@ -16,3 +16,6 @@
 # code-style
 - Avoid `as any` type casts; instead restructure code (e.g., split functions/hooks) to eliminate the need for them. Confidence: 0.70
 - Split multi-purpose hooks into separate single-purpose hooks when conditional logic requires type casts to work. Confidence: 0.70
+
+# forms
+- For web-cms: Form inputs should have label on top (via props) and error message below the field, built on Shadcn UI + TanStack Form. Confidence: 0.60
