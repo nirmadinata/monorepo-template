@@ -55,6 +55,7 @@ export function FormSelect({ field, label, options, placeholder, className }: Fo
             <FieldTitle>{label}</FieldTitle>
             <FieldContent>
                 <Select
+                    items={options}
                     value={field.state.value ?? ""}
                     onValueChange={(value) => field.handleChange(value)}
                 >
@@ -69,7 +70,7 @@ export function FormSelect({ field, label, options, placeholder, className }: Fo
                     >
                         <SelectValue placeholder={placeholder} />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent alignItemWithTrigger>
                         {options.map((option) => (
                             <SelectItem key={option.value} value={option.value}>
                                 {option.label}
