@@ -8,6 +8,13 @@
       "when": 1782827270967,
       "tag": "0000_amazing_landau",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1783246994121,
+      "tag": "0001_hot_senator_kelly",
+      "breakpoints": true
     }
   ]
 }

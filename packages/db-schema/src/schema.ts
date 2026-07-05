@@ -1,7 +1,16 @@
 import { relations, sql } from "drizzle-orm";
-import { index, int, integer, sqliteTable, text, uniqueIndex } from "drizzle-orm/sqlite-core";
+import {
+    index,
+    int,
+    integer,
+    primaryKey,
+    real,
+    sqliteTable,
+    text,
+    uniqueIndex,
+} from "drizzle-orm/sqlite-core";
 
-import { COLUMN_ALIASES, TABLE_ALIASES } from "./constants";
+import { COLUMN_ALIASES, LIST_FILE_FORMAT, LIST_MEDIA_TYPE, TABLE_ALIASES } from "./constants";
 
 const DEFAULT_CURRENT_MILLISECONDS = sql`(cast(unixepoch('subsecond') * 1000 as integer))`;
 
@@ -111,8 +120,61 @@ export const verification = sqliteTable(
     (table) => [index("verification_identifier_idx").on(table.identifier)]
 );
 
+export const media = sqliteTable(
+    TABLE_ALIASES.MEDIA,
+    {
+        ...BETTER_AUTH_COMMON_FIELDS,
+
+        name: text(COLUMN_ALIASES.MEDIA.NAME).notNull(),
+        key: text(COLUMN_ALIASES.MEDIA.KEY).notNull(),
+        type: text(COLUMN_ALIASES.MEDIA.TYPE, { enum: LIST_MEDIA_TYPE }).notNull(),
+        fileFormat: text(COLUMN_ALIASES.MEDIA.FILE_FORMAT, { enum: LIST_FILE_FORMAT }).notNull(),
+        fileSize: integer(COLUMN_ALIASES.MEDIA.FILE_SIZE).notNull(),
+        width: integer(COLUMN_ALIASES.MEDIA.WIDTH),
+        height: integer(COLUMN_ALIASES.MEDIA.HEIGHT),
+        duration: real(COLUMN_ALIASES.MEDIA.DURATION),
+        thumbnailKey: text(COLUMN_ALIASES.MEDIA.THUMBNAIL_KEY),
+        ownerId: text(COLUMN_ALIASES.MEDIA.OWNER_ID)
+            .notNull()
+            .references(() => users.id),
+        deletedAt: integer(COLUMN_ALIASES.MEDIA.DELETED_AT, {
+            mode: "timestamp_ms",
+        }),
+    },
+    (table) => [
+        index("media_owner_id_idx").on(table.ownerId),
+        index("media_type_idx").on(table.type),
+        uniqueIndex("media_key_unique").on(table.key),
+    ]
+);
+
+export const tags = sqliteTable(
+    TABLE_ALIASES.TAGS,
+    {
+        ...BETTER_AUTH_COMMON_FIELDS,
+
+        name: text(COLUMN_ALIASES.TAGS.NAME).notNull(),
+        slug: text(COLUMN_ALIASES.TAGS.SLUG).notNull(),
+    },
+    (table) => [uniqueIndex("tag_slug_unique").on(table.slug)]
+);
+
+export const mediaTags = sqliteTable(
+    TABLE_ALIASES.MEDIA_TAGS,
+    {
+        mediaId: text(COLUMN_ALIASES.MEDIA_TAGS.MEDIA_ID)
+            .notNull()
+            .references(() => media.id, { onDelete: "cascade" }),
+        tagId: text(COLUMN_ALIASES.MEDIA_TAGS.TAG_ID)
+            .notNull()
+            .references(() => tags.id, { onDelete: "cascade" }),
+    },
+    (table) => [primaryKey({ columns: [table.mediaId, table.tagId] })]
+);
+
 export const userRelations = relations(users, ({ many }) => ({
     accounts: many(accounts),
+    media: many(media),
     sessions: many(sessions),
 }));
 
@@ -134,5 +196,28 @@ export const verificationRelations = relations(verification, ({ one }) => ({
     user: one(users, {
         fields: [verification.identifier],
         references: [users.email],
+    }),
+}));
+
+export const mediaRelations = relations(media, ({ one, many }) => ({
+    owner: one(users, {
+        fields: [media.ownerId],
+        references: [users.id],
+    }),
+    mediaTags: many(mediaTags),
+}));
+
+export const tagRelations = relations(tags, ({ many }) => ({
+    mediaTags: many(mediaTags),
+}));
+
+export const mediaTagRelations = relations(mediaTags, ({ one }) => ({
+    media: one(media, {
+        fields: [mediaTags.mediaId],
+        references: [media.id],
+    }),
+    tag: one(tags, {
+        fields: [mediaTags.tagId],
+        references: [tags.id],
     }),
 }));

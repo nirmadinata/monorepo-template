@@ -10,14 +10,14 @@ Read the root `AGENTS.md` before working in this package.
 
 - Package name: `@repo/db-schema`
 - Runtime surface: ESM TypeScript source exported directly from `src/index.ts`
-- Current responsibilities: shared table aliases, column aliases, and Better Auth tables (users, sessions, accounts, verification) for the `web-cms` app
+- Current responsibilities: shared table aliases, column aliases, Better Auth tables (users, sessions, accounts, verification), and media tables (media, tags, media_tags) for the `web-cms` app
 - Current consumer: `templates/web-cms`
 - Local scripts: `typecheck`
 
 ## Source Map
 
 - `src/constants.ts`: shared table-name and column-name aliases used by schema definitions
-- `src/schema.ts`: Better Auth user, session, account, and verification tables plus relations
+- `src/schema.ts`: Better Auth user, session, account, and verification tables plus media, tags, media_tags with relations
 - `src/index.ts`: package entrypoint re-exporting the full schema surface
 - `tsconfig.json`: TypeScript configuration for type-checking
 
