@@ -4,6 +4,7 @@
 
 # valibot
 - Use `v.parse(schema, data)` instead of `schema.parse(data)` for valibot schema parsing. Confidence: 0.85
+- For web-cms: Use valibot schemas in `createServerFn` validators instead of manual type-guard validation. Confidence: 0.75
 
 # react
 - For apps/web-cms: Use react-table for all table-related needs. Confidence: 0.85
@@ -19,3 +20,5 @@
 
 # forms
 - For web-cms: Form inputs should have label on top (via props) and error message below the field, built on Shadcn UI + TanStack Form. Confidence: 0.60
+- For web-cms: Add Storybook stories for every form component. Confidence: 0.70
+- For web-cms: Provide both single-file and multi-file variants for file upload form components. Confidence: 0.70
