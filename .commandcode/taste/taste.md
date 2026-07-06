@@ -23,5 +23,6 @@
 
 # forms
 - For web-cms: Form inputs should have label on top (via props) and error message below the field, built on Shadcn UI + TanStack Form. Confidence: 0.60
+- For web-cms: Checkbox labels go to the right of the checkbox (use FieldTitle with flex row, not label on top). Confidence: 0.70
 - For web-cms: Add Storybook stories for every form component. Confidence: 0.70
 - For web-cms: Provide both single-file and multi-file variants for file upload form components. Confidence: 0.70
