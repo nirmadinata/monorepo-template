@@ -78,9 +78,7 @@ export const WithInitialSrc: Story = {
 };
 
 export const ConfirmAlways: Story = {
-    render: () => (
-        <FormPhotoUploadWrapper label="Avatar" shape="circle" isNeedConfirmation />
-    ),
+    render: () => <FormPhotoUploadWrapper label="Avatar" shape="circle" isNeedConfirmation />,
 };
 
 export const ConfirmOnReplaceWithInitial: Story = {
@@ -96,10 +94,6 @@ export const ConfirmOnReplaceWithInitial: Story = {
 
 export const ConfirmOnReplaceNoInitial: Story = {
     render: () => (
-        <FormPhotoUploadWrapper
-            label="New photo"
-            shape="square"
-            isNeedConfirmation="on-replace"
-        />
+        <FormPhotoUploadWrapper label="New photo" shape="square" isNeedConfirmation="on-replace" />
     ),
 };
