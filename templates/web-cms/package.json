@@ -36,6 +36,7 @@
         "@tanstack/react-start": "latest",
         "@tanstack/react-table": "latest",
         "@tanstack/valibot-adapter": "^1.167.0",
+        "@unpic/react": "^1.0.2",
         "@uppy/aws-s3": "^5.1.0",
         "@uppy/core": "^5.2.0",
         "@uppy/dashboard": "^5.1.1",

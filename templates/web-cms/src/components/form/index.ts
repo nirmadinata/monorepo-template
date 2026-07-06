@@ -22,4 +22,5 @@ export { FormSelect, type FormSelectProps } from "./form-select";
 export { FormTextarea, type FormTextareaProps } from "./form-textarea";
 export { FormSwitch, type FormSwitchProps } from "./form-switch";
 export { FormNumber, type FormNumberProps } from "./form-number";
+export { FormPhotoUpload, type FormPhotoUploadProps } from "./form-photo-upload";
 
