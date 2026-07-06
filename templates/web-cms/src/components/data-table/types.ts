@@ -18,15 +18,39 @@ export interface DataTablePagination {
     onPageSizeChange?: (pageSize: number) => void;
 }
 
+/** Automatic pagination: TanStack Table handles pagination based on the data array length. */
+export interface AutomaticPagination {
+    type: "automatic";
+    /** Initial page size (default: 10). */
+    defaultPageSize?: number;
+}
+
+/** Manual pagination: the caller controls pagination with cursor/offset externally. */
+export interface ManualPagination {
+    type: "manual";
+    pageIndex: number;
+    pageSize: number;
+    total: number;
+    onPageChange: (pageIndex: number) => void;
+    onPageSizeChange?: (pageSize: number) => void;
+}
+
+/**
+ * Pagination config:
+ * - `"automatic"` (shorthand) – pagination determined by the data array
+ * - `{ type: "automatic" }` – with optional `defaultPageSize`
+ * - `{ type: "manual" }` – externally controlled with cursor/offset
+ */
+export type DataTablePaginationConfig = "automatic" | AutomaticPagination | ManualPagination;
+
 export interface DataTableProps<TData> {
     columns: ColumnDef<TData>[];
     data: TData[];
     enableRowSelection?: boolean;
-    enablePagination?: boolean;
-    defaultPageSize?: number;
     enableSorting?: boolean;
     horizontalScroll?: boolean;
-    serverSidePagination?: DataTablePagination;
+    /** Pagination mode: `"automatic"` for data-driven or `{ type: "manual", ... }` for external control. */
+    pagination?: DataTablePaginationConfig;
     onRowClick?: (row: Row<TData>) => void;
     emptyMessage?: string;
     className?: string;

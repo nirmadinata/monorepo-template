@@ -9,6 +9,9 @@ export { columnActions } from "./columns/column-actions";
 export type {
     DataTableProps,
     DataTablePagination,
+    DataTablePaginationConfig,
+    AutomaticPagination,
+    ManualPagination,
     ColumnActionItem,
     ColumnNumberingOptions,
     ColumnTextOptions,

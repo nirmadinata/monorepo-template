@@ -2,6 +2,7 @@
 
 import type { Meta, StoryObj } from "@storybook/tanstack-react";
 import { MailIcon, PencilIcon, TrashIcon, UserIcon } from "lucide-react";
+import { useState } from "react";
 
 import { columnAction } from "./columns/column-action";
 import { columnActions } from "./columns/column-actions";
@@ -162,14 +163,43 @@ export const WithSorting: Story = {
 
 export const WithPagination: Story = {
     render: () => (
+        <DataTable columns={BASIC_COLUMNS} data={MOCK_USERS} pagination="automatic" enableSorting />
+    ),
+};
+
+export const WithAutomaticPagination: Story = {
+    render: () => (
         <DataTable
             columns={BASIC_COLUMNS}
             data={MOCK_USERS}
-            enablePagination
-            defaultPageSize={5}
+            pagination={{ type: "automatic", defaultPageSize: 3 }}
             enableSorting
         />
     ),
+};
+
+export const WithManualPagination: Story = {
+    render: function render() {
+        const [pageIndex, setPageIndex] = useState(0);
+        const pageSize = 5;
+        const total = MOCK_USERS.length;
+        const paginatedData = MOCK_USERS.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize);
+
+        return (
+            <DataTable
+                columns={BASIC_COLUMNS}
+                data={paginatedData}
+                pagination={{
+                    type: "manual",
+                    pageIndex,
+                    pageSize,
+                    total,
+                    onPageChange: setPageIndex,
+                }}
+                enableSorting
+            />
+        );
+    },
 };
 
 export const WithRowSelection: Story = {
@@ -396,8 +426,7 @@ export const FullFeatured: Story = {
             ]}
             data={MOCK_USERS}
             enableRowSelection
-            enablePagination
-            defaultPageSize={5}
+            pagination={{ type: "automatic", defaultPageSize: 5 }}
             enableSorting
         />
     ),

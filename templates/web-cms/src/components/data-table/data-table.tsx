@@ -39,7 +39,7 @@ import {
 } from "#/components/ui/table";
 import { cn } from "#/lib/utils.ts";
 
-import type { DataTableProps, DataTablePagination } from "./types";
+import type { DataTablePaginationConfig, DataTableProps, ManualPagination } from "./types";
 
 function SortingIndicator({ sorted }: { sorted: false | "asc" | "desc" }) {
     if (!sorted) {
@@ -55,23 +55,23 @@ const PAGE_SIZES = [10, 20, 30, 50];
 
 function PaginationFooter<TData>({
     table,
-    serverSide,
+    manualPagination,
 }: {
     table: TanstackTable<TData>;
-    serverSide?: DataTablePagination;
+    manualPagination?: ManualPagination;
 }) {
-    if (serverSide) {
-        const pageCount = Math.ceil(serverSide.total / serverSide.pageSize);
-        const currentPage = serverSide.pageIndex;
+    if (manualPagination) {
+        const pageCount = Math.ceil(manualPagination.total / manualPagination.pageSize);
+        const currentPage = manualPagination.pageIndex;
 
         return (
             <div className="flex items-center justify-between px-2 py-1">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <span>{serverSide.total} total</span>
+                    <span>{manualPagination.total} total</span>
                     <Select
-                        value={String(serverSide.pageSize)}
+                        value={String(manualPagination.pageSize)}
                         onValueChange={(val) => {
-                            serverSide.onPageSizeChange?.(Number(val));
+                            manualPagination.onPageSizeChange?.(Number(val));
                         }}
                     >
                         <SelectTrigger size="sm" className="w-18">
@@ -96,7 +96,7 @@ function PaginationFooter<TData>({
                                 }
                                 onClick={() => {
                                     if (currentPage > 0) {
-                                        serverSide.onPageChange(currentPage - 1);
+                                        manualPagination.onPageChange(currentPage - 1);
                                     }
                                 }}
                             />
@@ -116,7 +116,7 @@ function PaginationFooter<TData>({
                                 }
                                 onClick={() => {
                                     if (currentPage < pageCount - 1) {
-                                        serverSide.onPageChange(currentPage + 1);
+                                        manualPagination.onPageChange(currentPage + 1);
                                     }
                                 }}
                             />
@@ -195,16 +195,22 @@ function PaginationFooter<TData>({
     );
 }
 
+function resolvePaginationConfig(
+    pagination: DataTablePaginationConfig | undefined
+): { type: "automatic"; defaultPageSize?: number } | ManualPagination | null {
+    if (!pagination) {return null;}
+    if (pagination === "automatic") {return { type: "automatic" };}
+    return pagination;
+}
+
 // oxlint-disable-next-line react/react-compiler
 export function DataTable<TData>({
     columns,
     data,
     enableRowSelection,
-    enablePagination = false,
-    defaultPageSize = 10,
+    pagination,
     enableSorting = false,
     horizontalScroll = false,
-    serverSidePagination,
     onRowClick,
     emptyMessage = "No results.",
     className,
@@ -215,10 +221,20 @@ export function DataTable<TData>({
     const hasSelectColumn = columns.some((col) => col.id === "__select");
     const isRowSelectionEnabled = enableRowSelection ?? hasSelectColumn;
 
-    const isManualPagination = !!serverSidePagination;
-    const pageCount = serverSidePagination
-        ? Math.ceil(serverSidePagination.total / serverSidePagination.pageSize)
-        : undefined;
+    const resolvedPagination = resolvePaginationConfig(pagination);
+
+    const isManualPagination = resolvedPagination?.type === "manual";
+    const manualPagination = resolvedPagination?.type === "manual" ? resolvedPagination : undefined;
+
+    const pageCount =
+        resolvedPagination?.type === "manual"
+            ? Math.ceil(resolvedPagination.total / resolvedPagination.pageSize)
+            : undefined;
+
+    const initialPageSize =
+        resolvedPagination?.type === "automatic" ? resolvedPagination.defaultPageSize : undefined;
+
+    const showPagination = !!resolvedPagination;
 
     const table = useReactTable({
         data,
@@ -236,8 +252,7 @@ export function DataTable<TData>({
         manualPagination: isManualPagination,
         pageCount,
         initialState: {
-            pagination:
-                enablePagination && !isManualPagination ? { pageSize: defaultPageSize } : undefined,
+            pagination: initialPageSize ? { pageSize: initialPageSize } : undefined,
         },
         state: {
             sorting,
@@ -318,8 +333,8 @@ export function DataTable<TData>({
                     </TableBody>
                 </Table>
             </div>
-            {(enablePagination || serverSidePagination) && (
-                <PaginationFooter table={table} serverSide={serverSidePagination} />
+            {showPagination && (
+                <PaginationFooter table={table} manualPagination={manualPagination} />
             )}
         </div>
     );
