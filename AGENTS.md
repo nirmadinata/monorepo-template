@@ -19,7 +19,7 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 - Lint and formatting: Ultracite, Oxlint, Oxfmt
 - Language mode: ESM-first TypeScript tooling with Bun types available
 - Workspace scripts currently cover `dev`, `build`, `check`, `fix`, `typecheck`, and `skills-update` (no test task)
-- Change workflow: OpenSpec under `openspec/`
+- Change workflow: OpenSpec (tooling present via `.opencode/command/opsx-*`; `openspec/` directory created as needed)
 - Current maintained runtime surfaces: `templates/web-cms` and `templates/web-landing`
 - Current maintained workspace packages: `packages/db-schema`
 
@@ -37,13 +37,13 @@ This repository is a Bun-based monorepo template. Document what exists today, no
 
 - `package.json`: root scripts, Bun workspace config, shared dev tooling
 - `turbo.json`: shared task graph for `dev` and `build`
-- `openspec/`: change proposals, designs, specs, and task plans
+- `openspec/`: change proposals, designs, specs, and task plans (directory created on first OpenSpec change)
 - `.agents/skills/`: repository-local installed skills maintained alongside the workspace
 - `.claude/skills/` and `.claude/commands/`: repository-local Claude skill and command assets
 - `.github/skills/`: additional repository-local skills available to compatible agent workflows
 - `.github/prompts/` and `.github/hooks/`: repository-local GitHub Copilot prompt and hook configuration
 - `.opencode/`: repository-local Opencode config and assets: `command/` holds the `/sync-agents`, `/sync-docs`, and `opsx-*` workflows, `skills/` holds experimental OpenSpec workflow skills, `plugins/graphify.js` is wired through `.opencode/opencode.json`, and the root `opencode.json` registers MCP servers (currently `better-auth`)
-- `.commandcode/`: repository-local CommandCode assets: `commands/` includes the `/sync-agents` command, `skills/` symlinks the canonical `.agents/skills/` skills, and `taste/taste.md` records learned project preferences
+- `.commandcode/`: repository-local CommandCode assets: `commands/` includes the `/sync-agents` command, `agents/` is reserved for agent-level config, `skills/` symlinks the canonical `.agents/skills/` skills, and `taste/taste.md` records learned project preferences
 - `mcp.json`: standalone MCP server registry consumed alongside `opencode.json`
 - `graphify-out/`: local graphify knowledge-graph outputs for repository exploration workflows when generated
 - `docs/`: curated human-readable project documentation maintained alongside `AGENTS.md` guidance

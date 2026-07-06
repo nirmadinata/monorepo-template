@@ -10,7 +10,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 
 - Package name: `web-cms`
 - Runtime: TanStack Start on Vite with `@cloudflare/vite-plugin`
-- Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`, `typecheck`
+- Build and local scripts: `dev`, `build`, `preview`, `d1:generate`, `d1:migrate:local`, `cf-typegen`, `deploy`, `typecheck`, `sb`, `build-storybook`
 - Current public auth UI routes: `/` and `/login`
 - Current dashboard routes: `/dashboard`, `/dashboard/`
 - Current server route surface: `/api/auth/*`
@@ -34,9 +34,10 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `src/integrations/r2/`: R2 S3 client, constants (presigned URL expiration), and storage repository helpers for presigned URLs and object access
 - `src/integrations/env/util.ts`: typed environment parsing and validation for both client and server variables
 - `src/integrations/workers/clients.ts`: Cloudflare Worker binding accessors
+- `src/integrations/uppy/`: Uppy file upload integration with S3 presigned URL support
 - `src/integrations/db/`: Drizzle config, checked-in migrations under `migrations/`, and `dbSchema` re-export backed by `@repo/db-schema`
 - `src/integrations/tanstack-query/`: router/query integration and devtools wiring
-- `src/components/`: shared app components such as theming and reusable UI primitives
+- `src/components/`: shared app components such as theming and reusable UI primitives, including `data-table/` (TanStack React Table wrapper with column components and stories) and `form/` (TanStack Form + shadcn field components with per-field stories)
 - `src/hooks/`: app-local client hooks such as `use-mobile.ts` and `use-mounted.ts` used by shadcn-style primitives
 - `src/lib/forms.ts`: app-local TanStack Form helpers for shared field props and submission error mapping
 - `vite.config.ts`: TanStack Start, Cloudflare, Tailwind, devtools, and React Compiler plugin setup
@@ -66,6 +67,8 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - Cloudflare R2 access is wrapped through the app-local `src/integrations/r2/` helpers, which use an S3 client configured from `BUCKET_NAME`, `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, and `R2_SECRET_ACCESS_KEY` plus presigned URL and object helper utilities.
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in.
 - No maintained `/api/public/*` route or `src/integrations/api/` module exists in this app today.
+- `src/integrations/uppy/` provides Uppy file upload helpers backed by R2 presigned URLs, including Uppy client setup, key generation, file metadata extraction, and presigned upload/download server functions.
+- Shared `data-table` and `form` components under `src/components/` follow the taste preference for Storybook stories per reusable component.
 
 ## graphify
 
