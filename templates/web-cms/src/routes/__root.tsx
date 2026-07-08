@@ -10,6 +10,7 @@ import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools";
 
 import { AppThemeProvider } from "#/components/theme-provider";
 import { Toaster } from "#/components/ui/sonner";
+import { TooltipProvider } from "#/components/ui/tooltip";
 import TanStackQueryDevtools from "#/integrations/tanstack-query/util";
 
 import appCss from "#/styles.css?url";
@@ -26,7 +27,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
             </head>
             <body>
                 <AppThemeProvider>
-                    {children}
+                    <TooltipProvider>{children}</TooltipProvider>
                     <ClientOnly>
                         <Toaster position="top-right" richColors />
                     </ClientOnly>

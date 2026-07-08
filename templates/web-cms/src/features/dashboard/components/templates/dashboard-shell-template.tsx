@@ -137,12 +137,14 @@ function DashboardLinkMenuItem({ item }: { item: DashboardNavigationLinkItem }) 
     return (
         <SidebarMenuItem>
             <SidebarMenuButton
+                asChild
                 isActive={item.isActive ?? isActive}
-                render={<Link className="no-underline" to={item.to} />}
                 tooltip={item.label}
             >
-                <Icon />
-                <span>{item.label}</span>
+                <Link className="no-underline" to={item.to}>
+                    <Icon />
+                    <span>{item.label}</span>
+                </Link>
             </SidebarMenuButton>
         </SidebarMenuItem>
     );
@@ -154,10 +156,12 @@ function DashboardParentMenuItem({ item }: { item: DashboardNavigationParentItem
     return (
         <SidebarMenuItem>
             <Collapsible defaultOpen={item.defaultOpen}>
-                <CollapsibleTrigger render={<SidebarMenuButton />}>
-                    <Icon />
-                    <span>{item.label}</span>
-                    <ChevronRightIcon className="ml-auto transition-transform group-data-[collapsible=icon]:hidden data-panel-open:rotate-90" />
+                <CollapsibleTrigger asChild>
+                    <SidebarMenuButton>
+                        <Icon />
+                        <span>{item.label}</span>
+                        <ChevronRightIcon className="ml-auto transition-transform group-data-[collapsible=icon]:hidden data-[state=open]:rotate-90" />
+                    </SidebarMenuButton>
                 </CollapsibleTrigger>
 
                 <CollapsibleContent>
@@ -166,9 +170,11 @@ function DashboardParentMenuItem({ item }: { item: DashboardNavigationParentItem
                             <SidebarMenuSubItem key={child.label}>
                                 <SidebarMenuSubButton
                                     isActive={child.isActive}
-                                    render={<Link className="no-underline" to={child.to} />}
+                                    asChild
                                 >
-                                    <span>{child.label}</span>
+                                    <Link className="no-underline" to={child.to}>
+                                        <span>{child.label}</span>
+                                    </Link>
                                 </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                         ))}
