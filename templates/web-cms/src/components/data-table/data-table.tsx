@@ -198,8 +198,12 @@ function PaginationFooter<TData>({
 function resolvePaginationConfig(
     pagination: DataTablePaginationConfig | undefined
 ): { type: "automatic"; defaultPageSize?: number } | ManualPagination | null {
-    if (!pagination) {return null;}
-    if (pagination === "automatic") {return { type: "automatic" };}
+    if (!pagination) {
+        return null;
+    }
+    if (pagination === "automatic") {
+        return { type: "automatic" };
+    }
     return pagination;
 }
 
