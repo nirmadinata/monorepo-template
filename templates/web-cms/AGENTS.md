@@ -68,7 +68,7 @@ Read the root `AGENTS.md` before working in this app. This file adds app-specifi
 - `wrangler.jsonc` keeps the checked-in default D1 migrations under `src/integrations/db/migrations/`, while its `env.development` override currently points `MAIN_DB` at a `src/integrations/db/migrations/d1` path that is not checked in.
 - No maintained `/api/public/*` route or `src/integrations/api/` module exists in this app today.
 - `src/integrations/uppy/` provides Uppy file upload helpers backed by R2 presigned URLs, including Uppy client setup, key generation, file metadata extraction, and presigned upload/download server functions.
-- Shared `data-table` and `form` components under `src/components/` follow the taste preference for Storybook stories per reusable component.
+- Shared `data-table`, `form`, and `editor` components under `src/components/` follow the taste preference for Storybook stories per reusable component.
 
 ## graphify
 

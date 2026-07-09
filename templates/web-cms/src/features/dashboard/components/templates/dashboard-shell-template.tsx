@@ -136,11 +136,7 @@ function DashboardLinkMenuItem({ item }: { item: DashboardNavigationLinkItem }) 
 
     return (
         <SidebarMenuItem>
-            <SidebarMenuButton
-                asChild
-                isActive={item.isActive ?? isActive}
-                tooltip={item.label}
-            >
+            <SidebarMenuButton asChild isActive={item.isActive ?? isActive} tooltip={item.label}>
                 <Link className="no-underline" to={item.to}>
                     <Icon />
                     <span>{item.label}</span>
@@ -168,10 +164,7 @@ function DashboardParentMenuItem({ item }: { item: DashboardNavigationParentItem
                     <SidebarMenuSub>
                         {item.children.map((child) => (
                             <SidebarMenuSubItem key={child.label}>
-                                <SidebarMenuSubButton
-                                    isActive={child.isActive}
-                                    asChild
-                                >
+                                <SidebarMenuSubButton isActive={child.isActive} asChild>
                                     <Link className="no-underline" to={child.to}>
                                         <span>{child.label}</span>
                                     </Link>
