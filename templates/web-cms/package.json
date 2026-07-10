@@ -10,7 +10,7 @@
         "build": "vite build",
         "preview": "vite preview",
         "d1:generate": "drizzle-kit generate --config src/integrations/db/drizzle.config.ts",
-        "d1:migrate:local": "wrangler d1 migrations apply MAIN_DB --local --persist-to=./../../.wrangler/state",
+        "d1:migrate:local": "wrangler -e development d1 migrations apply MAIN_DB --local --persist-to=./../../.wrangler/state",
         "cf-typegen": "wrangler types",
         "deploy": "bun run build && wrangler deploy",
         "typecheck": "tsc --noEmit",
